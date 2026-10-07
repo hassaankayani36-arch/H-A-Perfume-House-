@@ -23,7 +23,7 @@ export const About: React.FC = () => {
             <span className="italic text-[#C6A15B] font-normal">OF PRESENCE.</span>
           </h1>
           <p className="mt-6 text-sm sm:text-base md:text-lg text-[#F5F2EC]/75 font-light leading-relaxed max-w-2xl mx-auto">
-            H&amp;A Luxury was founded by Hassaan and Arslan on a simple conviction: fragrance is
+            H&amp;A Luxury was founded by Hassaan Kayani and Arslan Qamar on a simple conviction: fragrance is
             the most potent form of memory and personal gravity.
           </p>
         </div>
@@ -45,7 +45,7 @@ export const About: React.FC = () => {
               </h2>
               <p className="text-sm text-[#F5F2EC]/75 font-light leading-relaxed">
                 Modern perfumery had become inundated with diluted formulations, synthetic alcohol
-                blasts, and celebrity endorsements. In response, Hassaan &amp; Arslan sought to revive
+                blasts, and celebrity endorsements. In response, Hassaan Kayani &amp; Arslan Qamar sought to revive
                 the golden era of high-concentration extraits.
               </p>
               <p className="text-sm text-[#F5F2EC]/75 font-light leading-relaxed">

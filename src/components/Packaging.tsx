@@ -67,8 +67,7 @@ export const Packaging: React.FC = () => {
                     ATMOSPHERIC SAMPLE VIAL
                   </h4>
                   <p className="mt-1 text-xs text-[#F5F2EC]/60 font-light leading-relaxed">
-                    Test your fragrance with the enclosed 2ML vial before opening the sealed master
-                    flacon for effortless peace of mind.
+                    Explore 10ML, 20ML, and 30ML testers before choosing a full-size flacon.
                   </p>
                 </div>
               </div>

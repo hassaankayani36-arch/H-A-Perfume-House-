@@ -39,7 +39,7 @@ export const journalArticles: JournalArticle[] = [
     category: 'Raw Materials',
     readTime: '6 MIN READ',
     date: 'SEPTEMBER 2026',
-    author: 'Arslan Tariq',
+    author: 'Arslan Qamar',
     excerpt:
       'Journeying into the sacred distillations of aged agarwood, we bridge classical French restraint with the primordial power of Eastern resins.',
     image: '/src/assets/images/bottle-noir.jpg',

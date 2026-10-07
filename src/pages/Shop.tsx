@@ -42,9 +42,17 @@ export const Shop: React.FC = () => {
 
   // Sorting
   if (activeSort === 'low-high') {
-    displayed.sort((a, b) => a.rawPrice - b.rawPrice);
+    displayed.sort(
+      (a, b) =>
+        (a.sizes.find((size) => size.size === '50ML')?.rawPrice ?? a.rawPrice) -
+        (b.sizes.find((size) => size.size === '50ML')?.rawPrice ?? b.rawPrice)
+    );
   } else if (activeSort === 'high-low') {
-    displayed.sort((a, b) => b.rawPrice - a.rawPrice);
+    displayed.sort(
+      (a, b) =>
+        (b.sizes.find((size) => size.size === '50ML')?.rawPrice ?? b.rawPrice) -
+        (a.sizes.find((size) => size.size === '50ML')?.rawPrice ?? a.rawPrice)
+    );
   }
 
   const families = ['ALL', 'Fresh', 'Woody', 'Oriental', 'Intense'];

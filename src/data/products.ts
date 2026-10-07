@@ -12,6 +12,7 @@ export interface ProductSize {
   size: string;
   price: string;
   rawPrice: number;
+  isTester?: boolean;
 }
 
 export interface Product {
@@ -39,7 +40,7 @@ export interface Product {
   reviewsCount: number;
 }
 
-export const products: Product[] = [
+const catalogue: Product[] = [
   {
     id: 'ha-noir',
     name: 'H&A Noir',
@@ -312,3 +313,20 @@ export const products: Product[] = [
     reviewsCount: 0,
   },
 ];
+
+const testerSizes: ProductSize[] = [
+  { size: '10ML TESTER', price: 'PKR 300', rawPrice: 300, isTester: true },
+  { size: '20ML TESTER', price: 'PKR 550', rawPrice: 550, isTester: true },
+  { size: '30ML TESTER', price: 'PKR 800', rawPrice: 800, isTester: true },
+];
+
+export const products: Product[] = catalogue.map((product) => ({
+  ...product,
+  price: 'From PKR 300',
+  rawPrice: 300,
+  volume: '10ML TESTER',
+  sizes: [
+    ...testerSizes,
+    ...product.sizes.map((size) => ({ ...size, isTester: false })),
+  ],
+}));

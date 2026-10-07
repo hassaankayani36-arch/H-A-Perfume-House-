@@ -4,10 +4,11 @@ import { ShoppingBag, ArrowRight, Check, Sparkles } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
 import bottleNoir from '../assets/images/bottle-noir.jpg';
+import BottleIdentity from './BottleIdentity.tsx';
 
 export const FeaturedFragrance: React.FC = () => {
   const { addToCart } = useCart();
-  const [selectedSize, setSelectedSize] = useState('50ML');
+  const [selectedSize, setSelectedSize] = useState('10ML TESTER');
   const [isAdded, setIsAdded] = useState(false);
 
   const noirProduct = products.find((p) => p.id === 'ha-noir') || products[0];
@@ -36,6 +37,7 @@ export const FeaturedFragrance: React.FC = () => {
                 className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-1000"
                 style={{ filter: 'brightness(0.9) contrast(1.1)' }}
               />
+              <BottleIdentity product={noirProduct} />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0E] via-transparent to-transparent opacity-80" />
 
               {/* Monogram water mark */}
@@ -120,7 +122,7 @@ export const FeaturedFragrance: React.FC = () => {
                 </span>
               </div>
 
-              <div className="flex gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
                 {noirProduct.sizes.map((s) => (
                   <button
                     key={s.size}

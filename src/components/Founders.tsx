@@ -28,11 +28,11 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
             THE STORY OF H&A
           </h2>
           <p className="mt-3 text-sm sm:text-base text-[#C6A15B] tracking-[0.2em] uppercase font-light">
-            Created by Hassaan & Arslan.
+            Created by Hassaan Kayani &amp; Arslan Qamar.
           </p>
           <p className="mt-5 text-sm sm:text-base text-[#F5F2EC]/70 font-light leading-relaxed max-w-2xl mx-auto">
             United by a shared obsession with high-sillage perfumery and uncompromised artisanal
-            refinement, Hassaan and Arslan established H&A Luxury to restore gravitas, mystery,
+            refinement, Hassaan Kayani and Arslan Qamar established H&A Luxury to restore gravitas, mystery,
             and enduring distinction to modern fragrance.
           </p>
         </div>
@@ -42,13 +42,13 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
           {/* Founder 1: Hassaan */}
           <div className="flex flex-col group">
             {/* Tall Portrait Container with Thin Gold Border */}
-            <div className="relative aspect-[3/4] overflow-hidden border border-[#C6A15B]/50 shadow-2xl bg-[#141414]">
+            <div className="relative aspect-[4/5] overflow-hidden border border-[#C6A15B]/50 shadow-2xl bg-[#141414]">
               <img
                 src={founder1Img}
                 alt="Hassaan Kayani, co-founder of H&A Luxury, in a rose jacket"
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover object-[50%_38%] transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                className="w-full h-full object-cover object-[50%_24%] transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 style={{ filter: 'contrast(1.05) brightness(0.9) saturate(0.9)' }}
               />
 
@@ -68,6 +68,12 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
               <p className="text-[11px] uppercase tracking-[0.25em] text-[#C6A15B] font-light">
                 Co-Founder & Creative Director
               </p>
+              <a
+                href="tel:+923190731434"
+                className="inline-block text-xs text-[#F5F2EC]/65 hover:text-[#C6A15B] transition-colors"
+              >
+                +92 319 0731434
+              </a>
               <div className="w-8 h-[1px] bg-[#C6A15B]/40 mx-auto my-3" />
               <blockquote className="text-xs sm:text-sm text-[#F5F2EC]/70 font-light italic leading-relaxed max-w-sm mx-auto">
                 &ldquo;We did not create H&A to follow fleeting trends. We created it to formulate
@@ -82,10 +88,10 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
             <div className="relative aspect-[3/4] overflow-hidden border border-[#C6A15B]/50 shadow-2xl bg-[#141414]">
               <img
                 src={founder2Img}
-                alt="Arslan Tariq, co-founder of H&A Luxury, in the mountains"
+                alt="Arslan Qamar, co-founder of H&A Luxury, in the mountains"
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover object-[50%_32%] transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                className="w-full h-full object-cover object-[50%_22%] transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 style={{ filter: 'contrast(1.08) brightness(0.82) saturate(0.85)' }}
               />
 
@@ -100,11 +106,17 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
             {/* Founder Info & Quote */}
             <div className="mt-6 text-center space-y-2">
               <h3 className="font-serif text-2xl sm:text-3xl font-light text-[#F5F2EC] tracking-wide">
-                Arslan Tariq
+                Arslan Qamar
               </h3>
               <p className="text-[11px] uppercase tracking-[0.25em] text-[#C6A15B] font-light">
                 Co-Founder & Master Distiller
               </p>
+              <a
+                href="tel:+923099282467"
+                className="inline-block text-xs text-[#F5F2EC]/65 hover:text-[#C6A15B] transition-colors"
+              >
+                +92 309 9282467
+              </a>
               <div className="w-8 h-[1px] bg-[#C6A15B]/40 mx-auto my-3" />
               <blockquote className="text-xs sm:text-sm text-[#F5F2EC]/70 font-light italic leading-relaxed max-w-sm mx-auto">
                 &ldquo;Perfume is the most intimate form of memory. Our mission was to bring

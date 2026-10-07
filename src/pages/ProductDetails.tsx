@@ -16,6 +16,7 @@ import {
 import { products, Product } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
 import ProductCard from '../components/ProductCard.tsx';
+import BottleIdentity from '../components/BottleIdentity.tsx';
 
 export const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +25,7 @@ export const ProductDetails: React.FC = () => {
 
   const product = products.find((p) => p.id === id) || products[0];
 
-  const [selectedSize, setSelectedSize] = useState<string>('50ML');
+  const [selectedSize, setSelectedSize] = useState<string>('10ML TESTER');
   const [quantity, setQuantity] = useState<number>(1);
   const [activeImage, setActiveImage] = useState<string>(product.image);
   const [addedSuccess, setAddedSuccess] = useState<boolean>(false);
@@ -33,7 +34,7 @@ export const ProductDetails: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     setActiveImage(product.image);
-    setSelectedSize('50ML');
+    setSelectedSize('10ML TESTER');
     setQuantity(1);
   }, [id, product.image]);
 
@@ -82,6 +83,7 @@ export const ProductDetails: React.FC = () => {
                 className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                 style={{ filter: 'brightness(0.92) contrast(1.08)' }}
               />
+              <BottleIdentity product={product} />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B]/80 via-transparent to-transparent pointer-events-none" />
 
               {/* Wishlist button */}
@@ -156,11 +158,11 @@ export const ProductDetails: React.FC = () => {
             {/* Size Selector */}
             <div className="space-y-3 pt-4 border-t border-[#1C1C1C]">
               <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-[#F5F2EC]/60">
-                <span>CHOOSE FLACON SIZE</span>
+                <span>CHOOSE TESTER OR FLACON SIZE</span>
                 <span className="text-[#C6A15B]">{selectedSize} SELECTED</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {product.sizes.map((s) => (
                   <button
                     key={s.size}
@@ -176,6 +178,11 @@ export const ProductDetails: React.FC = () => {
                       <span className="font-medium">{s.size}</span>
                       <span className="text-[11px] text-[#C6A15B]">{s.price}</span>
                     </div>
+                    {s.isTester && (
+                      <span className="mt-2 block text-[9px] tracking-[0.16em] text-[#F5F2EC]/45">
+                        TRAVEL TESTER
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>

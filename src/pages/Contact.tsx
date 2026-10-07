@@ -69,7 +69,12 @@ export const Contact: React.FC = () => {
                     <span className="text-[10px] uppercase tracking-widest text-[#F5F2EC]/40 block">
                       WHATSAPP &amp; CALL
                     </span>
-                    <span className="text-[#F5F2EC] font-mono">+92 300 8472911</span>
+                    <a href="tel:+923190731434" className="block text-[#F5F2EC] font-mono hover:text-[#C6A15B]">
+                      Hassaan Kayani · +92 319 0731434
+                    </a>
+                    <a href="tel:+923099282467" className="mt-1 block text-[#F5F2EC] font-mono hover:text-[#C6A15B]">
+                      Arslan Qamar · +92 309 9282467
+                    </a>
                   </div>
                 </div>
 

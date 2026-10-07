@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Star, ShoppingBag } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
+import BottleIdentity from './BottleIdentity.tsx';
 
 export const BestSellers: React.FC = () => {
   const { addToCart } = useCart();
@@ -53,6 +54,7 @@ export const BestSellers: React.FC = () => {
                     className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                     style={{ filter: 'brightness(0.92) contrast(1.08)' }}
                   />
+                  <BottleIdentity product={product} />
                 </Link>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-80 pointer-events-none" />
@@ -96,7 +98,7 @@ export const BestSellers: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={() => addToCart(product, '50ML', 1)}
+                    onClick={() => addToCart(product, '10ML TESTER', 1)}
                     className="w-full py-3 bg-[#1A1A1A] hover:bg-[#C6A15B] text-[#F5F2EC] hover:text-[#0B0B0B] border border-[#2E2E2E] hover:border-[#C6A15B] text-xs uppercase tracking-[0.22em] font-medium transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <ShoppingBag className="w-3.5 h-3.5" />

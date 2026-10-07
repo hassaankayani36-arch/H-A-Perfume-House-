@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag, Eye } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
+import BottleIdentity from './BottleIdentity.tsx';
 
 export const SignatureCollection: React.FC = () => {
   const { addToCart } = useCart();
@@ -56,6 +57,7 @@ export const SignatureCollection: React.FC = () => {
                     className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
                     style={{ filter: 'brightness(0.92) contrast(1.08)' }}
                   />
+                  <BottleIdentity product={product} />
                 </Link>
 
                 {/* Subtle gradient vignette */}
@@ -94,7 +96,7 @@ export const SignatureCollection: React.FC = () => {
                 <div className="pt-4 border-t border-[#222222] space-y-4">
                   <div className="flex items-baseline justify-between">
                     <span className="text-base text-[#F5F2EC] font-normal tracking-wide">
-                      {product.price}
+                      {product.sizes.find((size) => size.size === '50ML')?.price ?? product.price}
                     </span>
                     <span className="text-[10px] text-[#F5F2EC]/50 tracking-widest uppercase">
                       50ML FLACON
