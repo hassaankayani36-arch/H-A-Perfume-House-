@@ -134,11 +134,11 @@ export const Footer: React.FC = () => {
             <div className="space-y-3 text-xs text-[#F5F2EC]/65 font-light">
               <p className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 text-[#C6A15B] mt-0.5 shrink-0" />
-                <span>Gulberg III, Lahore &amp; Sector F-7, Islamabad, Pakistan</span>
+                <span>Office 302, near Al-Ghani Bakers, Motor Chowk, Kahuta, Pakistan</span>
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#C6A15B] shrink-0" />
-                <span>concierge@haluxury.com</span>
+                <span>H&amp;A luxuary@gmail.com</span>
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#C6A15B] shrink-0" />

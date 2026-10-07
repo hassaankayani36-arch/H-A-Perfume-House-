@@ -4,6 +4,7 @@ import { ArrowRight, ShoppingBag, Eye } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
 import BottleIdentity from './BottleIdentity.tsx';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 export const SignatureCollection: React.FC = () => {
   const { addToCart } = useCart();
@@ -53,6 +54,7 @@ export const SignatureCollection: React.FC = () => {
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
                   <img
                     src={product.image}
+                    onError={handleProductImageError}
                     alt={product.name}
                     className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
                     style={{ filter: 'brightness(0.92) contrast(1.08)' }}

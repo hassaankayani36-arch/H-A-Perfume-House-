@@ -1,3 +1,7 @@
+import heroBottle from '../assets/images/hero-bottle.jpg';
+import bottleNoir from '../assets/images/bottle-noir.jpg';
+import bottleAmber from '../assets/images/bottle-amber.jpg';
+
 export interface CollectionItem {
   id: string;
   title: string;
@@ -17,7 +21,7 @@ export const collections: CollectionItem[] = [
     tagline: 'Crafted as the foundational olfactory identity of H&A Luxury.',
     description:
       'Comprising H&A Noir, H&A Oud, H&A Amber, and H&A Élite. Each composition represents an uncompromising devotion to master perfumery and rare natural distillates.',
-    image: '/src/assets/images/hero-bottle.jpg',
+    image: heroBottle,
     productCount: 4,
     highlightedIds: ['ha-noir', 'ha-oud', 'ha-amber', 'ha-elite'],
   },
@@ -28,7 +32,7 @@ export const collections: CollectionItem[] = [
     tagline: 'Artisanal creations blended with raw, unapologetic intensity.',
     description:
       'Dark leathers, sacred resins, and midnight florals. Designed for patrons who seek deep sillage and unique aromatic character.',
-    image: '/src/assets/images/bottle-noir.jpg',
+    image: bottleNoir,
     productCount: 3,
     highlightedIds: ['ha-cuir-obscur', 'ha-santal-imperial', 'ha-rose-royale'],
   },
@@ -39,7 +43,7 @@ export const collections: CollectionItem[] = [
     tagline: 'Crisp, crystalline citruses anchored in sea amber and vetiver roots.',
     description:
       'Modern, architectural freshness that avoids the fleeting nature of ordinary colognes. Engineered for all-day radiance.',
-    image: '/src/assets/images/bottle-amber.jpg',
+    image: bottleAmber,
     productCount: 2,
     highlightedIds: ['ha-elite', 'ha-vetiver-prive'],
   },
@@ -50,7 +54,7 @@ export const collections: CollectionItem[] = [
     tagline: 'Explore the full spectrum of H&A before committing to a full flacon.',
     description:
       'Encased in our signature black lacquered wooden presentation box with a gold testing atomizer. Includes a PKR 4,000 voucher towards your full bottle.',
-    image: '/src/assets/images/hero-bottle.jpg',
+    image: heroBottle,
     productCount: 5,
     highlightedIds: ['ha-noir', 'ha-oud', 'ha-amber', 'ha-elite', 'ha-cuir-obscur'],
   },

@@ -5,6 +5,7 @@ import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
 import bottleNoir from '../assets/images/bottle-noir.jpg';
 import BottleIdentity from './BottleIdentity.tsx';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 export const FeaturedFragrance: React.FC = () => {
   const { addToCart } = useCart();
@@ -33,6 +34,7 @@ export const FeaturedFragrance: React.FC = () => {
             <div className="relative aspect-[4/5] sm:aspect-square lg:aspect-[4/5] bg-[#141414] border border-[#262626] overflow-hidden group">
               <img
                 src={bottleNoir}
+                onError={handleProductImageError}
                 alt="H&A Noir Flacon"
                 className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-1000"
                 style={{ filter: 'brightness(0.9) contrast(1.1)' }}

@@ -17,6 +17,7 @@ import { products, Product } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
 import ProductCard from '../components/ProductCard.tsx';
 import BottleIdentity from '../components/BottleIdentity.tsx';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 export const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -79,6 +80,7 @@ export const ProductDetails: React.FC = () => {
             <div className="relative aspect-[3/4] bg-[#141414] border border-[#242424] overflow-hidden group">
               <img
                 src={activeImage}
+                onError={handleProductImageError}
                 alt={product.name}
                 className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                 style={{ filter: 'brightness(0.92) contrast(1.08)' }}
@@ -115,7 +117,7 @@ export const ProductDetails: React.FC = () => {
                     activeImage === img ? 'border-[#C6A15B]' : 'border-[#262626] opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt={`${product.name} angle ${i + 1}`} className="w-full h-full object-cover" />
+                  <img src={img} onError={handleProductImageError} alt={`${product.name} angle ${i + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>

@@ -36,8 +36,6 @@ export interface Product {
   bestSeller: boolean;
   isSignature: boolean;
   volume: string;
-  rating: number;
-  reviewsCount: number;
 }
 
 const catalogue: Product[] = [
@@ -72,8 +70,6 @@ const catalogue: Product[] = [
     secondaryImage: heroBottle,
     bestSeller: true,
     isSignature: true,
-    rating: 4.95,
-    reviewsCount: 0,
   },
   {
     id: 'ha-oud',
@@ -106,8 +102,6 @@ const catalogue: Product[] = [
     secondaryImage: bottleNoir,
     bestSeller: true,
     isSignature: true,
-    rating: 4.92,
-    reviewsCount: 0,
   },
   {
     id: 'ha-amber',
@@ -136,12 +130,10 @@ const catalogue: Product[] = [
     occasion: 'Cold Weather, Date Nights, Fireside Lounges',
     howToWear:
       'Spray generously over clothing and warm skin to create a radiant cloud of honeyed resin and spiced woods.',
-    image: bottleAmber,
-    secondaryImage: heroBottle,
+    image: heroBottle,
+    secondaryImage: bottleAmber,
     bestSeller: true,
     isSignature: true,
-    rating: 4.9,
-    reviewsCount: 0,
   },
   {
     id: 'ha-elite',
@@ -174,8 +166,6 @@ const catalogue: Product[] = [
     secondaryImage: bottleAmber,
     bestSeller: true,
     isSignature: true,
-    rating: 4.88,
-    reviewsCount: 0,
   },
   {
     id: 'ha-santal-imperial',
@@ -204,12 +194,10 @@ const catalogue: Product[] = [
     occasion: 'Art Galleries, Autumn Days, Intellectual Presence',
     howToWear:
       'Spray across chest and wrists. Develops a skin-scent intimate sillage that invites people closer.',
-    image: bottleAmber,
-    secondaryImage: bottleNoir,
+    image: bottleNoir,
+    secondaryImage: heroBottle,
     bestSeller: false,
     isSignature: false,
-    rating: 4.89,
-    reviewsCount: 0,
   },
   {
     id: 'ha-rose-royale',
@@ -237,12 +225,10 @@ const catalogue: Product[] = [
     longevity: '14 Hours',
     occasion: 'Romantic Evenings, Galas, Seductive Aura',
     howToWear: 'Spray on collarbones, the nape of the neck, and scarves.',
-    image: bottleNoir,
-    secondaryImage: heroBottle,
+    image: bottleAmber,
+    secondaryImage: bottleNoir,
     bestSeller: false,
     isSignature: false,
-    rating: 4.93,
-    reviewsCount: 0,
   },
   {
     id: 'ha-vetiver-prive',
@@ -271,12 +257,10 @@ const catalogue: Product[] = [
     occasion: 'Warm Days, High Noon Meetings, Travel',
     howToWear:
       'Apply freely after morning grooming for an elevated, clean presence.',
-    image: bottleAmber,
-    secondaryImage: bottleNoir,
+    image: bottleNoir,
+    secondaryImage: heroBottle,
     bestSeller: false,
     isSignature: false,
-    rating: 4.84,
-    reviewsCount: 0,
   },
   {
     id: 'ha-cuir-obscur',
@@ -305,12 +289,10 @@ const catalogue: Product[] = [
     occasion: 'Midnight Events, Leather Jackets, Autumn Nightfall',
     howToWear:
       'One or two sprays are sufficient. An extrait of monumental concentration.',
-    image: bottleNoir,
-    secondaryImage: heroBottle,
+    image: heroBottle,
+    secondaryImage: bottleNoir,
     bestSeller: true,
     isSignature: false,
-    rating: 4.96,
-    reviewsCount: 0,
   },
 ];
 

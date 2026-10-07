@@ -84,7 +84,7 @@ export const Contact: React.FC = () => {
                     <span className="text-[10px] uppercase tracking-widest text-[#F5F2EC]/40 block">
                       DIRECT CORRESPONDENCE
                     </span>
-                    <span className="text-[#F5F2EC]">concierge@haluxury.com</span>
+                    <span className="text-[#F5F2EC]">H&amp;A luxuary@gmail.com</span>
                   </div>
                 </div>
 
@@ -100,25 +100,24 @@ export const Contact: React.FC = () => {
               </div>
             </div>
 
-            {/* Salons Location */}
+            {/* Office Location */}
             <div className="p-8 bg-[#121212] border border-[#222222] space-y-4">
-              <h3 className="font-serif text-2xl font-light text-[#F5F2EC]">
-                Private Salons
-              </h3>
-              <div className="space-y-4 text-xs font-light text-[#F5F2EC]/75">
+              <h3 className="font-serif text-2xl font-light text-[#F5F2EC]">H&amp;A Office</h3>
+              <div className="flex items-start gap-3 text-xs font-light text-[#F5F2EC]/75">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#C6A15B]" />
                 <div>
-                  <h4 className="text-[11px] uppercase tracking-widest text-[#C6A15B] font-medium">
-                    LAHORE SALON
+                  <h4 className="text-[11px] font-medium uppercase tracking-widest text-[#C6A15B]">
+                    KAHUTA
                   </h4>
-                  <p className="mt-1">Gulberg III, Main Boulevard, Lahore, Pakistan</p>
-                  <p className="text-[10px] text-[#F5F2EC]/50 italic">By private appointment only</p>
-                </div>
-                <div className="pt-2 border-t border-[#1C1C1C]">
-                  <h4 className="text-[11px] uppercase tracking-widest text-[#C6A15B] font-medium">
-                    ISLAMABAD SALON
-                  </h4>
-                  <p className="mt-1">Sector F-7/2, Beverly Centre Enclave, Islamabad</p>
-                  <p className="text-[10px] text-[#F5F2EC]/50 italic">By private appointment only</p>
+                  <p className="mt-1">Office 302, near Al-Ghani Bakers, Motor Chowk, Kahuta, Pakistan</p>
+                  <a
+                    href="https://maps.google.com/?q=Office+302+Al-Ghani+Bakers+Motor+Chowk+Kahuta"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block text-[10px] uppercase tracking-widest text-[#C6A15B] underline underline-offset-4"
+                  >
+                    View on Google Maps
+                  </a>
                 </div>
               </div>
             </div>

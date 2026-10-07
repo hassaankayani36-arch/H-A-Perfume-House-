@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, ShoppingBag } from 'lucide-react';
+import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
 import BottleIdentity from './BottleIdentity.tsx';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 export const BestSellers: React.FC = () => {
   const { addToCart } = useCart();
@@ -18,14 +19,14 @@ export const BestSellers: React.FC = () => {
             <div className="inline-flex items-center gap-2 mb-3">
               <span className="w-5 h-[1px] bg-[#C6A15B]" />
               <span className="text-[10px] tracking-[0.35em] uppercase text-[#C6A15B] font-light">
-                CURATED ACCLAIM
+                THE HOUSE EDIT
               </span>
             </div>
             <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
-              MOST WANTED
+              ATELIER PICKS
             </h2>
             <p className="mt-3 text-sm text-[#F5F2EC]/60 max-w-xl font-light leading-relaxed">
-              The flacons most frequently selected by discerning patrons and private collectors.
+              A considered selection of signature scents from the H&amp;A collection.
             </p>
           </div>
 
@@ -50,6 +51,7 @@ export const BestSellers: React.FC = () => {
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
                   <img
                     src={product.image}
+                    onError={handleProductImageError}
                     alt={product.name}
                     className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                     style={{ filter: 'brightness(0.92) contrast(1.08)' }}
@@ -59,11 +61,9 @@ export const BestSellers: React.FC = () => {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-80 pointer-events-none" />
 
-                {/* Rating Display */}
-                <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 bg-[#0B0B0B]/85 px-2.5 py-1 border border-[#2A2A2A]">
-                  <Star className="w-3 h-3 text-[#C6A15B] fill-[#C6A15B]" />
-                  <span className="text-[10px] text-[#F5F2EC] tracking-widest font-normal">
-                    {product.rating}
+                <div className="absolute top-4 right-4 z-10 bg-[#0B0B0B]/85 px-2.5 py-1 border border-[#2A2A2A]">
+                  <span className="text-[9px] uppercase tracking-[0.16em] text-[#F5F2EC]/75">
+                    H&amp;A EDIT
                   </span>
                 </div>
 

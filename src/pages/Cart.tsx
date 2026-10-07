@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Minus, ArrowRight, ShieldCheck, Gift, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext.tsx';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 export const Cart: React.FC = () => {
   const {
@@ -127,6 +128,7 @@ export const Cart: React.FC = () => {
                   <div className="w-20 h-24 bg-[#171717] border border-[#262626] overflow-hidden shrink-0">
                     <img
                       src={item.image}
+                      onError={handleProductImageError}
                       alt={item.name}
                       className="w-full h-full object-cover object-center"
                     />

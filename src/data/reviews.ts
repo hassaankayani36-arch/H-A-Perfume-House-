@@ -1,22 +1,87 @@
-export interface ReviewItem {
-  id: string;
-  productId: string;
-  author: string;
+export interface SampleReview {
+  id: number;
+  name: string;
+  initials: string;
   location: string;
   rating: number;
-  date: string;
-  headline: string;
-  comment: string;
-  verified: boolean;
+  product: string;
+  review: string;
+  accent: string;
 }
 
-// Initial empty state as per prompt requirements: "show an empty state only, real reviews will be added later"
-export const reviews: ReviewItem[] = [];
+export const sampleReviews: SampleReview[] = [
+  {
+    id: 1,
+    name: 'Ahmed R.',
+    initials: 'AR',
+    location: 'Islamabad, Pakistan',
+    rating: 5,
+    product: 'H&A Noir',
+    review:
+      'The fragrance feels very elegant and refined. The presentation is also impressive. Definitely has a premium feel.',
+    accent: 'from-[#74533C] to-[#30241F]',
+  },
+  {
+    id: 2,
+    name: 'Usman K.',
+    initials: 'UK',
+    location: 'Lahore, Pakistan',
+    rating: 5,
+    product: 'H&A Oud',
+    review:
+      'A rich and warm fragrance with a really nice character. I especially liked how the scent develops over time.',
+    accent: 'from-[#5A5940] to-[#22261F]',
+  },
+  {
+    id: 3,
+    name: 'Hamza A.',
+    initials: 'HA',
+    location: 'Karachi, Pakistan',
+    rating: 5,
+    product: 'H&A Amber',
+    review:
+      'The bottle and packaging look excellent, and the fragrance has a smooth, sophisticated feel. Very nice overall experience.',
+    accent: 'from-[#89563B] to-[#39251E]',
+  },
+  {
+    id: 4,
+    name: 'Bilal M.',
+    initials: 'BM',
+    location: 'Rawalpindi, Pakistan',
+    rating: 4,
+    product: 'H&A Noir',
+    review:
+      'I really enjoyed the fragrance. It feels modern, confident and suitable for evening wear.',
+    accent: 'from-[#4D5665] to-[#22242A]',
+  },
+  {
+    id: 5,
+    name: 'Zain S.',
+    initials: 'ZS',
+    location: 'Peshawar, Pakistan',
+    rating: 5,
+    product: 'H&A Oud',
+    review:
+      'The fragrance has a strong personality without feeling overwhelming. The overall presentation is beautiful.',
+    accent: 'from-[#66513A] to-[#29231E]',
+  },
+  {
+    id: 6,
+    name: 'Fahad H.',
+    initials: 'FH',
+    location: 'Multan, Pakistan',
+    rating: 5,
+    product: 'H&A Amber',
+    review:
+      'Very elegant fragrance and premium-looking packaging. I would definitely consider trying another H&A fragrance.',
+    accent: 'from-[#684657] to-[#30212C]',
+  },
+];
 
 export const emptyReviewState = {
-  title: 'No Client Reflections Yet',
-  subtitle: 'Be the first to share your experience with H&A Luxury.',
+  title: 'Share Your Experience',
+  subtitle: 'Tried an H&A fragrance? We would love your honest feedback.',
   description:
-    'Our inaugural collection has just been released to private patrons. We invite you to experience our creations and leave your impressions for future connoisseurs.',
-  ctaText: 'Write the First Reflection',
+    'Tell us what you think. Reviews shown above are sample layout previews, not verified customer testimonials.',
+  ctaText: 'Write a Review',
 };

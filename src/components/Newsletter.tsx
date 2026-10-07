@@ -31,7 +31,7 @@ export const Newsletter: React.FC = () => {
 
         <p className="mt-4 text-xs sm:text-sm text-[#F5F2EC]/70 font-light leading-relaxed max-w-xl mx-auto tracking-wide">
           Be among the privileged few to receive confidential previews of limited-run extraits,
-          private salon invitations in Lahore and Islamabad, and direct correspondences from Hassaan &amp; Arslan.
+          Kahuta office updates, and direct correspondence from Hassaan &amp; Arslan.
         </p>
 
         {submitted ? (

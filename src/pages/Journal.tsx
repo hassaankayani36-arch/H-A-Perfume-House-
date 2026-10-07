@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { journalArticles, JournalArticle } from '../data/journal.ts';
 import { ArrowLeft, BookOpen, Clock, User } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 export const Journal: React.FC = () => {
   const location = useLocation();
@@ -51,6 +52,7 @@ export const Journal: React.FC = () => {
             <div className="relative aspect-[16/9] bg-[#141414] border border-[#262626] overflow-hidden">
               <img
                 src={selectedArticle.image}
+                onError={handleProductImageError}
                 alt={selectedArticle.title}
                 className="w-full h-full object-cover"
                 style={{ filter: 'brightness(0.9) contrast(1.1)' }}
@@ -112,6 +114,7 @@ export const Journal: React.FC = () => {
                   <div className="md:col-span-5 relative aspect-[16/10] bg-[#141414] overflow-hidden">
                     <img
                       src={article.image}
+                      onError={handleProductImageError}
                       alt={article.title}
                       className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                     />

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, X, ArrowRight } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 export const SearchModal: React.FC = () => {
   const { isSearchOpen, closeSearch } = useCart();
@@ -101,6 +102,7 @@ export const SearchModal: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <img
                       src={product.image}
+                      onError={handleProductImageError}
                       alt={product.name}
                       className="w-10 h-12 object-cover bg-[#0B0B0B]"
                     />

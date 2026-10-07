@@ -4,6 +4,7 @@ import { Heart, Plus, ShoppingBag, Eye } from 'lucide-react';
 import { Product } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
 import BottleIdentity from './BottleIdentity.tsx';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 interface ProductCardProps {
   product: Product;
@@ -21,6 +22,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = fa
         <Link to={`/product/${product.id}`} className="w-full h-full block">
           <img
             src={product.image}
+            onError={handleProductImageError}
             alt={product.name}
             loading="lazy"
             className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"

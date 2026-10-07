@@ -1,3 +1,7 @@
+import heroBottle from '../assets/images/hero-bottle.jpg';
+import bottleNoir from '../assets/images/bottle-noir.jpg';
+import bottleAmber from '../assets/images/bottle-amber.jpg';
+
 export interface JournalArticle {
   id: string;
   slug: string;
@@ -23,7 +27,7 @@ export const journalArticles: JournalArticle[] = [
     author: 'Hassaan Kayani',
     excerpt:
       'Fragrance is the invisible architecture of your presence. It enters the room before you speak and lingers long after you have departed.',
-    image: '/src/assets/images/hero-bottle.jpg',
+    image: heroBottle,
     quote:
       'True elegance does not shout for attention; it creates a gravitational pull.',
     content: [
@@ -42,7 +46,7 @@ export const journalArticles: JournalArticle[] = [
     author: 'Arslan Qamar',
     excerpt:
       'Journeying into the sacred distillations of aged agarwood, we bridge classical French restraint with the primordial power of Eastern resins.',
-    image: '/src/assets/images/bottle-noir.jpg',
+    image: bottleNoir,
     quote:
       'Agarwood is not merely an ingredient; it is liquid history matured under silent decades.',
     content: [
@@ -61,7 +65,7 @@ export const journalArticles: JournalArticle[] = [
     author: 'H&A Atelier',
     excerpt:
       'A singular signature scent is iconic, yet discerning patrons understand the power of rotating compositions to match season, climate, and intent.',
-    image: '/src/assets/images/bottle-amber.jpg',
+    image: bottleAmber,
     quote:
       'Wear your scent like bespoke tailoring—cut precisely to the mood and the hour.',
     content: [

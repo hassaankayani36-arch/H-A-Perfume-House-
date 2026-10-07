@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { journalArticles } from '../data/journal.ts';
+import { handleProductImageError } from '../utils/productImage.ts';
 
 export const Journal: React.FC = () => {
   return (
@@ -45,6 +46,7 @@ export const Journal: React.FC = () => {
                 <Link to={`/journal#${article.slug}`} className="block w-full h-full">
                   <img
                     src={article.image}
+                    onError={handleProductImageError}
                     alt={article.title}
                     className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                     style={{ filter: 'brightness(0.9) contrast(1.1)' }}

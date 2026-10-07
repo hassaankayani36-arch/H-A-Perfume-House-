@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.tsx';
+import { handleProductImageError } from '../utils/productImage.ts';
 import { ShieldCheck, Check, Truck, Lock, ArrowLeft, Building2 } from 'lucide-react';
 import Logo from '../assets/logo/Logo.tsx';
 
@@ -396,6 +397,7 @@ export const Checkout: React.FC = () => {
                   <div key={item.key} className="flex items-center gap-4 text-xs font-light">
                     <img
                       src={item.image}
+                      onError={handleProductImageError}
                       alt={item.name}
                       className="w-12 h-14 object-cover bg-[#0B0B0B] border border-[#242424]"
                     />
