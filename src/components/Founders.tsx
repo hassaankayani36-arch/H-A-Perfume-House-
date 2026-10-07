@@ -42,13 +42,13 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
           {/* Founder 1: Hassaan */}
           <div className="flex flex-col group">
             {/* Tall Portrait Container with Thin Gold Border */}
-            <div className="relative aspect-[4/5] overflow-hidden border border-[#C6A15B]/50 shadow-2xl bg-[#141414]">
+            <div className="relative aspect-square overflow-hidden border border-[#C6A15B]/50 shadow-2xl bg-[#141414]">
               <img
                 src={founder1Img}
                 alt="Hassaan Kayani, co-founder of H&A Luxury, in a rose jacket"
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover object-[50%_24%] transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                className="w-full h-full object-cover object-[50%_25%] transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 style={{ filter: 'contrast(1.05) brightness(0.9) saturate(0.9)' }}
               />
 
@@ -85,13 +85,13 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
           {/* Founder 2: Arslan */}
           <div className="flex flex-col group">
             {/* Tall Portrait Container with Thin Gold Border */}
-            <div className="relative aspect-[3/4] overflow-hidden border border-[#C6A15B]/50 shadow-2xl bg-[#141414]">
+            <div className="relative aspect-square overflow-hidden border border-[#C6A15B]/50 shadow-2xl bg-[#141414]">
               <img
                 src={founder2Img}
                 alt="Arslan Qamar, co-founder of H&A Luxury, in the mountains"
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover object-[50%_22%] transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                className="w-full h-full object-cover object-[50%_25%] transform transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 style={{ filter: 'contrast(1.08) brightness(0.82) saturate(0.85)' }}
               />
 
