@@ -12,7 +12,7 @@ export const AnnouncementBar: React.FC = () => {
         </div>
 
         <div className="flex-1 text-center font-normal tracking-[0.25em] text-[#F5F2EC] flex items-center justify-center gap-2">
-          <span>FREE DELIVERY ON ORDERS ABOVE PKR 5,000</span>
+          <span>FREE DELIVERY ON ORDERS ABOVE PKR 2,500</span>
           <span className="text-[#C6A15B] text-xs">·</span>
           <Link
             to="/shop"

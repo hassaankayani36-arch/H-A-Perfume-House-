@@ -41,7 +41,7 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const FREE_DELIVERY_THRESHOLD = 5000;
+const FREE_DELIVERY_THRESHOLD = 2500;
 const STANDARD_SHIPPING_FEE = 350;
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

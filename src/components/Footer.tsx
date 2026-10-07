@@ -101,7 +101,7 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-xs text-[#F5F2EC]/65 font-light">
               <li>
-                <span className="text-[#C6A15B]">Free Delivery:</span> Orders &gt; PKR 5,000
+                <span className="text-[#C6A15B]">Free Delivery:</span> Orders &gt; PKR 2,500
               </li>
               <li>
                 <Link to="/contact" className="hover:text-[#F5F2EC] transition-colors">

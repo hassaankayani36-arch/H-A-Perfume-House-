@@ -98,7 +98,7 @@ export const BestSellers: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={() => addToCart(product, '10ML TESTER', 1)}
+                    onClick={() => addToCart(product, '50ML', 1)}
                     className="w-full py-3 bg-[#1A1A1A] hover:bg-[#C6A15B] text-[#F5F2EC] hover:text-[#0B0B0B] border border-[#2E2E2E] hover:border-[#C6A15B] text-xs uppercase tracking-[0.22em] font-medium transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <ShoppingBag className="w-3.5 h-3.5" />

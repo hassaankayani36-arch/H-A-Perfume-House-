@@ -63,7 +63,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = fa
         <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-10 flex gap-2 bg-[#0B0B0B]/90 backdrop-blur-md border-t border-[#262626]">
           <button
             type="button"
-            onClick={() => addToCart(product, '10ML TESTER', 1)}
+            onClick={() => addToCart(product, '50ML', 1)}
             className="flex-1 py-2.5 px-3 bg-[#C6A15B] text-[#0B0B0B] text-[10px] uppercase tracking-[0.2em] font-medium hover:bg-[#DFC27D] transition-colors flex items-center justify-center gap-1.5"
           >
             <ShoppingBag className="w-3.5 h-3.5" />

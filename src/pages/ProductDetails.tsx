@@ -248,7 +248,7 @@ export const ProductDetails: React.FC = () => {
               <div className="pt-4 grid grid-cols-2 gap-4 text-xs text-[#F5F2EC]/60 font-light border-t border-[#1C1C1C]">
                 <div className="flex items-center gap-2">
                   <Truck className="w-4 h-4 text-[#C6A15B]" />
-                  <span>Free delivery &gt; PKR 5,000</span>
+                  <span>Free delivery &gt; PKR 2,500</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-[#C6A15B]" />
@@ -363,7 +363,7 @@ export const ProductDetails: React.FC = () => {
                   Islamabad, Rawalpindi, Peshawar, Faisalabad, Multan, and all other major cities).
                 </p>
                 <ul className="space-y-2 text-xs text-[#F5F2EC]/70">
-                  <li>• <strong>Orders Above PKR 5,000:</strong> Complimentary Expedited Shipping.</li>
+                  <li>• <strong>Orders Above PKR 2,500:</strong> Complimentary Expedited Shipping.</li>
                   <li>• <strong>Standard Shipping:</strong> Flat PKR 350 for orders below threshold.</li>
                   <li>• <strong>Delivery Timeframe:</strong> 2 to 4 business days in secure shockproof packaging.</li>
                   <li>• <strong>Returns &amp; Exchanges:</strong> Unopened flacons with their wax-seal intact may be exchanged within 7 days.</li>
