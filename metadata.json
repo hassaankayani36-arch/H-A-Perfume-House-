@@ -1,0 +1,6 @@
+{
+  "name": "H&A LUXURY — By Hassaan & Arslan",
+  "description": "Define Your Presence. Luxury fragrance house crafted by Hassaan & Arslan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
