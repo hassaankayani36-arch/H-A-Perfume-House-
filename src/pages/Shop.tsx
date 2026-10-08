@@ -58,14 +58,14 @@ export const Shop: React.FC = () => {
   if (activeSort === 'low-high') {
     displayed.sort(
       (a, b) =>
-        (a.sizes.find((size) => size.size === '50ML')?.rawPrice ?? a.rawPrice) -
-        (b.sizes.find((size) => size.size === '50ML')?.rawPrice ?? b.rawPrice)
+        (a.sizes.find((size) => size.size === '50ML')?.discountedPrice ?? a.discountedPrice) -
+          (b.sizes.find((size) => size.size === '50ML')?.discountedPrice ?? b.discountedPrice)
     );
   } else if (activeSort === 'high-low') {
     displayed.sort(
       (a, b) =>
-        (b.sizes.find((size) => size.size === '50ML')?.rawPrice ?? b.rawPrice) -
-        (a.sizes.find((size) => size.size === '50ML')?.rawPrice ?? a.rawPrice)
+        (b.sizes.find((size) => size.size === '50ML')?.discountedPrice ?? b.discountedPrice) -
+        (a.sizes.find((size) => size.size === '50ML')?.discountedPrice ?? a.discountedPrice)
     );
   }
 
@@ -95,8 +95,8 @@ export const Shop: React.FC = () => {
               <span className="italic text-[#DFC27D]">Collection</span>
             </h1>
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#F5F2EC]/75 sm:text-base">
-              Explore our original H&amp;A perfumes, made for a lasting impression. Find your
-              signature scent by notes, mood, or moment.
+              Explore our curated selection of perfumes and find your next signature scent by
+              notes, mood, or moment.
             </p>
           </div>
         </div>
@@ -172,7 +172,7 @@ export const Shop: React.FC = () => {
                 onChange={(e) => setActiveSort(e.target.value as typeof activeSort)}
                 className="border border-[#2E2E2E] bg-[#141414] px-3 py-2.5 text-xs text-[#F5F2EC] outline-none focus:border-[#C6A15B]"
               >
-                <option value="featured">House Featured</option>
+                <option value="featured">Featured</option>
                 <option value="low-high">Price: Low to High</option>
                 <option value="high-low">Price: High to Low</option>
               </select>
@@ -184,7 +184,7 @@ export const Shop: React.FC = () => {
         {displayed.length === 0 ? (
           <div className="py-24 text-center space-y-4">
             <p className="font-serif text-2xl text-[#F5F2EC] font-light">
-              No creations match the selected criteria.
+              No perfumes match the selected criteria.
             </p>
             <button
               onClick={() => {
@@ -200,7 +200,7 @@ export const Shop: React.FC = () => {
         ) : (
           <>
             <p className="mb-5 text-xs uppercase tracking-[0.16em] text-[#F5F2EC]/45">
-              {displayed.length} {displayed.length === 1 ? 'creation' : 'creations'}
+              {displayed.length} {displayed.length === 1 ? 'perfume' : 'perfumes'}
               {onlyWishlist ? ' in your wishlist' : ''}
             </p>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -214,11 +214,11 @@ export const Shop: React.FC = () => {
         {/* Atelier Note Footer */}
         <div className="mt-20 p-8 bg-[#121212] border border-[#222222] text-center max-w-2xl mx-auto">
           <p className="text-xs uppercase tracking-[0.25em] text-[#C6A15B] mb-2 font-light">
-            BESPOKE FLACON BATCHING
+            OUR CURATED SELECTION
           </p>
           <p className="text-xs text-[#F5F2EC]/60 font-light leading-relaxed">
-            All H&A extraits are matured for 90 days in temperature-controlled dark chambers to
-            allow molecular harmonization before bottling.
+            Explore perfumes sourced through our affiliate supply partners, with product notes,
+            available sizes, stock, and PKR pricing shown on each listing.
           </p>
         </div>
       </div>

@@ -58,8 +58,8 @@ export const Cart: React.FC = () => {
             Your Bag is Empty
           </h1>
           <p className="text-xs sm:text-sm text-[#F5F2EC]/60 font-light leading-relaxed">
-            Your shopping bag does not currently contain any flacons. Discover our master-crafted
-            extraits and elevate your presence.
+            Your shopping bag does not currently contain any perfumes. Explore our curated
+            selection and find a scent that suits you.
           </p>
           <Link
             to="/shop"
@@ -149,6 +149,11 @@ export const Cart: React.FC = () => {
                     <p className="text-xs text-[#F5F2EC]/75 font-mono mt-1">
                       {item.price} each
                     </p>
+                    {item.originalPrice > item.discountedPrice && (
+                      <del className="text-[11px] text-[#F5F2EC]/45">
+                        PKR {item.originalPrice.toLocaleString('en-PK')} each
+                      </del>
+                    )}
                   </div>
                 </div>
 
@@ -175,7 +180,7 @@ export const Cart: React.FC = () => {
                   </div>
 
                   <span className="font-serif text-lg text-[#F5F2EC] min-w-24 text-right">
-                    PKR {(item.rawPrice * item.quantity).toLocaleString()}
+                    PKR {(item.discountedPrice * item.quantity).toLocaleString('en-PK')}
                   </span>
 
                   <button

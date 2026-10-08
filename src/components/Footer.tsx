@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/logo/Logo.tsx';
 import { ArrowUp, Phone, Mail, MapPin } from 'lucide-react';
+import { products } from '../data/products.ts';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -24,37 +25,24 @@ export const Footer: React.FC = () => {
           {/* Col 1: Shop */}
           <div className="space-y-4">
             <h4 className="text-[11px] uppercase tracking-[0.25em] text-[#C6A15B] font-normal">
-              SHOP CREATIONS
+              SHOP PERFUMES
             </h4>
             <ul className="space-y-2.5 text-xs text-[#F5F2EC]/65 font-light">
-              <li>
-                <Link to="/product/ha-noir" className="hover:text-[#F5F2EC] transition-colors">
-                  H&A Noir (Extrait)
-                </Link>
-              </li>
-              <li>
-                <Link to="/product/ha-oud" className="hover:text-[#F5F2EC] transition-colors">
-                  H&A Oud (Extrait)
-                </Link>
-              </li>
-              <li>
-                <Link to="/product/ha-amber" className="hover:text-[#F5F2EC] transition-colors">
-                  H&A Amber (EdP)
-                </Link>
-              </li>
-              <li>
-                <Link to="/product/ha-elite" className="hover:text-[#F5F2EC] transition-colors">
-                  H&A Élite (EdP)
-                </Link>
-              </li>
+              {products.slice(0, 4).map((product) => (
+                <li key={product.id}>
+                  <Link to={`/product/${product.id}`} className="hover:text-[#F5F2EC] transition-colors">
+                    {product.name}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link to="/collections" className="hover:text-[#F5F2EC] transition-colors">
-                  The Discovery Coffret
+                  Explore Curated Collections
                 </Link>
               </li>
               <li>
                 <Link to="/shop" className="hover:text-[#C6A15B] transition-colors">
-                  All 12 House Perfumes →
+                  Shop All {products.length} Perfumes →
                 </Link>
               </li>
             </ul>
@@ -88,7 +76,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/about#sourcing" className="hover:text-[#F5F2EC] transition-colors">
-                  Sustainable Agarwood &amp; Resins
+                  How We Source Perfumes
                 </Link>
               </li>
             </ul>

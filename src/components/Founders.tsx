@@ -31,9 +31,8 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
             Created by Hassaan Kayani &amp; Arslan Qamar.
           </p>
           <p className="mt-5 text-sm sm:text-base text-[#F5F2EC]/70 font-light leading-relaxed max-w-2xl mx-auto">
-            United by a shared obsession with high-sillage perfumery and uncompromised artisanal
-            refinement, Hassaan Kayani and Arslan Qamar established H&A Luxury to restore gravitas, mystery,
-            and enduring distinction to modern fragrance.
+            Hassaan Kayani and Arslan Qamar founded H&amp;A Luxury to curate perfumes from their
+            affiliate supply partners and make each scent easier to discover.
           </p>
         </div>
 
@@ -66,7 +65,7 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
                 Hassaan Kayani
               </h3>
               <p className="text-[11px] uppercase tracking-[0.25em] text-[#C6A15B] font-light">
-                Co-Founder & Creative Director
+                Co-Founder &amp; Perfume Curator
               </p>
               <a
                 href="tel:+923190731434"
@@ -76,8 +75,7 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
               </a>
               <div className="w-8 h-[1px] bg-[#C6A15B]/40 mx-auto my-3" />
               <blockquote className="text-xs sm:text-sm text-[#F5F2EC]/70 font-light italic leading-relaxed max-w-sm mx-auto">
-                &ldquo;We did not create H&A to follow fleeting trends. We created it to formulate
-                an indelible presence that commands the room before you speak.&rdquo;
+                &ldquo;Our goal is to make it easier to find a perfume that feels personal to you.&rdquo;
               </blockquote>
             </div>
           </div>
@@ -109,7 +107,7 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
                 Arslan Qamar
               </h3>
               <p className="text-[11px] uppercase tracking-[0.25em] text-[#C6A15B] font-light">
-                Co-Founder & Master Distiller
+                Co-Founder &amp; Collection Curator
               </p>
               <a
                 href="tel:+923099282467"
@@ -119,8 +117,7 @@ export const Founders: React.FC<FoundersProps> = ({ showAboutLink = true }) => {
               </a>
               <div className="w-8 h-[1px] bg-[#C6A15B]/40 mx-auto my-3" />
               <blockquote className="text-xs sm:text-sm text-[#F5F2EC]/70 font-light italic leading-relaxed max-w-sm mx-auto">
-                &ldquo;Perfume is the most intimate form of memory. Our mission was to bring
-                extreme concentration and uncompromising raw distillates to patrons of pure distinction.&rdquo;
+                &ldquo;We bring together perfumes from our partners and make their notes and sizes easy to explore.&rdquo;
               </blockquote>
             </div>
           </div>

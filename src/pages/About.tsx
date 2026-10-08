@@ -11,15 +11,15 @@ export const About: React.FC = () => {
       <div className="relative py-24 sm:py-32 bg-[#0E0E0E] border-b border-[#1C1C1C] overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <span className="text-[10px] tracking-[0.4em] uppercase text-[#C6A15B] font-light block mb-4">
-            THE ATELIER MANIFESTO
+            OUR STORY
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-light uppercase tracking-wide leading-tight">
             THE ARCHITECTURE <br />
             <span className="italic text-[#C6A15B] font-normal">OF PRESENCE.</span>
           </h1>
           <p className="mt-6 text-sm sm:text-base md:text-lg text-[#F5F2EC]/75 font-light leading-relaxed max-w-2xl mx-auto">
-            H&amp;A Luxury was founded by Hassaan Kayani and Arslan Qamar on a simple conviction: perfume is
-            the most potent form of memory and personal gravity.
+            Founded by Hassaan Kayani and Arslan Qamar, H&amp;A Luxury is an affiliate perfume
+            retailer curating products from its supply partners.
           </p>
         </div>
       </div>
@@ -39,14 +39,12 @@ export const About: React.FC = () => {
                 A Refusal to Conform
               </h2>
               <p className="text-sm text-[#F5F2EC]/75 font-light leading-relaxed">
-                Modern perfumery had become inundated with diluted formulations, synthetic alcohol
-                blasts, and celebrity endorsements. In response, Hassaan Kayani &amp; Arslan Qamar sought to revive
-                the golden era of high-concentration extraits.
+                Hassaan Kayani and Arslan Qamar created H&amp;A to make a considered range of
+                perfumes easier to explore, compare, and shop.
               </p>
               <p className="text-sm text-[#F5F2EC]/75 font-light leading-relaxed">
-                By formulating every extrait with 25% to 33% pure aromatic essences, H&amp;A flacons
-                bond with the wearer&apos;s skin chemistry, blooming in distinct, intimate layers throughout
-                the entire day and into the night.
+                As affiliate sellers, they source products in bulk through their supply relationships
+                and present each perfume with its notes, sizes, availability, and price.
               </p>
             </div>
 
@@ -54,7 +52,7 @@ export const About: React.FC = () => {
               <div className="relative aspect-[4/5] bg-[#141414] border border-[#262626] overflow-hidden">
                 <img
                   src={products[0].image}
-                  alt="H&A Atelier craftsmanship"
+                  alt={`${products[0].name} perfume from the H&A selection`}
                   loading="lazy"
                   className="w-full h-full object-contain"
                 />
@@ -65,7 +63,7 @@ export const About: React.FC = () => {
 
           <div className="grid grid-cols-3 border-y border-[#1C1C1C] py-8 text-center">
             {[
-              { value: '12', label: 'House perfumes' },
+              { value: String(products.length), label: 'Perfumes in our selection' },
               { value: '4', label: 'Perfume families' },
               { value: '2', label: 'Founders, one vision' },
             ].map((stat) => (
@@ -81,18 +79,17 @@ export const About: React.FC = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="border border-[#262626] bg-[#121212] p-7 sm:p-9">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#C6A15B]">Our mission</span>
-              <h3 className="mt-3 font-serif text-2xl">Make lasting presence personal.</h3>
+              <h3 className="mt-3 font-serif text-2xl">Make choosing a perfume personal.</h3>
               <p className="mt-3 text-sm leading-relaxed text-[#F5F2EC]/65">
-                Create expressive, thoughtfully composed perfumes that make the everyday feel individual
-                and memorable.
+                Help customers discover perfumes that suit their notes, style, and occasion.
               </p>
             </div>
             <div className="border border-[#262626] bg-[#121212] p-7 sm:p-9">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#C6A15B]">Our vision</span>
-              <h3 className="mt-3 font-serif text-2xl">A distinct H&amp;A signature.</h3>
+              <h3 className="mt-3 font-serif text-2xl">A trusted H&amp;A destination.</h3>
               <p className="mt-3 text-sm leading-relaxed text-[#F5F2EC]/65">
-                Build a house recognised for considered design, a clear point of view, and perfumes
-                made to be remembered.
+                Offer a carefully presented selection from our affiliate supply partners, with clear
+                product details and straightforward pricing.
               </p>
             </div>
           </div>
@@ -100,27 +97,28 @@ export const About: React.FC = () => {
           {/* Pillars */}
           <div className="pt-16 border-t border-[#1C1C1C] grid grid-cols-1 md:grid-cols-3 gap-10">
             <div className="space-y-3">
-              <span className="text-xs font-mono text-[#C6A15B]">01 / EXTRAIT DISCIPLINE</span>
-              <h3 className="font-serif text-xl font-light">Concentration Without Compromise</h3>
+              <span className="text-xs font-mono text-[#C6A15B]">01 / CAREFUL CURATION</span>
+              <h3 className="font-serif text-xl font-light">A Considered Selection</h3>
               <p className="text-xs text-[#F5F2EC]/60 font-light leading-relaxed">
-                Never diluted with unnecessary fillers. Only pure distilled oils and organic alcohol bases.
+                Explore perfumes across fresh, woody, oriental, and distinctive scent families.
               </p>
             </div>
 
             <div className="space-y-3">
-              <span className="text-xs font-mono text-[#C6A15B]">02 / ETHICAL SOURCING</span>
-              <h3 className="font-serif text-xl font-light">Sustainable Agarwood Reserves</h3>
+              <span className="text-xs font-mono text-[#C6A15B]">02 / AFFILIATE SOURCING</span>
+              <h3 className="font-serif text-xl font-light">Trusted Supply Partners</h3>
               <p className="text-xs text-[#F5F2EC]/60 font-light leading-relaxed">
-                We partner with dedicated arborists in Southeast Asia to protect ancient trees while
-                harvesting mature heartwood.
+                Our perfumes are sourced through the affiliate and bulk-purchasing relationships
+                behind the H&amp;A selection.
               </p>
             </div>
 
             <div className="space-y-3">
-              <span className="text-xs font-mono text-[#C6A15B]">03 / TACTILE LUXURY</span>
-              <h3 className="font-serif text-xl font-light">Obsidian &amp; Gold Coffrets</h3>
+              <span className="text-xs font-mono text-[#C6A15B]">03 / CLEAR DETAILS</span>
+              <h3 className="font-serif text-xl font-light">Notes, Sizes &amp; Prices</h3>
               <p className="text-xs text-[#F5F2EC]/60 font-light leading-relaxed">
-                Weighted custom glass, precision spray atomizers, and handcrafted magnetic caps.
+                Compare product notes, available bottle sizes, stock status, and PKR prices before
+                you order.
               </p>
             </div>
           </div>
@@ -131,7 +129,7 @@ export const About: React.FC = () => {
               to="/shop"
               className="inline-block px-8 py-4 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-xs uppercase tracking-[0.24em] font-medium transition-colors"
             >
-              EXPLORE THE ATELIER REPERTOIRE
+              EXPLORE THE PERFUME SELECTION
             </Link>
           </div>
         </div>

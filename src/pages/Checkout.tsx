@@ -80,8 +80,8 @@ export const Checkout: React.FC = () => {
           </div>
 
           <p className="text-xs sm:text-sm text-[#F5F2EC]/75 font-light leading-relaxed max-w-md mx-auto">
-            Thank you, {formData.firstName || 'Patron'}. Your flacon is now being hand-packaged in
-            our signature obsidian coffret. A tracking correspondence has been transmitted to{' '}
+            Thank you, {formData.firstName || 'Patron'}. Your order is being prepared for dispatch.
+            Updates will be sent to{' '}
             <span className="text-[#C6A15B]">{formData.email || 'your email'}</span>.
           </p>
 
@@ -408,7 +408,7 @@ export const Checkout: React.FC = () => {
                       </p>
                     </div>
                     <span className="font-mono text-[#F5F2EC]">
-                      PKR {(item.rawPrice * item.quantity).toLocaleString()}
+                      PKR {(item.discountedPrice * item.quantity).toLocaleString('en-PK')}
                     </span>
                   </div>
                 ))}

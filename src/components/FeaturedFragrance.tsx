@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, ArrowRight, Check, Sparkles } from 'lucide-react';
+import { ShoppingBag, ArrowRight, Check } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
 
@@ -9,15 +9,16 @@ export const FeaturedFragrance: React.FC = () => {
   const [selectedSize, setSelectedSize] = useState('50ML');
   const [isAdded, setIsAdded] = useState(false);
 
-  const noirProduct = products.find((p) => p.id === 'ha-noir') || products[0];
+  const featuredProduct = products[0];
 
   const handleAdd = () => {
-    addToCart(noirProduct, selectedSize, 1);
+    addToCart(featuredProduct, selectedSize, 1);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  const currentSizeObj = noirProduct.sizes.find((s) => s.size === selectedSize) || noirProduct.sizes[0];
+  const currentSizeObj =
+    featuredProduct.sizes.find((s) => s.size === selectedSize) || featuredProduct.sizes[0];
 
   return (
     <section className="py-24 sm:py-32 bg-[#0E0E0E] border-t border-[#1F1F1F] relative overflow-hidden">
@@ -30,8 +31,8 @@ export const FeaturedFragrance: React.FC = () => {
           <div className="lg:col-span-6 relative">
             <div className="relative aspect-[4/5] sm:aspect-square lg:aspect-[4/5] bg-[#141414] border border-[#262626] overflow-hidden group">
               <img
-                src={noirProduct.image}
-                alt="H&A Noir perfume bottle"
+                src={featuredProduct.image}
+                alt={`${featuredProduct.name} perfume bottle`}
                 loading="lazy"
                 className="w-full h-full object-contain object-center transition-transform duration-1000 group-hover:scale-105"
               />
@@ -45,7 +46,7 @@ export const FeaturedFragrance: React.FC = () => {
               {/* Badge */}
               <div className="absolute bottom-6 left-6 z-10">
                 <span className="text-[10px] uppercase tracking-[0.3em] text-[#C6A15B] font-light bg-[#0B0B0B]/90 px-3 py-1.5 border border-[#C6A15B]/30">
-                  ICONIC EXTRAIT
+                  FEATURED PERFUME
                 </span>
               </div>
             </div>
@@ -57,18 +58,17 @@ export const FeaturedFragrance: React.FC = () => {
               <div className="inline-flex items-center gap-2 mb-3">
                 <span className="w-5 h-[1px] bg-[#C6A15B]" />
                 <span className="text-[10px] tracking-[0.35em] uppercase text-[#C6A15B] font-light">
-                  FEATURED EXTRAIT
+                  FEATURED PERFUME
                 </span>
               </div>
               <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-wide">
-                H&A NOIR
+                {featuredProduct.name}
               </h2>
               <p className="mt-2 text-sm text-[#C6A15B] tracking-[0.2em] uppercase font-light">
-                {noirProduct.concentration}
+                {featuredProduct.concentration}
               </p>
               <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/70 font-light leading-relaxed">
-                An intoxicating chiaroscuro of crisp Italian bergamot and fiery saffron leading
-                into midnight rose and an indomitable base of royal Cambodian oud, dark musk, and bourbon vanilla.
+                {featuredProduct.description}
               </p>
             </div>
 
@@ -84,7 +84,7 @@ export const FeaturedFragrance: React.FC = () => {
                     TOP:
                   </span>
                   <span className="text-[#F5F2EC] font-light tracking-wide sm:text-right">
-                    Bergamot, Saffron
+                    {featuredProduct.notes.top.join(', ')}
                   </span>
                 </div>
 
@@ -93,7 +93,7 @@ export const FeaturedFragrance: React.FC = () => {
                     HEART:
                   </span>
                   <span className="text-[#F5F2EC] font-light tracking-wide sm:text-right">
-                    Rose, Amber
+                    {featuredProduct.notes.heart.join(', ')}
                   </span>
                 </div>
 
@@ -102,7 +102,7 @@ export const FeaturedFragrance: React.FC = () => {
                     BASE:
                   </span>
                   <span className="text-[#F5F2EC] font-light tracking-wide sm:text-right">
-                    Oud, Musk, Vanilla
+                    {featuredProduct.notes.base.join(', ')}
                   </span>
                 </div>
               </div>
@@ -115,12 +115,13 @@ export const FeaturedFragrance: React.FC = () => {
                   SELECT VOLUME
                 </span>
                 <span className="font-serif text-2xl sm:text-3xl text-[#F5F2EC] font-light tracking-wide">
+                  <del className="mr-2 text-base text-[#F5F2EC]/45">{currentSizeObj.compareAtPrice}</del>
                   {currentSizeObj.price}
                 </span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-                {noirProduct.sizes.map((s) => (
+                {featuredProduct.sizes.map((s) => (
                   <button
                     key={s.size}
                     type="button"
@@ -159,7 +160,7 @@ export const FeaturedFragrance: React.FC = () => {
               </button>
 
               <Link
-                to="/product/ha-noir"
+                to={`/product/${featuredProduct.id}`}
                 className="py-4 px-6 border border-[#2E2E2E] hover:border-[#C6A15B] text-[#F5F2EC] text-xs uppercase tracking-[0.25em] font-light hover:text-[#C6A15B] transition-colors flex items-center justify-center gap-2"
               >
                 <span>EXPLORE DETAILS</span>

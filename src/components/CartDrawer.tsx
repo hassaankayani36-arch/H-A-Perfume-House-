@@ -169,9 +169,16 @@ export const CartDrawer: React.FC = () => {
                       </div>
 
                       {/* Total for Item */}
-                      <span className="text-xs sm:text-sm font-normal text-[#F5F2EC] tracking-wide">
-                        PKR {(item.rawPrice * item.quantity).toLocaleString()}
-                      </span>
+                      <div className="text-right">
+                        {item.originalPrice > item.discountedPrice && (
+                          <del className="block text-[10px] text-[#F5F2EC]/40">
+                            PKR {(item.originalPrice * item.quantity).toLocaleString('en-PK')}
+                          </del>
+                        )}
+                        <span className="text-xs sm:text-sm font-normal text-[#F5F2EC] tracking-wide">
+                          PKR {(item.discountedPrice * item.quantity).toLocaleString('en-PK')}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

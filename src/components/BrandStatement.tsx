@@ -19,37 +19,36 @@ export const BrandStatement: React.FC = () => {
         <div className="w-16 h-[1px] bg-[#C6A15B] mx-auto my-8 opacity-80" />
 
         <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-[#F5F2EC]/75 font-light leading-relaxed tracking-wide">
-          At H&A Luxury, we reject ordinary mass-market perfumery. Every flacon is an intimate
-          collaboration between rare Eastern distillates and European olfactory precision—formulated
-          at extreme extrait concentrations to envelop you in an unforgettable, lingering aura.
+          H&amp;A Luxury is an affiliate perfume retailer. We curate a varied selection from our
+          supply partners and make product notes, sizes, and PKR prices easy to compare.
         </p>
 
         {/* Brand values trio with zero-pill unboxed design */}
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 pt-12 border-t border-[#222222]">
           <div className="text-center">
             <span className="text-xs uppercase tracking-[0.25em] text-[#C6A15B] block mb-2 font-normal">
-              01 · SUSTAINED SILLAGE
+              01 · PERFUME FAMILIES
             </span>
             <p className="text-xs text-[#F5F2EC]/60 font-light leading-relaxed">
-              High percentage extrait formulations designed to linger for up to 16 hours.
+              Explore fresh, woody, oriental, and distinctive scent profiles.
             </p>
           </div>
 
           <div className="text-center">
             <span className="text-xs uppercase tracking-[0.25em] text-[#C6A15B] block mb-2 font-normal">
-              02 · RARE DISTILLATIONS
+              02 · AFFILIATE SOURCING
             </span>
             <p className="text-xs text-[#F5F2EC]/60 font-light leading-relaxed">
-              Cambodian agarwood, Omani frankincense, Taif rose, and Calabrian bergamot.
+              Products are sourced through our affiliate and bulk-purchasing relationships.
             </p>
           </div>
 
           <div className="text-center">
             <span className="text-xs uppercase tracking-[0.25em] text-[#C6A15B] block mb-2 font-normal">
-              03 · BESPOKE FINISH
+              03 · CLEAR DETAILS
             </span>
             <p className="text-xs text-[#F5F2EC]/60 font-light leading-relaxed">
-              Weighted obsidian flacons fitted with custom magnetic brushed-gold closures.
+              Review each perfume&apos;s notes, available sizes, stock status, and price.
             </p>
           </div>
         </div>

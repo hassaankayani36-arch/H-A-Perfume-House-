@@ -1,6 +1,4 @@
-import heroBottle from '../assets/images/hero-bottle.jpg';
-import bottleNoir from '../assets/images/bottle-noir.jpg';
-import bottleAmber from '../assets/images/bottle-amber.jpg';
+import type { Product } from './products.ts';
 
 export interface CollectionItem {
   id: string;
@@ -8,54 +6,44 @@ export interface CollectionItem {
   subtitle: string;
   description: string;
   tagline: string;
-  image: string;
-  productCount: number;
-  highlightedIds: string[];
+  family: Product['family'];
 }
 
 export const collections: CollectionItem[] = [
   {
-    id: 'signature',
-    title: 'The Signature Collection',
-    subtitle: 'The Four Pillars of Presence',
-    tagline: 'Crafted as the foundational olfactory identity of H&A Luxury.',
+    id: 'fresh',
+    title: 'Fresh Perfumes',
+    subtitle: 'Citrus & Aromatic Notes',
+    tagline: 'Bright, clean compositions for everyday wear.',
     description:
-      'Comprising H&A Noir, H&A Oud, H&A Amber, and H&A Élite. Each composition represents an uncompromising devotion to master perfumery and rare natural distillates.',
-    image: heroBottle,
-    productCount: 4,
-    highlightedIds: ['ha-noir', 'ha-oud', 'ha-amber', 'ha-elite'],
+      'Explore perfumes built around fresh citrus, aquatic, and aromatic notes.',
+    family: 'Fresh',
   },
   {
-    id: 'private-blend',
-    title: 'The Private Blend',
-    subtitle: 'High-Concentration Extraits',
-    tagline: 'Artisanal creations blended with raw, unapologetic intensity.',
+    id: 'woody',
+    title: 'Woody Perfumes',
+    subtitle: 'Woods & Leather',
+    tagline: 'Grounded scents with a warm, textured character.',
     description:
-      'Dark leathers, sacred resins, and midnight florals. Designed for patrons who seek deep sillage and unique aromatic character.',
-    image: bottleNoir,
-    productCount: 3,
-    highlightedIds: ['ha-cuir-obscur', 'ha-santal-imperial', 'ha-rose-royale'],
+      'Discover compositions featuring oud, woods, and leather-inspired notes.',
+    family: 'Woody',
   },
   {
-    id: 'fresh-atelier',
-    title: 'The Fresh Atelier',
-    subtitle: 'Solar & Mineral Precision',
-    tagline: 'Crisp, crystalline citruses anchored in sea amber and vetiver roots.',
+    id: 'oriental',
+    title: 'Oriental Perfumes',
+    subtitle: 'Amber, Spice & Florals',
+    tagline: 'Expressive blends with rich, enveloping notes.',
     description:
-      'Modern, architectural freshness that avoids the fleeting nature of ordinary colognes. Engineered for all-day radiance.',
-    image: bottleAmber,
-    productCount: 2,
-    highlightedIds: ['ha-elite', 'ha-vetiver-prive'],
+      'Browse perfumes with warm amber, spice, floral, and gourmand facets.',
+    family: 'Oriental',
   },
   {
-    id: 'discovery-coffret',
-    title: 'The Discovery Coffret',
-    subtitle: 'Bespoke 5 x 10ML Tasting Experience',
-    tagline: 'Explore the full spectrum of H&A before committing to a full flacon.',
+    id: 'distinctive',
+    title: 'Distinctive Perfumes',
+    subtitle: 'Characterful Compositions',
+    tagline: 'Explore scents with their own distinctive character.',
     description:
-      'Encased in our signature black lacquered wooden presentation box with a gold testing atomizer. Includes a PKR 4,000 voucher towards your full bottle.',
-    image: heroBottle,
-    productCount: 5,
-    highlightedIds: ['ha-noir', 'ha-oud', 'ha-amber', 'ha-elite', 'ha-cuir-obscur'],
+      'A selection of perfumes spanning varied notes, styles, and occasions.',
+    family: 'Intense',
   },
 ];

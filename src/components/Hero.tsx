@@ -40,7 +40,7 @@ export const Hero: React.FC = () => {
 
         {/* Narrative Subtext */}
         <p className="mt-8 text-base sm:text-lg md:text-xl text-[#F5F2EC]/80 max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
-          Exceptional perfumes crafted for those who leave an impression.
+          A curated selection of perfumes for those who leave an impression.
         </p>
 
         {/* Action Buttons */}
@@ -63,11 +63,11 @@ export const Hero: React.FC = () => {
 
         {/* Trust micro-editorial indicator */}
         <div className="mt-16 flex items-center justify-center gap-6 text-[10px] tracking-[0.28em] text-[#F5F2EC]/40 uppercase">
-          <span>EXTRAIT DE PARFUM</span>
+          <span>CURATED PERFUMES</span>
           <span>·</span>
           <span>HIGH SILLAGE</span>
           <span>·</span>
-          <span>BESPOKE BLENDS</span>
+          <span>PKR PRICING</span>
         </div>
       </div>
 

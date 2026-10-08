@@ -23,11 +23,11 @@ export const SignatureCollection: React.FC = () => {
               </span>
             </div>
             <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
-              THE SIGNATURE COLLECTION
+              THE PERFUME EDIT
             </h2>
             <p className="mt-3 text-sm text-[#F5F2EC]/60 max-w-xl font-light leading-relaxed">
-              Four definitive extraits crafted to express distinct facets of presence—from
-              crystalline citrus energy to ancient resinous darkness.
+              Discover a considered selection of perfumes, from bright and fresh notes to rich,
+              warm compositions.
             </p>
           </div>
 

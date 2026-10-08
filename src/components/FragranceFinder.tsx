@@ -8,30 +8,26 @@ type FamilyType = 'Fresh' | 'Woody' | 'Oriental' | 'Intense';
 
 const familyProfiles: Record<FamilyType, { subtitle: string; description: string; mood: string; archetype: string }> = {
   Fresh: {
-    subtitle: 'Crystalline Energy & Mineral Purity',
-    description:
-      'Luminous Calabrian bergamot, chilled mint, and white ambergris. Engineered for daytime sharpness, effortless poise, and clean architectural presence.',
+    subtitle: 'Bright & Aromatic',
+    description: 'Fresh, clean perfumes with citrus, aquatic, or aromatic notes.',
     mood: 'Crisp, Vigorous, Executive',
     archetype: 'The Visionary at High Noon',
   },
   Woody: {
-    subtitle: 'Ancestral Resins & Sacred Earth',
-    description:
-      'Cambodian agarwood hearts, Atlas cedarwood, and Australian sandalwood. Grounded, intellectual, and profoundly commanding without being aggressive.',
+    subtitle: 'Woods & Leather',
+    description: 'Grounded compositions with warm wood and leather-inspired notes.',
     mood: 'Contemplative, Aristocratic, Steadfast',
     archetype: 'The Quiet Authority',
   },
   Oriental: {
-    subtitle: 'Liquid Gold & Spiced Embers',
-    description:
-      'Warm labdanum, Sri Lankan cinnamon bark, caramelized tonka bean, and honeyed resins. Envelops the wearer in a seductive, magnetic golden halo.',
+    subtitle: 'Amber, Spice & Florals',
+    description: 'Warm perfumes with amber, spice, floral, or gourmand facets.',
     mood: 'Sensual, Intimate, Warm',
     archetype: 'The Seductive Icon',
   },
   Intense: {
-    subtitle: 'Shadowed Velvet & Nocturnal Fire',
-    description:
-      'Smoked leather, midnight saffron, dark birch tar, and concentrated extraits. Formulated with maximum sillage to leave an undeniable wake.',
+    subtitle: 'Distinctive Compositions',
+    description: 'Explore perfumes with varied notes, styles, and expressive character.',
     mood: 'Hypnotic, Bold, Unapologetic',
     archetype: 'The Master of the Evening',
   },
@@ -59,7 +55,7 @@ export const FragranceFinder: React.FC = () => {
             FIND YOUR SIGNATURE
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/60 font-light leading-relaxed">
-            Select a perfume family below to find the H&amp;A perfume made for your presence.
+            Select a perfume family to browse matching products from our curated selection.
           </p>
 
           {/* Interactive Family Selector (Clean luxury tabs) */}
@@ -116,7 +112,7 @@ export const FragranceFinder: React.FC = () => {
             to={`/shop?family=${selectedFamily}`}
             className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-8 decoration-[#C6A15B]/40 font-light transition-colors"
           >
-            <span>EXPLORE ALL {selectedFamily.toUpperCase()} CREATIONS</span>
+            <span>EXPLORE {selectedFamily.toUpperCase()} PERFUMES</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

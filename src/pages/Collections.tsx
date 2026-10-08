@@ -26,15 +26,15 @@ export const Collections: React.FC = () => {
             THE COLLECTIONS
           </h1>
           <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/65 font-light leading-relaxed max-w-xl mx-auto">
-            Each collection represents a philosophical chapter in the H&A journey—formulated to
-            harmonize with distinct aspects of personal identity and atmospheric mood.
+            Browse our curated perfume selection by scent family and discover notes suited to
+            different moods and occasions.
           </p>
         </div>
 
         {/* Collections Overview */}
         <div className="space-y-24">
           {collections.map((col, index) => {
-            const matchingProducts = products.filter((p) => col.highlightedIds.includes(p.id));
+            const matchingProducts = products.filter((product) => product.family === col.family);
 
             return (
               <div

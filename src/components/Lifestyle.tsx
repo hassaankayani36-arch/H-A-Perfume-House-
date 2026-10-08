@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import heroBottle from '../assets/images/hero-bottle.jpg';
-import bottleNoir from '../assets/images/bottle-noir.jpg';
-import bottleAmber from '../assets/images/bottle-amber.jpg';
+import { products } from '../data/products.ts';
 
 export const Lifestyle: React.FC = () => {
   return (
@@ -21,8 +19,8 @@ export const Lifestyle: React.FC = () => {
             WEAR THE MOMENT.
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/60 font-light leading-relaxed">
-            From the quiet morning stillness to the intoxicating crescendo of midnight galas,
-            H&A luxury flacons are tailored for life’s most commanding occasions.
+            From a fresh start to an evening out, explore perfumes selected for different moods
+            and occasions.
           </p>
         </div>
 
@@ -38,8 +36,8 @@ export const Lifestyle: React.FC = () => {
                 Crisp Architecture
               </h3>
               <p className="text-xs text-[#F5F2EC]/65 font-light leading-relaxed">
-                A shower of crystalline Calabrian citrus and green cardamom. Setting an
-                immaculate tone of decisive clarity before entering the executive suite.
+                {products[2].name} opens with {products[2].notes.top.join(', ')} and develops through
+                {` ${products[2].notes.heart.join(', ')}`} for an easy daytime choice.
               </p>
             </div>
             
@@ -47,8 +45,8 @@ export const Lifestyle: React.FC = () => {
               <span className="text-[10px] uppercase tracking-widest text-[#F5F2EC]/40">
                 RECOMMENDED
               </span>
-              <Link to="/product/ha-elite" className="text-xs text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-4 decoration-[#C6A15B]/30 font-light">
-                H&A Élite →
+              <Link to={`/product/${products[2].id}`} className="text-xs text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-4 decoration-[#C6A15B]/30 font-light">
+                {products[2].name} →
               </Link>
             </div>
           </div>
@@ -65,8 +63,8 @@ export const Lifestyle: React.FC = () => {
                 Velvet & Amber Embers
               </h3>
               <p className="text-xs text-[#F5F2EC]/65 font-light leading-relaxed">
-                As twilight casts shadows across the city, honeyed resins and labdanum unfold.
-                An aura of warm intrigue that draws intimate conversation closer.
+                Explore {products[1].name}, with {products[1].notes.top.join(', ')} up front and
+                {` ${products[1].notes.base.join(', ')}`} in its base.
               </p>
             </div>
 
@@ -74,8 +72,8 @@ export const Lifestyle: React.FC = () => {
               <span className="text-[10px] uppercase tracking-widest text-[#F5F2EC]/40">
                 RECOMMENDED
               </span>
-              <Link to="/product/ha-amber" className="text-xs text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-4 decoration-[#C6A15B]/30 font-light">
-                H&A Amber →
+              <Link to={`/product/${products[1].id}`} className="text-xs text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-4 decoration-[#C6A15B]/30 font-light">
+                {products[1].name} →
               </Link>
             </div>
           </div>
@@ -90,8 +88,8 @@ export const Lifestyle: React.FC = () => {
                 Royal Oud & Dark Saffron
               </h3>
               <p className="text-xs text-[#F5F2EC]/65 font-light leading-relaxed">
-                Black tie galas and quiet midnight lounges. Deep Cambodian agarwood and smoky birch
-                tar deliver a hypnotic sillage that defies forgetfulness.
+                {products[0].name} brings together {products[0].notes.heart.join(', ')} and
+                {` ${products[0].notes.base.join(', ')}`} for a distinctive evening perfume.
               </p>
             </div>
 
@@ -99,8 +97,8 @@ export const Lifestyle: React.FC = () => {
               <span className="text-[10px] uppercase tracking-widest text-[#F5F2EC]/40">
                 RECOMMENDED
               </span>
-              <Link to="/product/ha-noir" className="text-xs text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-4 decoration-[#C6A15B]/30 font-light">
-                H&A Noir →
+              <Link to={`/product/${products[0].id}`} className="text-xs text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-4 decoration-[#C6A15B]/30 font-light">
+                {products[0].name} →
               </Link>
             </div>
           </div>

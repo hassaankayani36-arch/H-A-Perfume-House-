@@ -7,7 +7,8 @@ export interface CartItem {
   name: string;
   size: string;
   price: string;
-  rawPrice: number;
+  originalPrice: number;
+  discountedPrice: number;
   image: string;
   quantity: number;
   family: string;
@@ -44,22 +45,58 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const FREE_DELIVERY_THRESHOLD = 2500;
 const STANDARD_SHIPPING_FEE = 350;
 
+function loadCartItems(): CartItem[] {
+  try {
+    const saved = localStorage.getItem('ha_cart_items');
+    if (!saved) return [];
+
+    const parsed: unknown = JSON.parse(saved);
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.flatMap((entry): CartItem[] => {
+      if (!entry || typeof entry !== 'object') return [];
+      const item = entry as Record<string, unknown>;
+      const legacyPrice = typeof item.rawPrice === 'number' ? item.rawPrice : 0;
+      if (
+        typeof item.key !== 'string' ||
+        typeof item.id !== 'string' ||
+        typeof item.name !== 'string' ||
+        typeof item.size !== 'string' ||
+        typeof item.quantity !== 'number' ||
+        typeof item.image !== 'string'
+      ) {
+        return [];
+      }
+
+      const discountedPrice =
+        typeof item.discountedPrice === 'number' ? item.discountedPrice : legacyPrice;
+      return [{
+        key: item.key,
+        id: item.id,
+        name: item.name,
+        size: item.size,
+        price: typeof item.price === 'string' ? item.price : `PKR ${discountedPrice.toLocaleString('en-PK')}`,
+        originalPrice: typeof item.originalPrice === 'number' ? item.originalPrice : legacyPrice,
+        discountedPrice,
+        image: item.image,
+        quantity: item.quantity,
+        family: typeof item.family === 'string' ? item.family : 'Perfume',
+      }];
+    });
+  } catch {
+    return [];
+  }
+}
+
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    try {
-      const saved = localStorage.getItem('ha_cart_items');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [items, setItems] = useState<CartItem[]>(loadCartItems);
 
   const [wishlist, setWishlist] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem('ha_wishlist_items');
-      return saved ? JSON.parse(saved) : ['ha-noir'];
+      return saved ? JSON.parse(saved) : [];
     } catch {
-      return ['ha-noir'];
+      return [];
     }
   });
 
@@ -87,6 +124,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       size: selectedSize || '50ML',
       price: product.price,
       rawPrice: product.rawPrice,
+      discountedPrice: product.discountedPrice,
     };
 
     const itemKey = `${product.id}-${sizeObj.size}`;
@@ -96,7 +134,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (existing) {
         return prev.map((item) =>
           item.key === itemKey
-            ? { ...item, quantity: item.quantity + quantity }
+            ? {
+                ...item,
+                name: product.name,
+                price: sizeObj.price,
+                originalPrice: sizeObj.rawPrice,
+                discountedPrice: sizeObj.discountedPrice,
+                image: product.image,
+                family: product.family,
+                quantity: item.quantity + quantity,
+              }
             : item
         );
       }
@@ -108,7 +155,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           name: product.name,
           size: sizeObj.size,
           price: sizeObj.price,
-          rawPrice: sizeObj.rawPrice,
+          originalPrice: sizeObj.rawPrice,
+          discountedPrice: sizeObj.discountedPrice,
           image: product.image,
           quantity,
           family: product.family,
@@ -162,7 +210,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isInWishlist = (productId: string) => wishlist.includes(productId);
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = items.reduce((sum, item) => sum + item.rawPrice * item.quantity, 0);
+  const subtotal = items.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0);
   const deliveryFee = subtotal === 0 || subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : STANDARD_SHIPPING_FEE;
   const total = subtotal + deliveryFee;
   const amountNeededForFreeDelivery = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal);
