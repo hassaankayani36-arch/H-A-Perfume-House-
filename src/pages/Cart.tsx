@@ -65,7 +65,7 @@ export const Cart: React.FC = () => {
             to="/shop"
             className="inline-block px-8 py-4 bg-[#C6A15B] text-[#0B0B0B] text-xs uppercase tracking-[0.24em] font-medium hover:bg-[#DFC27D] transition-colors"
           >
-            DISCOVER FRAGRANCES
+            DISCOVER PERFUMES
           </Link>
         </div>
       </div>

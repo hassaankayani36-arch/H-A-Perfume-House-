@@ -129,7 +129,7 @@ export const Contact: React.FC = () => {
               Send a Correspondence
             </h3>
             <p className="text-xs text-[#F5F2EC]/60 font-light mb-8">
-              A private fragrance advisor will respond within 12 hours.
+              A private perfume advisor will respond within 12 hours.
             </p>
 
             {submitted ? (

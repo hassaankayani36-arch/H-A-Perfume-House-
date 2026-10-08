@@ -56,7 +56,7 @@ export const SearchModal: React.FC = () => {
 
           {/* Search Input */}
           <div className="relative mt-6">
-            <label htmlFor={searchInputId} className="sr-only">Search flacons, notes, or fragrance families</label>
+            <label htmlFor={searchInputId} className="sr-only">Search perfumes, notes, or perfume families</label>
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#C6A15B]" />
             <input
               id={searchInputId}
@@ -64,7 +64,7 @@ export const SearchModal: React.FC = () => {
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search flacons, notes (Oud, Saffron, Bergamot), or families..."
+              placeholder="Search perfumes, notes (Oud, Saffron, Bergamot), or families..."
               className="w-full bg-[#1A1A1A] border border-[#333333] focus:border-[#C6A15B] pl-11 pr-4 py-3.5 text-xs sm:text-sm text-[#F5F2EC] placeholder:text-[#F5F2EC]/40 outline-none transition-colors"
             />
           </div>

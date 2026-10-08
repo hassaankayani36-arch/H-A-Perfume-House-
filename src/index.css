@@ -1,7 +1,8 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-serif: "Playfair Display", Georgia, serif;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --color-black: #0B0B0B;
   --color-charcoal: #171717;
@@ -13,12 +14,14 @@
 
 :root {
   color-scheme: dark;
+  --ha-page: #0B0B0B;
+  --ha-text: #F5F2EC;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #0B0B0B;
-  color: #F5F2EC;
+  background-color: var(--ha-page);
+  color: var(--ha-text);
   letter-spacing: -0.01em;
 }
 
@@ -50,3 +53,68 @@ h1, h2, h3, h4, h5, .font-serif {
   box-shadow: 0 0 25px -5px rgba(198, 161, 91, 0.15);
 }
 
+html[data-theme="light"] {
+  color-scheme: light;
+  --ha-page: #F5F2EC;
+  --ha-text: #211E19;
+}
+
+html[data-theme="light"] body {
+  background-color: var(--ha-page);
+  color: var(--ha-text);
+}
+
+html[data-theme="light"] [class*="bg-[#0B0B0B]"] {
+  background-color: #F5F2EC;
+}
+
+html[data-theme="light"] [class*="bg-[#0E0E0E]"],
+html[data-theme="light"] [class*="bg-[#121212]"],
+html[data-theme="light"] [class*="bg-[#141414]"],
+html[data-theme="light"] [class*="bg-[#171717]"] {
+  background-color: #FFFEFC;
+}
+
+html[data-theme="light"] [class*="text-[#F5F2EC]"] {
+  color: #211E19;
+}
+
+html[data-theme="light"] [class*="border-[#1A1A1A]"],
+html[data-theme="light"] [class*="border-[#1C1C1C]"],
+html[data-theme="light"] [class*="border-[#1F1F1F]"],
+html[data-theme="light"] [class*="border-[#222222]"],
+html[data-theme="light"] [class*="border-[#242424]"],
+html[data-theme="light"] [class*="border-[#262626]"],
+html[data-theme="light"] [class*="border-[#2E2E2E]"],
+html[data-theme="light"] [class*="border-[#333333]"] {
+  border-color: #DED8CC;
+}
+
+html[data-theme="light"] [class*="bg-[#0B0B0B]/"],
+html[data-theme="light"] [class*="bg-[#0E0E0E]/"] {
+  background-color: rgb(245 242 236 / 88%);
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #F5F2EC;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #DED8CC;
+}
+
+html[data-theme="light"] .product-detail-page .text-\[\#191919\],
+html[data-theme="light"] .product-detail-page h1,
+html[data-theme="light"] .product-detail-page h2,
+html[data-theme="light"] .product-detail-page h3,
+html[data-theme="light"] .product-detail-page button:not([class*="bg-\[\#191919\]"]) {
+  color: #191919;
+}
+
+html[data-theme="light"] .product-detail-page .text-\[\#8E3E3A\] {
+  color: #8E3E3A;
+}
+
+html[data-theme="light"] .product-detail-page .text-white {
+  color: #fff;
+}

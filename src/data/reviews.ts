@@ -18,7 +18,7 @@ export const sampleReviews: SampleReview[] = [
     rating: 5,
     product: 'H&A Noir',
     review:
-      'The fragrance feels very elegant and refined. The presentation is also impressive. Definitely has a premium feel.',
+      'The perfume feels very elegant and refined. The presentation is also impressive. Definitely has a premium feel.',
     accent: 'from-[#74533C] to-[#30241F]',
   },
   {
@@ -29,7 +29,7 @@ export const sampleReviews: SampleReview[] = [
     rating: 5,
     product: 'H&A Oud',
     review:
-      'A rich and warm fragrance with a really nice character. I especially liked how the scent develops over time.',
+      'A rich and warm perfume with a really nice character. I especially liked how the scent develops over time.',
     accent: 'from-[#5A5940] to-[#22261F]',
   },
   {
@@ -40,7 +40,7 @@ export const sampleReviews: SampleReview[] = [
     rating: 5,
     product: 'H&A Amber',
     review:
-      'The bottle and packaging look excellent, and the fragrance has a smooth, sophisticated feel. Very nice overall experience.',
+      'The bottle and packaging look excellent, and the perfume has a smooth, sophisticated feel. Very nice overall experience.',
     accent: 'from-[#89563B] to-[#39251E]',
   },
   {
@@ -51,7 +51,7 @@ export const sampleReviews: SampleReview[] = [
     rating: 4,
     product: 'H&A Noir',
     review:
-      'I really enjoyed the fragrance. It feels modern, confident and suitable for evening wear.',
+      'I really enjoyed the perfume. It feels modern, confident and suitable for evening wear.',
     accent: 'from-[#4D5665] to-[#22242A]',
   },
   {
@@ -62,7 +62,7 @@ export const sampleReviews: SampleReview[] = [
     rating: 5,
     product: 'H&A Oud',
     review:
-      'The fragrance has a strong personality without feeling overwhelming. The overall presentation is beautiful.',
+      'The perfume has a strong personality without feeling overwhelming. The overall presentation is beautiful.',
     accent: 'from-[#66513A] to-[#29231E]',
   },
   {
@@ -73,14 +73,14 @@ export const sampleReviews: SampleReview[] = [
     rating: 5,
     product: 'H&A Amber',
     review:
-      'Very elegant fragrance and premium-looking packaging. I would definitely consider trying another H&A fragrance.',
+      'A very elegant perfume with premium-looking packaging. I would definitely consider trying another H&A perfume.',
     accent: 'from-[#684657] to-[#30212C]',
   },
 ];
 
 export const emptyReviewState = {
   title: 'Share Your Experience',
-  subtitle: 'Tried an H&A fragrance? We would love your honest feedback.',
+  subtitle: 'Tried an H&A perfume? We would love your honest feedback.',
   description:
     'Tell us what you think. Reviews shown above are sample layout previews, not verified customer testimonials.',
   ctaText: 'Write a Review',

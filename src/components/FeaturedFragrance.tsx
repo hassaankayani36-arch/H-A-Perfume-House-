@@ -3,13 +3,10 @@ import { Link } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, Check, Sparkles } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
-import bottleNoir from '../assets/images/bottle-noir.jpg';
-import BottleIdentity from './BottleIdentity.tsx';
-import { handleProductImageError } from '../utils/productImage.ts';
 
 export const FeaturedFragrance: React.FC = () => {
   const { addToCart } = useCart();
-  const [selectedSize, setSelectedSize] = useState('10ML TESTER');
+  const [selectedSize, setSelectedSize] = useState('50ML');
   const [isAdded, setIsAdded] = useState(false);
 
   const noirProduct = products.find((p) => p.id === 'ha-noir') || products[0];
@@ -33,13 +30,11 @@ export const FeaturedFragrance: React.FC = () => {
           <div className="lg:col-span-6 relative">
             <div className="relative aspect-[4/5] sm:aspect-square lg:aspect-[4/5] bg-[#141414] border border-[#262626] overflow-hidden group">
               <img
-                src={bottleNoir}
-                onError={handleProductImageError}
-                alt="H&A Noir Flacon"
-                className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-1000"
-                style={{ filter: 'brightness(0.9) contrast(1.1)' }}
+                src={noirProduct.image}
+                alt="H&A Noir perfume bottle"
+                loading="lazy"
+                className="w-full h-full object-contain object-center transition-transform duration-1000 group-hover:scale-105"
               />
-              <BottleIdentity product={noirProduct} />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0E] via-transparent to-transparent opacity-80" />
 
               {/* Monogram water mark */}

@@ -1,122 +1,91 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Plus, ShoppingBag, Eye } from 'lucide-react';
-import { Product } from '../data/products.ts';
+import { Eye, Heart, ShoppingBag } from 'lucide-react';
+import type { Product } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
-import BottleIdentity from './BottleIdentity.tsx';
-import { handleProductImageError } from '../utils/productImage.ts';
 
 interface ProductCardProps {
   product: Product;
   featured?: boolean;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, featured = false }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const wishlisted = isInWishlist(product.id);
+  const fullSize = product.sizes.find((size) => size.size === '50ML') ?? product.sizes[0];
 
   return (
-    <div className="group flex flex-col bg-[#121212] border border-[#222222] hover:border-[#C6A15B]/40 transition-all duration-500 overflow-hidden relative">
-      {/* Visual Image Container */}
-      <div className="relative aspect-[3/4] bg-[#171717] overflow-hidden flex items-center justify-center">
-        <Link to={`/product/${product.id}`} className="w-full h-full block">
+    <article className="group relative flex flex-col overflow-hidden border border-[#222222] bg-[#121212] transition-all duration-500 hover:-translate-y-1 hover:border-[#C6A15B]/50">
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#E8E3DA]">
+        <Link to={`/product/${product.id}`} aria-label={`View ${product.name} details`} className="block h-full">
           <img
             src={product.image}
-            onError={handleProductImageError}
-            alt={product.name}
+            alt={`${product.name} perfume bottle`}
             loading="lazy"
-            className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
-            style={{ filter: 'brightness(0.92) contrast(1.05)' }}
+            className="h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.035]"
           />
-          <BottleIdentity product={product} />
         </Link>
 
-        {/* Subtle Dark Gradient at bottom of image */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-80 pointer-events-none" />
-
-        {/* Wishlist Button */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleWishlist(product.id);
-          }}
-          className={`absolute top-4 right-4 p-2.5 transition-colors z-10 backdrop-blur-sm ${
-            wishlisted
-              ? 'text-[#C6A15B] bg-[#0B0B0B]/80'
-              : 'text-[#F5F2EC]/60 hover:text-[#C6A15B] bg-[#0B0B0B]/50 hover:bg-[#0B0B0B]/80'
-          }`}
-          aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-        >
-          <Heart className={`w-4 h-4 ${wishlisted ? 'fill-[#C6A15B]' : ''}`} />
-        </button>
-
-        {/* Quiet Kicker on Top Left if Signature */}
-        {product.isSignature && (
-          <div className="absolute top-4 left-4 z-10 pointer-events-none">
-            <span className="text-[9.5px] uppercase tracking-[0.25em] text-[#C6A15B] font-light bg-[#0B0B0B]/80 px-2 py-1 backdrop-blur-sm border border-[#C6A15B]/20">
-              SIGNATURE
-            </span>
-          </div>
+        {product.discounted && (
+          <span className="absolute left-3 top-3 bg-[#9F3434] px-2.5 py-1.5 text-[9px] font-semibold tracking-[0.12em] text-white">
+            -{product.discountPercent}%
+          </span>
         )}
 
-        {/* Hover Quick Action Overlay */}
-        <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-10 flex gap-2 bg-[#0B0B0B]/90 backdrop-blur-md border-t border-[#262626]">
-          <button
-            type="button"
-            onClick={() => addToCart(product, '50ML', 1)}
-            className="flex-1 py-2.5 px-3 bg-[#C6A15B] text-[#0B0B0B] text-[10px] uppercase tracking-[0.2em] font-medium hover:bg-[#DFC27D] transition-colors flex items-center justify-center gap-1.5"
-          >
-            <ShoppingBag className="w-3.5 h-3.5" />
-            <span>ADD TO BAG</span>
-          </button>
-          <Link
-            to={`/product/${product.id}`}
-            className="p-2.5 border border-[#333333] text-[#F5F2EC] hover:text-[#C6A15B] hover:border-[#C6A15B]/50 transition-colors flex items-center justify-center"
-            aria-label="View details"
-          >
-            <Eye className="w-3.5 h-3.5" />
-          </Link>
-        </div>
+        <button
+          type="button"
+          onClick={() => toggleWishlist(product.id)}
+          className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center bg-white/90 text-[#24211E] shadow-sm transition-colors hover:text-[#9F3434] ${
+            wishlisted ? 'text-[#9F3434]' : ''
+          }`}
+          aria-label={wishlisted ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+        >
+          <Heart className={`h-4 w-4 ${wishlisted ? 'fill-current' : ''}`} />
+        </button>
       </div>
 
-      {/* Card Content & Editorial Typography */}
-      <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between space-y-4">
+      <div className="flex flex-1 flex-col justify-between space-y-4 p-4 sm:p-5">
         <div>
-          {/* Unboxed Metadata (Zero-Pill Rule) */}
-          <div className="flex items-center gap-2 text-[10.5px] tracking-[0.22em] uppercase text-[#C6A15B] font-light mb-1.5">
-            <span>{product.family}</span>
-            <span aria-hidden="true">·</span>
-            <span>{product.volume}</span>
-          </div>
-
-          {/* Product Title */}
-          <h3 className="font-serif text-xl sm:text-2xl font-light text-[#F5F2EC] tracking-wide group-hover:text-[#C6A15B] transition-colors">
+          <p className="mb-1.5 text-[9px] font-medium uppercase tracking-[0.2em] text-[#C6A15B]">
+            {product.family} <span aria-hidden="true">·</span> {product.volume}
+          </p>
+          <h2 className="font-serif text-xl font-semibold tracking-wide text-[#F5F2EC] transition-colors group-hover:text-[#DFC27D] sm:text-2xl">
             <Link to={`/product/${product.id}`}>{product.name}</Link>
-          </h3>
-
-          {/* Key Olfactory Notes */}
-          <p className="mt-2 text-xs text-[#F5F2EC]/60 line-clamp-1 font-light tracking-wide">
+          </h2>
+          <p className="mt-1.5 line-clamp-1 text-[11px] text-[#F5F2EC]/60">
             {product.notes.top[0]} · {product.notes.heart[0]} · {product.notes.base[0]}
           </p>
         </div>
 
-        {/* Pricing & Discover Link */}
-        <div className="pt-3 border-t border-[#1F1F1F] flex items-center justify-between">
-          <span className="text-sm sm:text-base font-normal tracking-wider text-[#F5F2EC]">
-            {product.price}
-          </span>
-
-          <Link
-            to={`/product/${product.id}`}
-            className="text-[10px] tracking-[0.22em] uppercase text-[#C6A15B] hover:text-[#DFC27D] transition-colors underline underline-offset-4 decoration-[#C6A15B]/40 font-light"
+        <div className="space-y-3 border-t border-[#292622] pt-3">
+          <div className="flex items-end justify-between gap-3">
+            <div className="flex flex-col">
+              {fullSize.compareAtPrice && (
+                <del className="text-[11px] tracking-wide text-[#F5F2EC]/45">{fullSize.compareAtPrice}</del>
+              )}
+              <span className="text-sm font-semibold tracking-wide text-[#F5F2EC] sm:text-base">
+                {fullSize.price}
+              </span>
+            </div>
+            <Link
+              to={`/product/${product.id}`}
+              className="inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.14em] text-[#C6A15B] transition-colors hover:text-[#DFC27D]"
+            >
+              <Eye className="h-3.5 w-3.5" /> Details
+            </Link>
+          </div>
+          <button
+            type="button"
+            onClick={() => addToCart(product, '50ML', 1)}
+            disabled={!product.stock}
+            className="flex w-full items-center justify-center gap-2 bg-[#C6A15B] px-3 py-2.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#0B0B0B] transition-colors hover:bg-[#DFC27D] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            DISCOVER
-          </Link>
+            <ShoppingBag className="h-3.5 w-3.5" />
+            {product.stock ? 'Add to Cart' : 'Out of Stock'}
+          </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

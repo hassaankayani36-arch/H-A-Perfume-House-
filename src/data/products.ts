@@ -1,7 +1,3 @@
-import bottleNoir from '../assets/images/bottle-noir.jpg';
-import bottleAmber from '../assets/images/bottle-amber.jpg';
-import heroBottle from '../assets/images/hero-bottle.jpg';
-
 export interface FragranceNoteGroup {
   top: string[];
   heart: string[];
@@ -12,6 +8,8 @@ export interface ProductSize {
   size: string;
   price: string;
   rawPrice: number;
+  compareAtPrice?: string;
+  compareAtRawPrice?: number;
   isTester?: boolean;
 }
 
@@ -32,13 +30,23 @@ export interface Product {
   occasion: string;
   howToWear: string;
   image: string;
-  secondaryImage?: string;
+  gallery: string[];
   bestSeller: boolean;
   isSignature: boolean;
+  discounted: boolean;
+  discountPercent?: number;
   volume: string;
+  tags: string[];
+  stock: boolean;
+  longevityPercent: number;
+  projection: string;
+  projectionPercent: number;
 }
 
-const catalogue: Product[] = [
+const catalogue: Omit<
+  Product,
+  'discounted' | 'discountPercent' | 'image' | 'secondaryImage' | 'tags' | 'stock' | 'longevityPercent' | 'projection' | 'projectionPercent'
+>[] = [
   {
     id: 'ha-noir',
     name: 'H&A Noir',
@@ -66,8 +74,6 @@ const catalogue: Product[] = [
     occasion: 'Black Tie, Intimate Dinners, High-Stakes Presence',
     howToWear:
       'Apply 2 to 3 measured sprays to pulse points: behind the ear lobes, base of the throat, and inside the wrists. Allow the fragrance to meld naturally without rubbing.',
-    image: bottleNoir,
-    secondaryImage: heroBottle,
     bestSeller: true,
     isSignature: true,
   },
@@ -98,8 +104,6 @@ const catalogue: Product[] = [
     occasion: 'Ceremonial, Winter Evenings, Boardrooms',
     howToWear:
       'One spray to the sternum and one to each wrist creates an aura that unfolds in regal layers throughout the night.',
-    image: bottleAmber,
-    secondaryImage: bottleNoir,
     bestSeller: true,
     isSignature: true,
   },
@@ -130,8 +134,6 @@ const catalogue: Product[] = [
     occasion: 'Cold Weather, Date Nights, Fireside Lounges',
     howToWear:
       'Spray generously over clothing and warm skin to create a radiant cloud of honeyed resin and spiced woods.',
-    image: heroBottle,
-    secondaryImage: bottleAmber,
     bestSeller: true,
     isSignature: true,
   },
@@ -162,8 +164,6 @@ const catalogue: Product[] = [
     occasion: 'Daytime Executive, Summertime Soirées, Everyday Elegance',
     howToWear:
       'Mist onto collarbones, forearms, and hair for an effervescent burst that remains crisp throughout the day.',
-    image: bottleNoir,
-    secondaryImage: bottleAmber,
     bestSeller: true,
     isSignature: true,
   },
@@ -194,8 +194,6 @@ const catalogue: Product[] = [
     occasion: 'Art Galleries, Autumn Days, Intellectual Presence',
     howToWear:
       'Spray across chest and wrists. Develops a skin-scent intimate sillage that invites people closer.',
-    image: bottleNoir,
-    secondaryImage: heroBottle,
     bestSeller: false,
     isSignature: false,
   },
@@ -225,8 +223,6 @@ const catalogue: Product[] = [
     longevity: '14 Hours',
     occasion: 'Romantic Evenings, Galas, Seductive Aura',
     howToWear: 'Spray on collarbones, the nape of the neck, and scarves.',
-    image: bottleAmber,
-    secondaryImage: bottleNoir,
     bestSeller: false,
     isSignature: false,
   },
@@ -257,8 +253,6 @@ const catalogue: Product[] = [
     occasion: 'Warm Days, High Noon Meetings, Travel',
     howToWear:
       'Apply freely after morning grooming for an elevated, clean presence.',
-    image: bottleNoir,
-    secondaryImage: heroBottle,
     bestSeller: false,
     isSignature: false,
   },
@@ -289,24 +283,186 @@ const catalogue: Product[] = [
     occasion: 'Midnight Events, Leather Jackets, Autumn Nightfall',
     howToWear:
       'One or two sprays are sufficient. An extrait of monumental concentration.',
-    image: heroBottle,
-    secondaryImage: bottleNoir,
     bestSeller: true,
+    isSignature: false,
+  },
+  {
+    id: 'ha-azure-dusk',
+    name: 'H&A Azure Dusk',
+    tagline: 'Coastal Air, Blue Citrus, and Clean Woods',
+    family: 'Fresh',
+    concentration: 'Eau de Parfum — 23% Essence',
+    price: 'PKR 1,300',
+    rawPrice: 1300,
+    volume: '50ML',
+    sizes: [
+      { size: '50ML', price: 'PKR 1,300', rawPrice: 1300 },
+      { size: '100ML', price: 'PKR 2,300', rawPrice: 2300 },
+    ],
+    notes: {
+      top: ['Bitter Orange', 'Sea Salt', 'Juniper'],
+      heart: ['Blue Cypress', 'Lavender', 'Neroli'],
+      base: ['Driftwood', 'White Musk', 'Mineral Amber'],
+    },
+    description:
+      'A bright, mineral breeze over sun-warmed coastlines. Bitter orange and sea salt open into crisp aromatic woods with a soft, clean musk finish.',
+    story:
+      'Azure Dusk captures the cool quiet between the last light of day and the first evening star, bottled for an effortless everyday signature.',
+    sillage: 'Fresh & Noticeable',
+    longevity: '10 Hours',
+    occasion: 'Daytime, Travel, Warm Weather',
+    howToWear: 'Mist over pulse points after dressing for a fresh, composed trail.',
+    bestSeller: false,
+    isSignature: false,
+  },
+  {
+    id: 'ha-fleur-dor',
+    name: "H&A Fleur d'Or",
+    tagline: 'Golden Petals Wrapped in Soft Amber',
+    family: 'Oriental',
+    concentration: 'Eau de Parfum Intense — 26% Essence',
+    price: 'PKR 1,450',
+    rawPrice: 1450,
+    volume: '50ML',
+    sizes: [
+      { size: '50ML', price: 'PKR 1,450', rawPrice: 1450 },
+      { size: '100ML', price: 'PKR 2,450', rawPrice: 2450 },
+    ],
+    notes: {
+      top: ['Orange Blossom', 'Pear Skin', 'Pink Pepper'],
+      heart: ['Jasmine Sambac', 'Golden Rose', 'Iris'],
+      base: ['Amber', 'Vanilla Bean', 'Creamy Sandalwood'],
+    },
+    description:
+      'Luminous white petals meet a warm amber glow. A graceful floral heart rests on creamy woods and vanilla for a soft, enveloping finish.',
+    story:
+      'Inspired by the first golden light falling across an old garden, Fleur d’Or balances delicate florals with the quiet richness of amber.',
+    sillage: 'Soft & Enveloping',
+    longevity: '12 Hours',
+    occasion: 'Evening, Celebrations, Signature Wear',
+    howToWear: 'Apply lightly at the neck and wrists to let the floral amber unfold.',
+    bestSeller: false,
+    isSignature: false,
+  },
+  {
+    id: 'ha-saffron-veil',
+    name: 'H&A Saffron Veil',
+    tagline: 'A Spiced Amber Accord with a Velvet Finish',
+    family: 'Intense',
+    concentration: 'Extrait de Parfum — 31% Essence',
+    price: 'PKR 1,550',
+    rawPrice: 1550,
+    volume: '50ML',
+    sizes: [
+      { size: '50ML', price: 'PKR 1,550', rawPrice: 1550 },
+      { size: '100ML', price: 'PKR 2,650', rawPrice: 2650 },
+    ],
+    notes: {
+      top: ['Saffron', 'Cardamom', 'Mandarin Peel'],
+      heart: ['Suede', 'Rose Absolute', 'Incense'],
+      base: ['Labdanum', 'Oud', 'Vanilla Musk'],
+    },
+    description:
+      'Golden saffron and cool cardamom lead into a suede-soft heart, then settle into deep resins and a lasting veil of warm oud.',
+    story:
+      'Saffron Veil is a modern study of contrast: precious spice softened by polished suede and grounded in a slow-burning amber accord.',
+    sillage: 'Rich & Lasting',
+    longevity: '15+ Hours',
+    occasion: 'Evening, Formal, Cool Weather',
+    howToWear: 'One or two sprays are enough for its warm, long-lasting presence.',
+    bestSeller: true,
+    isSignature: false,
+  },
+  {
+    id: 'ha-atlas-cedar',
+    name: 'H&A Atlas Cedar',
+    tagline: 'Dry Cedarwood, Green Spice, and Quiet Smoke',
+    family: 'Woody',
+    concentration: 'Extrait de Parfum — 29% Essence',
+    price: 'PKR 1,450',
+    rawPrice: 1450,
+    volume: '50ML',
+    sizes: [
+      { size: '50ML', price: 'PKR 1,450', rawPrice: 1450 },
+      { size: '100ML', price: 'PKR 2,500', rawPrice: 2500 },
+    ],
+    notes: {
+      top: ['Juniper Berry', 'Black Pepper', 'Bergamot'],
+      heart: ['Atlas Cedar', 'Clary Sage', 'Vetiver'],
+      base: ['Oakmoss', 'Dry Amber', 'Smoked Woods'],
+    },
+    description:
+      'Crisp green spice opens onto dry cedar and earthy vetiver. A restrained smoky-amber base leaves a polished, quietly distinctive trail.',
+    story:
+      'Named for the strength and stillness of the Atlas mountains, this woody composition keeps its lines clean and its character assured.',
+    sillage: 'Balanced & Refined',
+    longevity: '13 Hours',
+    occasion: 'Day-to-Evening, Work, Autumn',
+    howToWear: 'Wear on the wrists and chest for a steady cedarwood trail.',
+    bestSeller: false,
     isSignature: false,
   },
 ];
 
-const testerSizes: ProductSize[] = [
-  { size: '10ML TESTER', price: 'PKR 300', rawPrice: 300, isTester: true },
-  { size: '20ML TESTER', price: 'PKR 550', rawPrice: 550, isTester: true },
-  { size: '30ML TESTER', price: 'PKR 800', rawPrice: 800, isTester: true },
-];
+const productMetrics: Record<
+  string,
+  Pick<Product, 'stock' | 'longevityPercent' | 'projection' | 'projectionPercent'>
+> = {
+  'ha-noir': { stock: true, longevityPercent: 92, projection: 'Strong', projectionPercent: 86 },
+  'ha-oud': { stock: true, longevityPercent: 96, projection: 'Strong', projectionPercent: 92 },
+  'ha-amber': { stock: true, longevityPercent: 78, projection: 'Moderate', projectionPercent: 69 },
+  'ha-elite': { stock: true, longevityPercent: 66, projection: 'Moderate', projectionPercent: 64 },
+  'ha-santal-imperial': { stock: true, longevityPercent: 77, projection: 'Soft', projectionPercent: 48 },
+  'ha-rose-royale': { stock: true, longevityPercent: 86, projection: 'Strong', projectionPercent: 80 },
+  'ha-vetiver-prive': { stock: true, longevityPercent: 60, projection: 'Moderate', projectionPercent: 58 },
+  'ha-cuir-obscur': { stock: true, longevityPercent: 98, projection: 'Strong', projectionPercent: 96 },
+  'ha-azure-dusk': { stock: true, longevityPercent: 66, projection: 'Moderate', projectionPercent: 62 },
+  'ha-fleur-dor': { stock: true, longevityPercent: 78, projection: 'Moderate', projectionPercent: 69 },
+  'ha-saffron-veil': { stock: true, longevityPercent: 90, projection: 'Strong', projectionPercent: 84 },
+  'ha-atlas-cedar': { stock: true, longevityPercent: 83, projection: 'Moderate', projectionPercent: 72 },
+};
 
-export const products: Product[] = catalogue.map((product) => ({
-  ...product,
-  volume: '50ML',
-  sizes: [
-    ...testerSizes,
-    ...product.sizes.map((size) => ({ ...size, isTester: false })),
-  ],
-}));
+const undiscountedProducts = new Set([
+  'ha-santal-imperial',
+  'ha-vetiver-prive',
+  'ha-azure-dusk',
+  'ha-atlas-cedar',
+]);
+
+export const products: Product[] = catalogue.map((product, productIndex) => {
+  const firstImageNumber = productIndex * 3 + 1;
+  const gallery = Array.from(
+    { length: 3 },
+    (_, imageIndex) =>
+      `/images/perfumes/perfume-${String(firstImageNumber + imageIndex).padStart(2, '0')}.jpg`,
+  );
+  const discounted = !undiscountedProducts.has(product.id);
+
+  return {
+    ...product,
+    ...productMetrics[product.id],
+    tags: [product.family.toUpperCase(), product.family === 'Fresh' ? 'DAYTIME' : 'EVENING'],
+    discounted,
+    discountPercent: discounted
+      ? Math.round((100 / (product.rawPrice + 100)) * 100)
+      : undefined,
+    image: gallery[0],
+    gallery,
+    volume: '50ML',
+    sizes: product.sizes.map((size) => ({
+      ...withDiscount(size, discounted),
+      isTester: false,
+    })),
+  };
+});
+
+function withDiscount(size: ProductSize, discounted: boolean): ProductSize {
+  if (!discounted) return size;
+
+  const compareAtRawPrice = size.rawPrice + 100;
+  return {
+    ...size,
+    compareAtRawPrice,
+    compareAtPrice: `PKR ${compareAtRawPrice.toLocaleString('en-PK')}`,
+  };
+}

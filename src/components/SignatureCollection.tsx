@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag, Eye } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
-import BottleIdentity from './BottleIdentity.tsx';
-import { handleProductImageError } from '../utils/productImage.ts';
 
 export const SignatureCollection: React.FC = () => {
   const { addToCart } = useCart();
@@ -54,18 +52,16 @@ export const SignatureCollection: React.FC = () => {
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
                   <img
                     src={product.image}
-                    onError={handleProductImageError}
                     alt={product.name}
-                    className="w-full h-full object-cover object-center transform transition-transform duration-700 ease-out group-hover:scale-105"
-                    style={{ filter: 'brightness(0.92) contrast(1.08)' }}
+                    loading="lazy"
+                    className="w-full h-full object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <BottleIdentity product={product} />
                 </Link>
 
                 {/* Subtle gradient vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent opacity-70 pointer-events-none" />
 
-                {/* Fragrance Family Unboxed Tag */}
+                {/* Perfume family label */}
                 <div className="absolute top-4 left-4 z-10">
                   <span className="text-[10px] uppercase tracking-[0.25em] text-[#C6A15B] font-light bg-[#0B0B0B]/85 px-2.5 py-1 backdrop-blur-sm border border-[#C6A15B]/20">
                     {product.family}

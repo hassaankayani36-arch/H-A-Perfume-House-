@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/shop" className="hover:text-[#C6A15B] transition-colors">
-                  All 8 Master Flacons →
+                  All 12 House Perfumes →
                 </Link>
               </li>
             </ul>

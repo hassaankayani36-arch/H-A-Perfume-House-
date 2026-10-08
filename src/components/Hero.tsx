@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import heroBottle from '../assets/images/hero-bottle.jpg';
+import { products } from '../data/products.ts';
 
 export const Hero: React.FC = () => {
   return (
@@ -9,8 +9,8 @@ export const Hero: React.FC = () => {
       {/* Background Cinematic Image with Luxury Gradient Vignette */}
       <div className="absolute inset-0 z-0">
         <img
-          src={heroBottle}
-          alt="H&A Luxury Fragrance Flacon"
+          src={products[0].image}
+          alt="H&A Luxury perfume bottle"
           className="w-full h-full object-cover object-center scale-105 transform motion-safe:animate-pulse-subtle transition-transform duration-1000"
           style={{ filter: 'brightness(0.55) contrast(1.15)' }}
         />
@@ -40,7 +40,7 @@ export const Hero: React.FC = () => {
 
         {/* Narrative Subtext */}
         <p className="mt-8 text-base sm:text-lg md:text-xl text-[#F5F2EC]/80 max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
-          Exceptional fragrances crafted for those who leave an impression.
+          Exceptional perfumes crafted for those who leave an impression.
         </p>
 
         {/* Action Buttons */}
@@ -57,7 +57,7 @@ export const Hero: React.FC = () => {
             to="/collections"
             className="w-full sm:w-auto px-8 py-4 border border-[#C6A15B]/60 text-[#F5F2EC] text-xs uppercase tracking-[0.26em] font-light hover:border-[#C6A15B] hover:bg-[#C6A15B]/10 transition-all duration-300 flex items-center justify-center"
           >
-            EXPLORE FRAGRANCES
+            EXPLORE PERFUMES
           </Link>
         </div>
 

@@ -1,10 +1,11 @@
 import type { SyntheticEvent } from 'react';
-import bottleFallback from '../assets/images/bottle-fallback.svg';
 
 export const handleProductImageError = (event: SyntheticEvent<HTMLImageElement>) => {
   const image = event.currentTarget;
-  if (image.dataset.fallbackApplied) return;
+  if (image.dataset.loadFailed) return;
 
-  image.dataset.fallbackApplied = 'true';
-  image.src = bottleFallback;
+  image.dataset.loadFailed = 'true';
+  console.error(`Image failed to load: ${image.currentSrc || image.src}`);
+  image.removeAttribute('src');
+  image.hidden = true;
 };

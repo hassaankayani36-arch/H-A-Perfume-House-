@@ -57,7 +57,7 @@ export const Reviews: React.FC = () => {
             PATRON REFLECTIONS
           </h2>
           <p className="mt-3 text-sm text-[#F5F2EC]/60 font-light">
-            Fragrance notes from the H&amp;A community.
+            Perfume notes from the H&amp;A community.
           </p>
         </div>
 
@@ -168,7 +168,7 @@ export const Reviews: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-[10px] uppercase tracking-widest text-[#C6A15B] mb-1">
-                    Select Fragrance
+                    Select Perfume
                   </label>
                   <select
                     value={form.fragrance}

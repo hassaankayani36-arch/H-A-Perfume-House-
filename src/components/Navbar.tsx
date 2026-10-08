@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, ShoppingBag, Heart, Menu, X, ArrowRight } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, ArrowRight, Moon, Sun } from 'lucide-react';
 import Logo from '../assets/logo/Logo.tsx';
 import { useCart } from '../context/CartContext.tsx';
+import { useTheme } from '../context/ThemeContext.tsx';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { openCart, itemCount, openSearch, wishlist } = useCart();
+  const { itemCount, openSearch } = useCart();
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
   useEffect(() => {
@@ -25,10 +27,8 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { label: 'HOME', path: '/' },
-    { label: 'FRAGRANCES', path: '/shop' },
-    { label: 'COLLECTIONS', path: '/collections' },
-    { label: 'OUR STORY', path: '/about' },
-    { label: 'JOURNAL', path: '/journal' },
+    { label: 'SHOP', path: '/shop' },
+    { label: 'ABOUT US', path: '/about' },
     { label: 'CONTACT', path: '/contact' },
   ];
 
@@ -42,51 +42,13 @@ export const Navbar: React.FC = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-4">
-            {/* Mobile menu button */}
-            <div className="flex items-center lg:hidden">
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(true)}
-                className="p-2 text-[#F5F2EC]/80 hover:text-[#C6A15B] transition-colors focus:outline-none"
-                aria-label="Open navigation menu"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Left Nav (Desktop) */}
-            <nav className="hidden lg:flex items-center gap-7">
-              {navLinks.slice(0, 3).map((link) => {
-                const isActive = location.pathname === link.path;
-                return (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`text-[11.5px] uppercase tracking-[0.24em] transition-all relative py-1 ${
-                      isActive
-                        ? 'text-[#C6A15B] font-medium'
-                        : 'text-[#F5F2EC]/70 hover:text-[#F5F2EC]'
-                    }`}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C6A15B]" />
-                    )}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Centered Brand Logo */}
-            <Link to="/" className="flex items-center justify-center py-0.5">
+          <div className="flex items-center justify-between gap-3 sm:gap-5">
+            <Link to="/" className="flex shrink-0 items-center justify-center py-0.5">
               <Logo size="md" variant="full" />
             </Link>
 
-            {/* Right Nav (Desktop) & Actions */}
-            <div className="flex items-center gap-6">
-              <nav className="hidden lg:flex items-center gap-7">
-                {navLinks.slice(3).map((link) => {
+            <nav className="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Main navigation">
+              {navLinks.map((link) => {
                   const isActive = location.pathname === link.path;
                   return (
                     <Link
@@ -105,55 +67,57 @@ export const Navbar: React.FC = () => {
                     </Link>
                   );
                 })}
-              </nav>
+            </nav>
 
-              {/* Utility Icons */}
-              <div className="flex items-center gap-3.5 sm:gap-4 border-l border-[#262626]/60 pl-4 sm:pl-6">
+            <div className="flex shrink-0 items-center gap-2.5 border-l border-[#262626]/60 pl-3 sm:gap-4 sm:pl-5">
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(true)}
+                  className="p-1.5 text-[#F5F2EC]/80 transition-colors hover:text-[#C6A15B] lg:hidden"
+                  aria-label="Open navigation menu"
+                >
+                  <Menu className="h-5 w-5" />
+                </button>
+                  <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="p-1.5 text-[#F5F2EC]/80 hover:text-[#C6A15B] transition-colors"
+                  aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                  title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                >
+                  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                </button>
+
                 {/* Search */}
                 <button
                   type="button"
                   onClick={openSearch}
                   className="p-1.5 text-[#F5F2EC]/80 hover:text-[#C6A15B] transition-colors"
-                  aria-label="Search fragrances"
+                  aria-label="Search perfumes"
                 >
                   <Search className="w-4 h-4" />
                 </button>
 
-                {/* Wishlist */}
                 <Link
-                  to="/shop?filter=wishlist"
-                  className="p-1.5 text-[#F5F2EC]/80 hover:text-[#C6A15B] transition-colors relative"
-                  aria-label="View wishlist"
+                  to="/cart"
+                  className="relative p-1.5 text-[#F5F2EC]/80 transition-colors hover:text-[#C6A15B]"
+                  aria-label={`Cart${itemCount ? `, ${itemCount} items` : ''}`}
                 >
-                  <Heart className="w-4 h-4" />
-                  {wishlist.length > 0 && (
-                    <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-[#C6A15B]" />
-                  )}
-                </Link>
-
-                {/* Cart Bag */}
-                <button
-                  type="button"
-                  onClick={openCart}
-                  className="p-1.5 text-[#F5F2EC]/80 hover:text-[#C6A15B] transition-colors relative"
-                  aria-label="Open shopping bag"
-                >
-                  <ShoppingBag className="w-4 h-4" />
+                  <ShoppingBag className="h-4 w-4" />
                   {itemCount > 0 && (
                     <span className="absolute -top-1 -right-1.5 bg-[#C6A15B] text-[#0B0B0B] text-[9.5px] font-semibold h-4 min-w-4 px-1 rounded-full flex items-center justify-center">
                       {itemCount}
                     </span>
                   )}
-                </button>
+                </Link>
 
                 {/* SHOP NOW button */}
                 <Link
                   to="/shop"
-                  className="hidden sm:inline-flex items-center gap-2 border border-[#C6A15B] text-[#C6A15B] hover:bg-[#C6A15B] hover:text-[#0B0B0B] px-3.5 py-1.5 text-[10px] tracking-[0.24em] uppercase transition-all duration-300 font-medium"
+                  className="hidden items-center gap-2 border border-[#C6A15B] px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.24em] text-[#C6A15B] transition-all duration-300 hover:bg-[#C6A15B] hover:text-[#0B0B0B] sm:inline-flex"
                 >
                   <span>SHOP NOW</span>
                 </Link>
-              </div>
             </div>
           </div>
         </div>
@@ -207,7 +171,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full block text-center bg-[#C6A15B] text-[#0B0B0B] py-3 text-xs tracking-[0.22em] uppercase font-medium hover:bg-[#DFC27D] transition-colors"
               >
-                SHOP ALL FRAGRANCES
+                SHOP ALL PERFUMES
               </Link>
               <p className="text-[10px] text-center text-[#F5F2EC]/40 tracking-widest uppercase">
                 DEFINE YOUR PRESENCE.

@@ -59,7 +59,7 @@ export const FragranceFinder: React.FC = () => {
             FIND YOUR SIGNATURE
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/60 font-light leading-relaxed">
-            Select an olfactory family below to uncover the fragrance engineered for your presence.
+            Select a perfume family below to find the H&amp;A perfume made for your presence.
           </p>
 
           {/* Interactive Family Selector (Clean luxury tabs) */}

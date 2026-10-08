@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Founders from '../components/Founders.tsx';
-import heroBottle from '../assets/images/hero-bottle.jpg';
-import bottleNoir from '../assets/images/bottle-noir.jpg';
 import { Sparkles, ShieldCheck, Compass, HeartHandshake } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { products } from '../data/products.ts';
 
 export const About: React.FC = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#0B0B0B] text-[#F5F2EC]">
       {/* Editorial Header */}
@@ -23,7 +18,7 @@ export const About: React.FC = () => {
             <span className="italic text-[#C6A15B] font-normal">OF PRESENCE.</span>
           </h1>
           <p className="mt-6 text-sm sm:text-base md:text-lg text-[#F5F2EC]/75 font-light leading-relaxed max-w-2xl mx-auto">
-            H&amp;A Luxury was founded by Hassaan Kayani and Arslan Qamar on a simple conviction: fragrance is
+            H&amp;A Luxury was founded by Hassaan Kayani and Arslan Qamar on a simple conviction: perfume is
             the most potent form of memory and personal gravity.
           </p>
         </div>
@@ -58,13 +53,47 @@ export const About: React.FC = () => {
             <div className="md:col-span-6">
               <div className="relative aspect-[4/5] bg-[#141414] border border-[#262626] overflow-hidden">
                 <img
-                  src={bottleNoir}
+                  src={products[0].image}
                   alt="H&A Atelier craftsmanship"
-                  className="w-full h-full object-cover"
-                  style={{ filter: 'brightness(0.9) contrast(1.1)' }}
+                  loading="lazy"
+                  className="w-full h-full object-contain"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-transparent to-transparent opacity-80" />
               </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 border-y border-[#1C1C1C] py-8 text-center">
+            {[
+              { value: '12', label: 'House perfumes' },
+              { value: '4', label: 'Perfume families' },
+              { value: '2', label: 'Founders, one vision' },
+            ].map((stat) => (
+              <div key={stat.label} className="px-2">
+                <p className="font-serif text-3xl text-[#C6A15B] sm:text-4xl">{stat.value}</p>
+                <p className="mt-1 text-[9px] uppercase tracking-[0.16em] text-[#F5F2EC]/55 sm:text-[10px]">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div className="border border-[#262626] bg-[#121212] p-7 sm:p-9">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#C6A15B]">Our mission</span>
+              <h3 className="mt-3 font-serif text-2xl">Make lasting presence personal.</h3>
+              <p className="mt-3 text-sm leading-relaxed text-[#F5F2EC]/65">
+                Create expressive, thoughtfully composed perfumes that make the everyday feel individual
+                and memorable.
+              </p>
+            </div>
+            <div className="border border-[#262626] bg-[#121212] p-7 sm:p-9">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#C6A15B]">Our vision</span>
+              <h3 className="mt-3 font-serif text-2xl">A distinct H&amp;A signature.</h3>
+              <p className="mt-3 text-sm leading-relaxed text-[#F5F2EC]/65">
+                Build a house recognised for considered design, a clear point of view, and perfumes
+                made to be remembered.
+              </p>
             </div>
           </div>
 

@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { products } from '../data/products.ts';
 import { useCart } from '../context/CartContext.tsx';
-import BottleIdentity from './BottleIdentity.tsx';
-import { handleProductImageError } from '../utils/productImage.ts';
 
 export const BestSellers: React.FC = () => {
   const { addToCart } = useCart();
@@ -51,21 +49,21 @@ export const BestSellers: React.FC = () => {
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
                   <img
                     src={product.image}
-                    onError={handleProductImageError}
-                    alt={product.name}
-                    className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                    style={{ filter: 'brightness(0.92) contrast(1.08)' }}
+                    alt={`${product.name} perfume bottle`}
+                    loading="lazy"
+                    className="w-full h-full object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <BottleIdentity product={product} />
                 </Link>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-80 pointer-events-none" />
 
-                <div className="absolute top-4 right-4 z-10 bg-[#0B0B0B]/85 px-2.5 py-1 border border-[#2A2A2A]">
-                  <span className="text-[9px] uppercase tracking-[0.16em] text-[#F5F2EC]/75">
-                    H&amp;A EDIT
-                  </span>
-                </div>
+                  {product.discounted && (
+                    <div className="absolute right-4 top-4 z-10 bg-[#9F3434] px-2.5 py-1.5">
+                      <span className="text-[9px] font-semibold tracking-[0.12em] text-white">
+                        -{product.discountPercent}%
+                      </span>
+                    </div>
+                  )}
 
                 {/* Family */}
                 <div className="absolute top-4 left-4 z-10">
@@ -88,9 +86,16 @@ export const BestSellers: React.FC = () => {
 
                 <div className="pt-4 border-t border-[#1C1C1C] space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-base font-normal text-[#F5F2EC] tracking-wide">
-                      {product.price}
-                    </span>
+                    <div className="flex flex-col">
+                      {product.discounted && product.sizes.find((size) => size.size === '50ML')?.compareAtPrice && (
+                        <del className="text-[11px] text-[#F5F2EC]/45">
+                          {product.sizes.find((size) => size.size === '50ML')?.compareAtPrice}
+                        </del>
+                      )}
+                      <span className="text-base font-normal tracking-wide text-[#F5F2EC]">
+                        {product.price}
+                      </span>
+                    </div>
                     <span className="text-[10px] text-[#F5F2EC]/50 uppercase tracking-widest">
                       {product.volume}
                     </span>
