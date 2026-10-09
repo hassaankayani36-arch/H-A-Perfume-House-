@@ -1,16 +1,12 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { products } from '../data/products.js';
+import heroBottle from '../assets/images/hero-bottle.jpg';
 export const Hero = () => {
     return (<section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-[#0B0B0B]">
-      {/* Background Cinematic Image with Luxury Gradient Vignette */}
+      {/* Simple, centered perfume image keeps the hero clear and easy to read. */}
       <div className="absolute inset-0 z-0">
-        <img src={products[0].image} alt="H&A Luxury perfume bottle" className="w-full h-full object-cover object-center scale-105 transform motion-safe:animate-pulse-subtle transition-transform duration-1000" style={{ filter: 'brightness(0.55) contrast(1.15)' }}/>
-        {/* Deep dark cinematic gradient masks */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/60 to-[#0B0B0B]/85"/>
-        <div className="absolute inset-0 bg-radial from-transparent via-[#0B0B0B]/40 to-[#0B0B0B]"/>
-        {/* Subtle golden ambient aura */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#C6A15B]/10 rounded-full blur-[140px] pointer-events-none"/>
+        <img src={heroBottle} alt="H&A Luxury perfume bottle" className="w-full h-full object-cover object-center" style={{ filter: 'brightness(0.62) contrast(1.05)' }}/>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0B]/45 via-[#0B0B0B]/25 to-[#0B0B0B]/75"/>
       </div>
 
       {/* Hero Content */}

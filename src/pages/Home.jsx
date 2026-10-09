@@ -4,13 +4,11 @@ import BrandStatement from '../components/BrandStatement.jsx';
 import SignatureCollection from '../components/SignatureCollection.jsx';
 import FeaturedFragrance from '../components/FeaturedFragrance.jsx';
 import FragranceFinder from '../components/FragranceFinder.jsx';
-import Founders from '../components/Founders.jsx';
 import Lifestyle from '../components/Lifestyle.jsx';
 import BestSellers from '../components/BestSellers.jsx';
 import Packaging from '../components/Packaging.jsx';
 import Reviews from '../components/Reviews.jsx';
 import Journal from '../components/Journal.jsx';
-import Instagram from '../components/Instagram.jsx';
 import Newsletter from '../components/Newsletter.jsx';
 import FinalCTA from '../components/FinalCTA.jsx';
 export const Home = () => {
@@ -33,10 +31,7 @@ export const Home = () => {
       {/* 7. Find Your Signature (Fresh, Woody, Oriental, Intense) */}
       <FragranceFinder />
 
-      {/* 8. Founders Section ("THE STORY OF H&A", Hassaan & Arslan) */}
-      <Founders />
-
-      {/* 9. Lifestyle ("WEAR THE MOMENT.") */}
+      {/* 8. Lifestyle ("WEAR THE MOMENT.") */}
       <Lifestyle />
 
       {/* 10. Most Wanted (Best Sellers with rating and Add to Bag) */}
@@ -51,8 +46,7 @@ export const Home = () => {
       {/* 13. The H&A Journal (3 article cards) */}
       <Journal />
 
-      {/* 14. Instagram grid "@H&A Luxury" */}
-      <Instagram />
+      {/* <Instagram /> Temporarily hidden until the content is ready to update. */}
 
       {/* 15. Newsletter ("ENTER THE WORLD OF H&A.") */}
       <Newsletter />

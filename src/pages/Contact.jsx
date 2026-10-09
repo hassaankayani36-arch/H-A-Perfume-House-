@@ -67,8 +67,8 @@ export const Contact = () => {
                     <a href="tel:+923190731434" className="block text-[#F5F2EC] font-mono hover:text-[#C6A15B]">
                       Hassaan Kayani · +92 319 0731434
                     </a>
-                    <a href="tel:+923099282467" className="mt-1 block text-[#F5F2EC] font-mono hover:text-[#C6A15B]">
-                      Arslan Qamar · +92 309 9282467
+                    <a href="tel:+923190731434" className="mt-1 block text-[#F5F2EC] font-mono hover:text-[#C6A15B]">
+                      Arslan Qamar · +92 319 0731434
                     </a>
                   </div>
                 </div>
