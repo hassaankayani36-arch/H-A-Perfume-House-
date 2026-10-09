@@ -1,101 +1,101 @@
-import { jsx, jsxs } from "react/jsx-runtime";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import { products } from "../data/products.js";
-import ProductCard from "./ProductCard.jsx";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { products } from '../data/products.js';
+import ProductCard from './ProductCard.jsx';
 const familyProfiles = {
-  Fresh: {
-    subtitle: "Bright & Aromatic",
-    description: "Fresh, clean perfumes with citrus, aquatic, or aromatic notes.",
-    mood: "Crisp, Vigorous, Executive",
-    archetype: "The Visionary at High Noon"
-  },
-  Woody: {
-    subtitle: "Woods & Leather",
-    description: "Grounded compositions with warm wood and leather-inspired notes.",
-    mood: "Contemplative, Aristocratic, Steadfast",
-    archetype: "The Quiet Authority"
-  },
-  Oriental: {
-    subtitle: "Amber, Spice & Florals",
-    description: "Warm perfumes with amber, spice, floral, or gourmand facets.",
-    mood: "Sensual, Intimate, Warm",
-    archetype: "The Seductive Icon"
-  },
-  Intense: {
-    subtitle: "Distinctive Compositions",
-    description: "Explore perfumes with varied notes, styles, and expressive character.",
-    mood: "Hypnotic, Bold, Unapologetic",
-    archetype: "The Master of the Evening"
-  }
+    Fresh: {
+        subtitle: 'Bright & Aromatic',
+        description: 'Fresh, clean perfumes with citrus, aquatic, or aromatic notes.',
+        mood: 'Crisp, Vigorous, Executive',
+        archetype: 'The Visionary at High Noon',
+    },
+    Woody: {
+        subtitle: 'Woods & Leather',
+        description: 'Grounded compositions with warm wood and leather-inspired notes.',
+        mood: 'Contemplative, Aristocratic, Steadfast',
+        archetype: 'The Quiet Authority',
+    },
+    Oriental: {
+        subtitle: 'Amber, Spice & Florals',
+        description: 'Warm perfumes with amber, spice, floral, or gourmand facets.',
+        mood: 'Sensual, Intimate, Warm',
+        archetype: 'The Seductive Icon',
+    },
+    Intense: {
+        subtitle: 'Distinctive Compositions',
+        description: 'Explore perfumes with varied notes, styles, and expressive character.',
+        mood: 'Hypnotic, Bold, Unapologetic',
+        archetype: 'The Master of the Evening',
+    },
 };
-const FragranceFinder = () => {
-  const [selectedFamily, setSelectedFamily] = useState("Intense");
-  const filteredProducts = products.filter((p) => p.family === selectedFamily);
-  const profile = familyProfiles[selectedFamily];
-  return /* @__PURE__ */ jsx("section", { className: "py-24 sm:py-32 bg-[#0B0B0B] border-t border-[#1C1C1C] relative", children: /* @__PURE__ */ jsxs("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", children: [
-    /* @__PURE__ */ jsxs("div", { className: "text-center max-w-3xl mx-auto mb-16", children: [
-      /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center gap-2 mb-3", children: [
-        /* @__PURE__ */ jsx("span", { className: "w-5 h-[1px] bg-[#C6A15B]" }),
-        /* @__PURE__ */ jsx("span", { className: "text-[10px] tracking-[0.35em] uppercase text-[#C6A15B] font-light", children: "OLFACTORY COMPASS" }),
-        /* @__PURE__ */ jsx("span", { className: "w-5 h-[1px] bg-[#C6A15B]" })
-      ] }),
-      /* @__PURE__ */ jsx("h2", { className: "font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide", children: "FIND YOUR SIGNATURE" }),
-      /* @__PURE__ */ jsx("p", { className: "mt-4 text-sm sm:text-base text-[#F5F2EC]/60 font-light leading-relaxed", children: "Select a perfume family to browse matching products from our curated selection." }),
-      /* @__PURE__ */ jsx("div", { className: "mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-4 p-1.5 bg-[#141414] border border-[#242424] max-w-xl mx-auto", children: ["Fresh", "Woody", "Oriental", "Intense"].map((family) => {
-        const active = selectedFamily === family;
-        return /* @__PURE__ */ jsx(
-          "button",
-          {
-            type: "button",
-            onClick: () => setSelectedFamily(family),
-            className: `flex-1 min-w-[90px] py-2.5 px-4 text-xs uppercase tracking-[0.22em] transition-all duration-300 font-light ${active ? "bg-[#0B0B0B] text-[#C6A15B] shadow-sm border border-[#C6A15B]/40 font-medium" : "text-[#F5F2EC]/60 hover:text-[#F5F2EC]"}`,
-            children: family
-          },
-          family
-        );
-      }) })
-    ] }),
-    /* @__PURE__ */ jsxs("div", { className: "mb-14 p-6 sm:p-8 bg-[#121212] border border-[#222222] max-w-4xl mx-auto text-center", children: [
-      /* @__PURE__ */ jsx("span", { className: "text-[10px] tracking-[0.3em] uppercase text-[#C6A15B] font-medium block mb-2", children: profile.subtitle }),
-      /* @__PURE__ */ jsxs("p", { className: "text-sm sm:text-base text-[#F5F2EC]/80 font-light leading-relaxed max-w-2xl mx-auto", children: [
-        "\u201C",
-        profile.description,
-        "\u201D"
-      ] }),
-      /* @__PURE__ */ jsxs("div", { className: "mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-[#F5F2EC]/50 font-light pt-4 border-t border-[#1C1C1C]", children: [
-        /* @__PURE__ */ jsxs("span", { children: [
-          "MOOD: ",
-          /* @__PURE__ */ jsx("strong", { className: "text-[#F5F2EC] font-normal", children: profile.mood })
-        ] }),
-        /* @__PURE__ */ jsx("span", { children: "\xB7" }),
-        /* @__PURE__ */ jsxs("span", { children: [
-          "ARCHETYPE: ",
-          /* @__PURE__ */ jsx("strong", { className: "text-[#C6A15B] font-normal", children: profile.archetype })
-        ] })
-      ] })
-    ] }),
-    /* @__PURE__ */ jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8", children: filteredProducts.map((product) => /* @__PURE__ */ jsx(ProductCard, { product }, product.id)) }),
-    /* @__PURE__ */ jsx("div", { className: "mt-14 text-center", children: /* @__PURE__ */ jsxs(
-      Link,
-      {
-        to: `/shop?family=${selectedFamily}`,
-        className: "inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-8 decoration-[#C6A15B]/40 font-light transition-colors",
-        children: [
-          /* @__PURE__ */ jsxs("span", { children: [
-            "EXPLORE ",
-            selectedFamily.toUpperCase(),
-            " PERFUMES"
-          ] }),
-          /* @__PURE__ */ jsx(ArrowRight, { className: "w-3.5 h-3.5" })
-        ]
-      }
-    ) })
-  ] }) });
+export const FragranceFinder = () => {
+    const [selectedFamily, setSelectedFamily] = useState('Intense');
+    const filteredProducts = products.filter((p) => p.family === selectedFamily);
+    const profile = familyProfiles[selectedFamily];
+    return (<section className="py-24 sm:py-32 bg-[#0B0B0B] border-t border-[#1C1C1C] relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="w-5 h-[1px] bg-[#C6A15B]"/>
+            <span className="text-[10px] tracking-[0.35em] uppercase text-[#C6A15B] font-light">
+              OLFACTORY COMPASS
+            </span>
+            <span className="w-5 h-[1px] bg-[#C6A15B]"/>
+          </div>
+          <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
+            FIND YOUR SIGNATURE
+          </h2>
+          <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/60 font-light leading-relaxed">
+            Select a perfume family to browse matching products from our curated selection.
+          </p>
+
+          {/* Interactive Family Selector (Clean luxury tabs) */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-4 p-1.5 bg-[#141414] border border-[#242424] max-w-xl mx-auto">
+            {['Fresh', 'Woody', 'Oriental', 'Intense'].map((family) => {
+            const active = selectedFamily === family;
+            return (<button key={family} type="button" onClick={() => setSelectedFamily(family)} className={`flex-1 min-w-[90px] py-2.5 px-4 text-xs uppercase tracking-[0.22em] transition-all duration-300 font-light ${active
+                    ? 'bg-[#0B0B0B] text-[#C6A15B] shadow-sm border border-[#C6A15B]/40 font-medium'
+                    : 'text-[#F5F2EC]/60 hover:text-[#F5F2EC]'}`}>
+                  {family}
+                </button>);
+        })}
+          </div>
+        </div>
+
+        {/* Selected Family Brief & Archetype */}
+        <div className="mb-14 p-6 sm:p-8 bg-[#121212] border border-[#222222] max-w-4xl mx-auto text-center">
+          <span className="text-[10px] tracking-[0.3em] uppercase text-[#C6A15B] font-medium block mb-2">
+            {profile.subtitle}
+          </span>
+          <p className="text-sm sm:text-base text-[#F5F2EC]/80 font-light leading-relaxed max-w-2xl mx-auto">
+            &ldquo;{profile.description}&rdquo;
+          </p>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-[#F5F2EC]/50 font-light pt-4 border-t border-[#1C1C1C]">
+            <span>
+              MOOD: <strong className="text-[#F5F2EC] font-normal">{profile.mood}</strong>
+            </span>
+            <span>·</span>
+            <span>
+              ARCHETYPE: <strong className="text-[#C6A15B] font-normal">{profile.archetype}</strong>
+            </span>
+          </div>
+        </div>
+
+        {/* Recommended Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map((product) => (<ProductCard key={product.id} product={product}/>))}
+        </div>
+
+        {/* View all in Shop with filter */}
+        <div className="mt-14 text-center">
+          <Link to={`/shop?family=${selectedFamily}`} className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-8 decoration-[#C6A15B]/40 font-light transition-colors">
+            <span>EXPLORE {selectedFamily.toUpperCase()} PERFUMES</span>
+            <ArrowRight className="w-3.5 h-3.5"/>
+          </Link>
+        </div>
+      </div>
+    </section>);
 };
-var FragranceFinder_default = FragranceFinder;
-export {
-  FragranceFinder,
-  FragranceFinder_default as default
-};
+export default FragranceFinder;
