@@ -137,7 +137,7 @@ export const Contact = () => {
                     <label className="block text-[10px] uppercase tracking-widest text-[#F5F2EC]/60 mb-2">
                       Full Name *
                     </label>
-                    <input type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Arslan Malik" className="w-full bg-[#0B0B0B] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
+                    <input type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Hassaan Kayani" className="w-full bg-[#0B0B0B] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
                   </div>
 
                   <div>
@@ -153,7 +153,7 @@ export const Contact = () => {
                     <label className="block text-[10px] uppercase tracking-widest text-[#F5F2EC]/60 mb-2">
                       Phone Number (Optional)
                     </label>
-                    <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+92 300 1234567" className="w-full bg-[#0B0B0B] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
+                    <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+92 319 0731434" className="w-full bg-[#0B0B0B] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
                   </div>
 
                   <div>
