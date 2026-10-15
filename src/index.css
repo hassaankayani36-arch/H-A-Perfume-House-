@@ -26,11 +26,89 @@ body {
 }
 
 .fragrance-image-frame {
-  background: radial-gradient(ellipse at 50% 38%, #fffdf8 0%, #f1ece2 62%, #e7dfd2 100%);
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgb(198 161 91 / 12%), transparent 48%),
+    linear-gradient(145deg, #1c1a17 0%, #11100e 58%, #211b12 100%);
+}
+
+.fragrance-image-frame::after {
+  position: absolute;
+  z-index: -1;
+  right: 12%;
+  bottom: 8%;
+  left: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(198 161 91 / 42%), transparent);
+  content: "";
 }
 
 .fragrance-product-image {
   mix-blend-mode: normal;
+}
+
+.product-card {
+  box-shadow: 0 12px 34px rgb(0 0 0 / 16%);
+  transition:
+    transform 400ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    border-color 300ms ease,
+    box-shadow 400ms ease;
+}
+
+.product-card:hover {
+  border-color: rgb(198 161 91 / 58%);
+  box-shadow: 0 22px 48px rgb(0 0 0 / 34%), 0 0 24px rgb(198 161 91 / 7%);
+  transform: translateY(-7px);
+}
+
+.product-card-enter {
+  animation: product-card-enter 650ms both cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+@supports (animation-timeline: view()) {
+  .product-card-enter {
+    animation: product-card-scroll 500ms both ease-out;
+    animation-timeline: view();
+    animation-range: entry 0% entry 32%;
+  }
+}
+
+@keyframes product-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes product-card-scroll {
+  from {
+    opacity: 0.45;
+    transform: translateY(24px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card-enter {
+    animation: none;
+    animation-timeline: auto;
+  }
+
+  .product-card,
+  .product-card * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 h1, h2, h3, h4, h5, .font-serif {

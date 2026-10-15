@@ -101,9 +101,10 @@ export const FeaturedFragrance = () => {
                 <span className="text-xs uppercase tracking-[0.2em] text-[#F5F2EC]/60">
                   SELECT VOLUME
                 </span>
-                <span className="font-serif text-2xl sm:text-3xl text-[#F5F2EC] font-light tracking-wide">
+                <span className="font-serif text-2xl sm:text-3xl text-[#DFC27D] font-light tracking-wide">
                   <del className="mr-2 text-base text-[#F5F2EC]/45">{currentSizeObj.compareAtPrice}</del>
                   {currentSizeObj.price}
+                    <span className="ml-2 align-middle font-sans text-[10px] font-semibold tracking-[0.14em] text-[#DFC27D]">SAVE {featuredProduct.discountPercent}%</span>
                 </span>
               </div>
 

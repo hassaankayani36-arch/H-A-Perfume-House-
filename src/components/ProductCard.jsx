@@ -5,17 +5,17 @@ export const ProductCard = ({ product }) => {
     const { addToCart, toggleWishlist, isInWishlist } = useCart();
     const wishlisted = isInWishlist(product.id);
     const fullSize = product.sizes.find((size) => size.size === '50ML') ?? product.sizes[0];
-    return (<article className="group relative flex flex-col overflow-hidden border border-[#222222] bg-[#121212] transition-all duration-500 hover:-translate-y-1 hover:border-[#C6A15B]/50">
+    return (<article className="product-card group relative flex h-full flex-col overflow-hidden rounded-sm border border-[#2a2722] bg-gradient-to-b from-[#171614] to-[#10100f]">
       <div className="fragrance-image-frame relative aspect-[4/5] overflow-hidden">
         <Link to={`/product/${product.id}`} aria-label={`View ${product.name} details`} className="block h-full">
           <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="fragrance-product-image h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.035]"/>
         </Link>
 
-        {product.discounted && (<span className="absolute left-3 top-3 bg-[#9F3434] px-2.5 py-1.5 text-[9px] font-semibold tracking-[0.12em] text-white">
-            -{product.discountPercent}%
+        {product.discounted && (<span className="absolute left-3 top-3 border border-[#e7c87f]/40 bg-[#17130d]/90 px-3 py-1.5 text-[9px] font-semibold tracking-[0.14em] text-[#e7c87f] shadow-lg backdrop-blur-sm">
+            SAVE {product.discountPercent}%
           </span>)}
 
-        <button type="button" onClick={() => toggleWishlist(product.id)} className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center bg-white/90 text-[#24211E] shadow-sm transition-colors hover:text-[#9F3434] ${wishlisted ? 'text-[#9F3434]' : ''}`} aria-label={wishlisted ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}>
+        <button type="button" onClick={() => toggleWishlist(product.id)} className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-[#11100e]/75 text-[#F5F2EC] shadow-sm backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-[#C6A15B]/50 hover:text-[#DFC27D] ${wishlisted ? 'text-[#DFC27D]' : ''}`} aria-label={wishlisted ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}>
           <Heart className={`h-4 w-4 ${wishlisted ? 'fill-current' : ''}`}/>
         </button>
       </div>
@@ -25,7 +25,7 @@ export const ProductCard = ({ product }) => {
           <p className="mb-1.5 text-[9px] font-medium uppercase tracking-[0.2em] text-[#C6A15B]">
             {product.family} <span aria-hidden="true">·</span> {product.volume}
           </p>
-          <h2 className="font-serif text-xl font-semibold tracking-wide text-[#F5F2EC] transition-colors group-hover:text-[#DFC27D] sm:text-2xl">
+          <h2 className="font-serif text-xl font-semibold tracking-wide text-[#F5F2EC] transition-colors duration-300 group-hover:text-[#DFC27D] sm:text-2xl">
             <Link to={`/product/${product.id}`}>{product.name}</Link>
           </h2>
           <p className="mt-1.5 line-clamp-1 text-[11px] text-[#F5F2EC]/60">
@@ -36,8 +36,8 @@ export const ProductCard = ({ product }) => {
         <div className="space-y-3 border-t border-[#292622] pt-3">
           <div className="flex items-end justify-between gap-3">
             <div className="flex flex-col">
-              {fullSize.compareAtPrice && (<del className="text-[11px] tracking-wide text-[#F5F2EC]/45">{fullSize.compareAtPrice}</del>)}
-              <span className="text-sm font-semibold tracking-wide text-[#F5F2EC] sm:text-base">
+              {fullSize.compareAtPrice && (<del className="text-[11px] tracking-wide text-[#F5F2EC]/40">{fullSize.compareAtPrice}</del>)}
+              <span className="text-sm font-semibold tracking-wide text-[#DFC27D] sm:text-base">
                 {fullSize.price}
               </span>
             </div>
@@ -45,7 +45,7 @@ export const ProductCard = ({ product }) => {
               <Eye className="h-3.5 w-3.5"/> Details
             </Link>
           </div>
-          <button type="button" onClick={() => addToCart(product, '50ML', 1)} disabled={!product.stock} className="flex w-full items-center justify-center gap-2 bg-[#C6A15B] px-3 py-2.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#0B0B0B] transition-colors hover:bg-[#DFC27D] disabled:cursor-not-allowed disabled:opacity-50">
+          <button type="button" onClick={() => addToCart(product, '50ML', 1)} disabled={!product.stock} className="flex w-full items-center justify-center gap-2 rounded-sm bg-[#C6A15B] px-3 py-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B0B0B] transition-all duration-300 hover:bg-[#DFC27D] hover:shadow-[0_0_22px_rgba(198,161,91,0.18)] disabled:cursor-not-allowed disabled:opacity-50">
             <ShoppingBag className="h-3.5 w-3.5"/>
             {product.stock ? 'Add to Cart' : 'Out of Stock'}
           </button>

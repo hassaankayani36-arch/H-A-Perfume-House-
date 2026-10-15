@@ -32,16 +32,16 @@ export const BestSellers = () => {
 
         {/* Best sellers grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {mostWanted.slice(0, 4).map((product) => (<div key={product.id} className="group bg-[#121212] border border-[#222222] hover:border-[#C6A15B]/40 transition-all duration-500 flex flex-col justify-between">
+          {mostWanted.slice(0, 4).map((product) => (<div key={product.id} className="product-card group flex flex-col justify-between overflow-hidden rounded-sm border border-[#2a2722] bg-gradient-to-b from-[#171614] to-[#10100f]">
               {/* Product Visual */}
               <div className="fragrance-image-frame relative aspect-[4/5] overflow-hidden">
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
                   <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="fragrance-product-image w-full h-full object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"/>
                 </Link>
 
-                  {product.discounted && (<div className="absolute right-4 top-4 z-10 bg-[#9F3434] px-2.5 py-1.5">
-                      <span className="text-[9px] font-semibold tracking-[0.12em] text-white">
-                        -{product.discountPercent}%
+                  {product.discounted && (<div className="absolute right-4 top-4 z-10 border border-[#e7c87f]/40 bg-[#17130d]/90 px-3 py-1.5 backdrop-blur-sm">
+                      <span className="text-[9px] font-semibold tracking-[0.12em] text-[#e7c87f]">
+                        SAVE {product.discountPercent}%
                       </span>
                     </div>)}
 
@@ -67,10 +67,10 @@ export const BestSellers = () => {
                 <div className="pt-4 border-t border-[#1C1C1C] space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
-                      {product.discounted && product.sizes.find((size) => size.size === '50ML')?.compareAtPrice && (<del className="text-[11px] text-[#F5F2EC]/45">
+                      {product.discounted && product.sizes.find((size) => size.size === '50ML')?.compareAtPrice && (<del className="text-[11px] text-[#F5F2EC]/40">
                           {product.sizes.find((size) => size.size === '50ML')?.compareAtPrice}
                         </del>)}
-                      <span className="text-base font-normal tracking-wide text-[#F5F2EC]">
+                      <span className="text-base font-normal tracking-wide text-[#DFC27D]">
                         {product.price}
                       </span>
                     </div>

@@ -34,7 +34,7 @@ export const SignatureCollection = () => {
 
         {/* 4 Large Signature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {signatureProducts.map((product) => (<div key={product.id} className="group flex flex-col bg-[#141414] border border-[#262626] hover:border-[#C6A15B]/50 transition-all duration-500 overflow-hidden">
+          {signatureProducts.map((product) => (<div key={product.id} className="product-card group flex flex-col overflow-hidden rounded-sm border border-[#2a2722] bg-gradient-to-b from-[#171614] to-[#10100f]">
               {/* Large Image Frame */}
               <div className="fragrance-image-frame relative aspect-[4/5] overflow-hidden">
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
@@ -50,7 +50,7 @@ export const SignatureCollection = () => {
               </div>
 
               {/* Card Body */}
-              <div className="p-6 flex flex-col flex-1 justify-between space-y-6">
+              <div className="flex flex-1 flex-col justify-between space-y-6 p-5 sm:p-6">
                 <div>
                   <h3 className="font-serif text-2xl font-light text-[#F5F2EC] tracking-wide group-hover:text-[#C6A15B] transition-colors">
                     <Link to={`/product/${product.id}`}>{product.name}</Link>
@@ -72,10 +72,12 @@ export const SignatureCollection = () => {
 
                 {/* Price and Action Buttons */}
                 <div className="pt-4 border-t border-[#222222] space-y-4">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-base text-[#F5F2EC] font-normal tracking-wide">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="flex flex-col text-base font-normal tracking-wide text-[#DFC27D]">
+                      <del className="text-[10px] text-[#F5F2EC]/40">{product.sizes.find((size) => size.size === '50ML')?.compareAtPrice}</del>
                       {product.sizes.find((size) => size.size === '50ML')?.price ?? product.price}
                     </span>
+                    <span className="text-[9px] font-semibold uppercase tracking-widest text-[#DFC27D]">SAVE {product.discountPercent}%</span>
                     <span className="text-[10px] text-[#F5F2EC]/50 tracking-widest uppercase">
                       50ML FLACON
                     </span>

@@ -77,7 +77,8 @@ export const products = transparentSourceProducts.map((sourceProduct, index) => 
         heart: sourceProduct.heartNotes.map(String),
         base: sourceProduct.baseNotes.map(String),
     };
-    const discountedPrice = Math.max(0, price - 100);
+    const discountPercent = index % 2 === 0 ? 10 : 5;
+    const discountedPrice = Math.round(price * (1 - discountPercent / 100));
     const image = gallery[0];
     const sizes = sourceProduct.sizes.map((size) => ({
         size: String(size).toUpperCase(),
@@ -112,7 +113,7 @@ export const products = transparentSourceProducts.map((sourceProduct, index) => 
         bestSeller: index < 8,
         isSignature: index < 4,
         discounted: true,
-        discountPercent: Math.round(((price - discountedPrice) / price) * 100),
+        discountPercent,
         volume: sourceProduct.sizes.join(' / '),
         tags,
         stock: String(sourceProduct.stock).toLowerCase() === 'in stock',

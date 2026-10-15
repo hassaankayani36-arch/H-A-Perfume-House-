@@ -27,37 +27,37 @@ export const Collections = () => {
         </div>
 
         {/* Collections Overview */}
-        <div className="space-y-24">
-          {collections.map((col, index) => {
+        <div className="space-y-20">
+          {collections.map((col) => {
             const matchingProducts = products.filter((product) => product.family === col.family);
             if (matchingProducts.length === 0)
                 return null;
-            return (<div key={col.id} className="pt-12 border-t border-[#222222] first:border-t-0 first:pt-0">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-baseline mb-12">
-                  <div className="lg:col-span-5">
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-[#C6A15B] font-light block mb-2">
-                      COLLECTION {`0${index + 1}`} · {col.subtitle}
+            return (<section key={col.id} className="border-t border-[#29251f] pt-10 first:border-t-0 first:pt-0 sm:pt-12">
+                <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <span className="mb-2 block text-[10px] font-light uppercase tracking-[0.3em] text-[#C6A15B]">
+                      {col.subtitle}
                     </span>
-                    <h2 className="font-serif text-3xl sm:text-4xl font-light text-[#F5F2EC] uppercase tracking-wide">
+                    <h2 className="font-serif text-3xl font-light uppercase tracking-wide text-[#F5F2EC] sm:text-4xl">
                       {col.title}
                     </h2>
                   </div>
 
-                  <div className="lg:col-span-7">
-                    <p className="text-sm text-[#F5F2EC]/75 font-light leading-relaxed">
+                  <div className="max-w-xl sm:text-right">
+                    <p className="text-sm font-light leading-relaxed text-[#F5F2EC]/65">
                       {col.description}
                     </p>
-                    <p className="mt-2 text-xs italic font-serif text-[#C6A15B]">
+                    <p className="mt-2 font-serif text-xs italic text-[#C6A15B]">
                       &ldquo;{col.tagline}&rdquo;
                     </p>
                   </div>
                 </div>
 
                 {/* Products in this collection */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {matchingProducts.slice(0, 4).map((p) => (<ProductCard key={p.id} product={p}/>))}
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6">
+                  {matchingProducts.map((p, productIndex) => (<div key={p.id} className="product-card-enter h-full" style={{ animationDelay: `${Math.min(productIndex, 8) * 55}ms` }}><ProductCard product={p}/></div>))}
                 </div>
-              </div>);
+              </section>);
         })}
         </div>
       </div>

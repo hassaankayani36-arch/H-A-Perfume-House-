@@ -46,17 +46,17 @@ export const ProductDetails = () => {
 
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10">
           <section aria-label={`${product.name} bottle images`} className="min-w-0">
-            <div className="relative aspect-[4/5] overflow-hidden bg-[#EAE6DE] dark:bg-[#F0EDE7]">
-              <img src={activeImage || product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="h-full w-full object-contain transition-transform duration-700 hover:scale-[1.025]"/>
-              {product.discounted && (<span className="absolute left-4 top-4 bg-[#9F3434] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
-                  PKR 100 OFF
+            <div className="fragrance-image-frame relative aspect-[4/5] overflow-hidden border border-[#302b22]">
+              <img src={activeImage || product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="fragrance-product-image h-full w-full object-contain transition-transform duration-700 hover:scale-[1.025]"/>
+              {product.discounted && (<span className="absolute left-4 top-4 border border-[#e7c87f]/40 bg-[#17130d]/90 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#e7c87f]">
+                  SAVE {product.discountPercent}%
                 </span>)}
             </div>
             <div className="mt-2 flex gap-2">
-              {product.gallery.map((image, index) => (<button key={`${product.id}-${index}`} type="button" onClick={() => setActiveImage(image)} aria-label={`View ${product.name} bottle view ${index + 1}`} aria-pressed={activeImage === image} className={`h-[72px] w-[68px] overflow-hidden border bg-[#EAE6DE] transition-colors dark:bg-[#F0EDE7] ${activeImage === image
-                ? 'border-[#8F403B]'
-                : 'border-[#BEB7AB] opacity-75 hover:opacity-100 dark:border-[#4B4741]'}`}>
-                  <img src={image} alt="" loading="lazy" className="h-full w-full object-contain"/>
+              {product.gallery.map((image, index) => (<button key={`${product.id}-${index}`} type="button" onClick={() => setActiveImage(image)} aria-label={`View ${product.name} bottle view ${index + 1}`} aria-pressed={activeImage === image} className={`fragrance-image-frame h-[72px] w-[68px] overflow-hidden border transition-colors ${activeImage === image
+              ? 'border-[#C6A15B]'
+              : 'border-[#4B4741] opacity-75 hover:opacity-100'}`} >
+                  <img src={image} alt="" loading="lazy" className="fragrance-product-image h-full w-full object-contain"/>
                 </button>))}
             </div>
           </section>
@@ -81,8 +81,8 @@ export const ProductDetails = () => {
                 {product.stock ? 'IN STOCK' : 'OUT OF STOCK'}
               </span>
             </div>
-            {product.discounted && (<p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#A33C3C]">
-                Save PKR 100 on this perfume
+            {product.discounted && (<p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#A37F38]">
+                Save {product.discountPercent}% on this perfume
               </p>)}
 
             <div className="mt-3">
