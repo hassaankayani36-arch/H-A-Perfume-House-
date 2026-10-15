@@ -30,6 +30,8 @@ export const Collections = () => {
         <div className="space-y-24">
           {collections.map((col, index) => {
             const matchingProducts = products.filter((product) => product.family === col.family);
+            if (matchingProducts.length === 0)
+                return null;
             return (<div key={col.id} className="pt-12 border-t border-[#222222] first:border-t-0 first:pt-0">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-baseline mb-12">
                   <div className="lg:col-span-5">

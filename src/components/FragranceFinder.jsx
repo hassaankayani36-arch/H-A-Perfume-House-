@@ -29,8 +29,10 @@ const familyProfiles = {
         archetype: 'The Master of the Evening',
     },
 };
+const availableFamilies = ['Fresh', 'Woody', 'Oriental', 'Intense']
+    .filter((family) => products.some((product) => product.family === family));
 export const FragranceFinder = () => {
-    const [selectedFamily, setSelectedFamily] = useState('Intense');
+    const [selectedFamily, setSelectedFamily] = useState(availableFamilies[0] ?? 'Intense');
     const filteredProducts = products.filter((p) => p.family === selectedFamily);
     const profile = familyProfiles[selectedFamily];
     return (<section className="py-24 sm:py-32 bg-[#0B0B0B] border-t border-[#1C1C1C] relative">
@@ -53,7 +55,7 @@ export const FragranceFinder = () => {
 
           {/* Interactive Family Selector (Clean luxury tabs) */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-4 p-1.5 bg-[#141414] border border-[#242424] max-w-xl mx-auto">
-            {['Fresh', 'Woody', 'Oriental', 'Intense'].map((family) => {
+            {availableFamilies.map((family) => {
             const active = selectedFamily === family;
             return (<button key={family} type="button" onClick={() => setSelectedFamily(family)} className={`flex-1 min-w-[90px] py-2.5 px-4 text-xs uppercase tracking-[0.22em] transition-all duration-300 font-light ${active
                     ? 'bg-[#0B0B0B] text-[#C6A15B] shadow-sm border border-[#C6A15B]/40 font-medium'

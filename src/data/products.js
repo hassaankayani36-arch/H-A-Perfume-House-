@@ -1,16 +1,34 @@
 import { products as sourceProducts } from '../../Data/data.js';
-const productImageAssets = import.meta.glob('../../Data/imgs/*', {
+const productImageAssets = import.meta.glob('../../Data/imgs/*-transparent.webp', {
     eager: true,
     query: '?url',
     import: 'default',
 });
+const transparentProductImages = new Set([
+    'arabian-nights-1',
+    'axe-chocolate-1',
+    'baccarat-rouge-540-1',
+    'black-opium-1',
+    'bleu-de-chanel-1',
+    'bombshell-victoria-1',
+    'cool-water-1',
+    'erba-pura-1',
+    'fawakeh-1',
+    'gucci-bloom-1',
+    'gucci-flora-1',
+    'imperial-valley-edp-1',
+    'imperial-valley-gissah-extrait-1',
+    'janan-sports-j-edp-1',
+]);
 const formatPrice = (price) => `PKR ${price.toLocaleString('en-PK')}`;
 function resolveProductImage(imagePath, productName) {
-    if (!imagePath.startsWith('imgs/'))
-        return imagePath;
+    if (!imagePath.startsWith('imgs/')) {
+        throw new Error(`Product "${productName}" does not have a local transparent image.`);
+    }
     const assetPath = `../../Data/${imagePath}`;
-    const transparentAssetPath = assetPath.replace(/\.[^.]+$/, '-transparent.png');
-    const image = productImageAssets[transparentAssetPath] ?? productImageAssets[assetPath];
+    const imageName = imagePath.slice(imagePath.lastIndexOf('/') + 1).replace(/\.[^.]+$/, '');
+    const transparentAssetPath = `${assetPath.slice(0, assetPath.lastIndexOf('/') + 1)}${imageName}-transparent.webp`;
+    const image = transparentProductImages.has(imageName) ? productImageAssets[transparentAssetPath] : undefined;
     if (!image) {
         throw new Error(`Missing product image "${imagePath}" for ${productName}.`);
     }
@@ -40,7 +58,14 @@ function getProjectionPercent(projection) {
         return 35;
     return 65;
 }
-export const products = sourceProducts.map((sourceProduct, index) => {
+const transparentSourceProducts = sourceProducts.filter((sourceProduct) => {
+    const imagePath = String(sourceProduct.images[0] ?? '');
+    if (!imagePath.startsWith('imgs/'))
+        return false;
+    const imageName = imagePath.slice(imagePath.lastIndexOf('/') + 1).replace(/\.[^.]+$/, '');
+    return transparentProductImages.has(imageName);
+});
+export const products = transparentSourceProducts.map((sourceProduct, index) => {
     const name = sourceProduct.name.trim();
     const price = Number(sourceProduct.price);
     const tags = sourceProduct.tags.map((tag) => String(tag).toUpperCase());

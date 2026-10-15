@@ -54,7 +54,8 @@ export const Shop = () => {
         displayed.sort((a, b) => (b.sizes.find((size) => size.size === '50ML')?.discountedPrice ?? b.discountedPrice) -
             (a.sizes.find((size) => size.size === '50ML')?.discountedPrice ?? a.discountedPrice));
     }
-    const families = ['ALL', 'Fresh', 'Woody', 'Oriental', 'Intense'];
+    const families = ['ALL', 'Fresh', 'Woody', 'Oriental', 'Intense']
+        .filter((family) => family === 'ALL' || products.some((product) => product.family === family));
     return (<div className="min-h-screen bg-[#0B0B0B] pb-16 sm:pb-24">
       <section className="relative isolate min-h-[20rem] overflow-hidden border-b border-[#262626] bg-[radial-gradient(ellipse_at_78%_50%,rgba(198,161,91,0.13),transparent_38%),linear-gradient(110deg,#0B0B0B_35%,#17130D_100%)]">
         <div aria-hidden="true" className="pointer-events-none absolute -right-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#C6A15B]/10 blur-3xl"/>

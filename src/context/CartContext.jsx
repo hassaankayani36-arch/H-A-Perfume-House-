@@ -1,7 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { products } from '../data/products.js';
 const CartContext = createContext(undefined);
 const FREE_DELIVERY_THRESHOLD = 2500;
 const STANDARD_SHIPPING_FEE = 350;
+const availableProductIds = new Set(products.map((product) => product.id));
 function loadCartItems() {
     try {
         const saved = localStorage.getItem('ha_cart_items');
@@ -23,6 +25,8 @@ function loadCartItems() {
                 typeof item.image !== 'string') {
                 return [];
             }
+            if (!availableProductIds.has(item.id))
+                return [];
             const discountedPrice = typeof item.discountedPrice === 'number' ? item.discountedPrice : legacyPrice;
             return [{
                     key: item.key,
@@ -47,7 +51,7 @@ export const CartProvider = ({ children }) => {
     const [wishlist, setWishlist] = useState(() => {
         try {
             const saved = localStorage.getItem('ha_wishlist_items');
-            return saved ? JSON.parse(saved) : [];
+            return saved ? JSON.parse(saved).filter((id) => availableProductIds.has(id)) : [];
         }
         catch {
             return [];
