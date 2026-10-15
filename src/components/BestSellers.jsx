@@ -34,12 +34,10 @@ export const BestSellers = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {mostWanted.slice(0, 4).map((product) => (<div key={product.id} className="group bg-[#121212] border border-[#222222] hover:border-[#C6A15B]/40 transition-all duration-500 flex flex-col justify-between">
               {/* Product Visual */}
-              <div className="relative aspect-[3/4] bg-[#171717] overflow-hidden">
+              <div className="fragrance-image-frame relative aspect-[4/5] overflow-hidden">
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
-                  <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="w-full h-full object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"/>
+                  <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="fragrance-product-image w-full h-full object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"/>
                 </Link>
-
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-80 pointer-events-none"/>
 
                   {product.discounted && (<div className="absolute right-4 top-4 z-10 bg-[#9F3434] px-2.5 py-1.5">
                       <span className="text-[9px] font-semibold tracking-[0.12em] text-white">

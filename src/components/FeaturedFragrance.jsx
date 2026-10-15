@@ -22,9 +22,8 @@ export const FeaturedFragrance = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Half-screen bottle image (5 cols on lg) */}
           <div className="lg:col-span-6 relative">
-            <div className="relative aspect-[4/5] sm:aspect-square lg:aspect-[4/5] bg-[#141414] border border-[#262626] overflow-hidden group">
-              <img src={featuredProduct.image} alt={`${featuredProduct.name} perfume bottle`} loading="lazy" className="w-full h-full object-contain object-center transition-transform duration-1000 group-hover:scale-105"/>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0E] via-transparent to-transparent opacity-80"/>
+            <div className="fragrance-image-frame relative aspect-[4/5] sm:aspect-square lg:aspect-[4/5] border border-[#262626] overflow-hidden group">
+              <img src={featuredProduct.image} alt={`${featuredProduct.name} perfume bottle`} loading="lazy" className="fragrance-product-image w-full h-full object-contain object-center transition-transform duration-1000 group-hover:scale-105"/>
 
               {/* Monogram water mark */}
               <div className="absolute top-6 left-6 font-serif text-6xl text-[#C6A15B]/10 select-none">

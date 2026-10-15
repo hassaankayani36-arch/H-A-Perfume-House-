@@ -25,6 +25,14 @@ body {
   letter-spacing: -0.01em;
 }
 
+.fragrance-image-frame {
+  background: radial-gradient(ellipse at 50% 38%, #fffdf8 0%, #f1ece2 62%, #e7dfd2 100%);
+}
+
+.fragrance-product-image {
+  mix-blend-mode: multiply;
+}
+
 h1, h2, h3, h4, h5, .font-serif {
   font-family: var(--font-serif);
 }

@@ -6,9 +6,9 @@ export const ProductCard = ({ product }) => {
     const wishlisted = isInWishlist(product.id);
     const fullSize = product.sizes.find((size) => size.size === '50ML') ?? product.sizes[0];
     return (<article className="group relative flex flex-col overflow-hidden border border-[#222222] bg-[#121212] transition-all duration-500 hover:-translate-y-1 hover:border-[#C6A15B]/50">
-      <div className="relative aspect-[4/5] overflow-hidden bg-[#E8E3DA]">
+      <div className="fragrance-image-frame relative aspect-[4/5] overflow-hidden">
         <Link to={`/product/${product.id}`} aria-label={`View ${product.name} details`} className="block h-full">
-          <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.035]"/>
+          <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="fragrance-product-image h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.035]"/>
         </Link>
 
         {product.discounted && (<span className="absolute left-3 top-3 bg-[#9F3434] px-2.5 py-1.5 text-[9px] font-semibold tracking-[0.12em] text-white">

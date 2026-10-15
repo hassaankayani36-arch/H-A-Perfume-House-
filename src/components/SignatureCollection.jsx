@@ -36,13 +36,10 @@ export const SignatureCollection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {signatureProducts.map((product) => (<div key={product.id} className="group flex flex-col bg-[#141414] border border-[#262626] hover:border-[#C6A15B]/50 transition-all duration-500 overflow-hidden">
               {/* Large Image Frame */}
-              <div className="relative aspect-[3/4] bg-[#1A1A1A] overflow-hidden">
+              <div className="fragrance-image-frame relative aspect-[4/5] overflow-hidden">
                 <Link to={`/product/${product.id}`} className="block w-full h-full">
-                  <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"/>
+                  <img src={product.image} alt={product.name} loading="lazy" className="fragrance-product-image w-full h-full object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"/>
                 </Link>
-
-                {/* Subtle gradient vignette */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent opacity-70 pointer-events-none"/>
 
                 {/* Perfume family label */}
                 <div className="absolute top-4 left-4 z-10">
