@@ -9,7 +9,8 @@ function resolveProductImage(imagePath, productName) {
     if (!imagePath.startsWith('imgs/'))
         return imagePath;
     const assetPath = `../../Data/${imagePath}`;
-    const image = productImageAssets[assetPath];
+    const transparentAssetPath = assetPath.replace(/\.[^.]+$/, '-transparent.png');
+    const image = productImageAssets[transparentAssetPath] ?? productImageAssets[assetPath];
     if (!image) {
         throw new Error(`Missing product image "${imagePath}" for ${productName}.`);
     }
