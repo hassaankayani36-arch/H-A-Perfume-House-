@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, ShoppingBag, Menu, X, ArrowRight, Moon, Sun } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, ArrowRight, Moon, Sun, UserRound } from 'lucide-react';
 import Logo from '../assets/logo/Logo.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 export const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { itemCount, openSearch } = useCart();
     const { theme, toggleTheme } = useTheme();
+    const { profile, user } = useAuth();
     const location = useLocation();
     useEffect(() => {
         const handleScroll = () => {
@@ -67,6 +69,10 @@ export const Navbar = () => {
                   {itemCount > 0 && (<span className="absolute -top-1 -right-1.5 bg-[#C6A15B] text-[#0B0B0B] text-[9.5px] font-semibold h-4 min-w-4 px-1 rounded-full flex items-center justify-center">
                       {itemCount}
                     </span>)}
+                </Link>
+
+                <Link to="/account" className="p-1.5 text-[#F5F2EC]/80 transition-colors hover:text-[#C6A15B]" aria-label={profile ? 'Your account' : 'Create account'} title={profile?.firstName || user?.email || 'Your account'}>
+                  <UserRound className="h-4 w-4"/>
                 </Link>
 
                 {/* SHOP NOW button */}
