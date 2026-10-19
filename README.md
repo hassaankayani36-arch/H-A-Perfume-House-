@@ -26,8 +26,21 @@ Firebase web app configuration in a local `.env` file; do not commit that file.
 3. Publish `firestore.rules` using the Firebase Console Rules editor or Firebase
    CLI: `firebase deploy --only firestore:rules --project YOUR_PROJECT_ID`.
 4. Grant administrator access only by setting the Firebase Auth custom claim
-   `admin: true` with a trusted Firebase Admin SDK process. Never set an admin
-   role in client code or in a customer-editable Firestore document.
+   `admin: true` with a trusted Firebase Admin SDK process. To grant it to one
+   account, create a private key under Project settings → Service accounts →
+   Firebase Admin SDK, save the downloaded JSON locally as
+   `firebase-service-account.json` in the repository root, then run:
+
+   ```powershell
+   npm run admin:grant -- YOUR_FIREBASE_AUTH_UID .\firebase-service-account.json
+   ```
+
+   The script verifies that the service account belongs to the configured
+   project and preserves existing custom claims. The key file is git-ignored;
+   never commit it, expose it in browser code, or share it. Delete the key from
+   your machine and revoke it in Google Cloud IAM after this one-time operation.
+   Sign out of the app and sign in again to refresh the ID token. Never set an
+   admin role in client code or in a customer-editable Firestore document.
 
 The admin dashboard reads Firestore `orders` and allows admins to update an
 order's status. Firestore intentionally denies browser-side order creation.

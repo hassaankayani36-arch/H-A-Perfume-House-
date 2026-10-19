@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { getIdTokenResult, onIdTokenChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from '../lib/firebase.js';
@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(isFirebaseConfigured);
+  const authEventId = useRef(0);
 
   async function refreshProfile() {
     const currentUser = auth?.currentUser;
@@ -21,9 +22,23 @@ export function AuthProvider({ children }) {
     setProfile(profileSnapshot.exists() ? profileSnapshot.data() : null);
   }
 
+  const refreshAdminClaim = useCallback(async (forceRefresh = true) => {
+    const currentUser = auth?.currentUser;
+    if (!currentUser) {
+      setIsAdmin(false);
+      return false;
+    }
+    const token = await getIdTokenResult(currentUser, forceRefresh);
+    const hasAdminClaim = token.claims.admin === true;
+    setUser(currentUser);
+    setIsAdmin(hasAdminClaim);
+    return hasAdminClaim;
+  }, []);
+
   useEffect(() => {
     if (!auth || !db) return undefined;
     return onIdTokenChanged(auth, async (nextUser) => {
+      const currentEventId = ++authEventId.current;
       setUser(nextUser);
       setProfile(null);
       setIsAdmin(false);
@@ -34,23 +49,33 @@ export function AuthProvider({ children }) {
 
       setLoading(true);
       try {
-        const [token, profileSnapshot] = await Promise.all([
-          getIdTokenResult(nextUser),
-          getDoc(doc(db, 'customers', nextUser.uid)),
-        ]);
+        const token = await getIdTokenResult(nextUser);
+        if (currentEventId !== authEventId.current) return;
         setIsAdmin(token.claims.admin === true);
-        setProfile(profileSnapshot.exists() ? profileSnapshot.data() : null);
       } catch (error) {
-        console.error('Unable to load the signed-in account.', error);
-        setProfile(null);
+        if (currentEventId !== authEventId.current) return;
+        console.error('Unable to load Firebase authentication claims.', error);
+        setIsAdmin(false);
       } finally {
-        setLoading(false);
+        if (currentEventId === authEventId.current) setLoading(false);
       }
+
+      getDoc(doc(db, 'customers', nextUser.uid))
+        .then((profileSnapshot) => {
+          if (currentEventId === authEventId.current) {
+            setProfile(profileSnapshot.exists() ? profileSnapshot.data() : null);
+          }
+        })
+        .catch((error) => {
+          if (currentEventId !== authEventId.current) return;
+          console.error('Unable to load the signed-in customer profile.', error);
+          setProfile(null);
+        });
     });
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, profile, isAdmin, loading, configured: isFirebaseConfigured, refreshProfile }}>
+    <AuthContext.Provider value={{ user, profile, isAdmin, loading, configured: isFirebaseConfigured, refreshProfile, refreshAdminClaim }}>
       {children}
     </AuthContext.Provider>
   );
