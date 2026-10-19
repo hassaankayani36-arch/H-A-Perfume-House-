@@ -1,0 +1,1448 @@
+.adminPage {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #fff;
+  color: #111;
+  letter-spacing: normal;
+}
+
+.adminPage::selection,
+.adminPage *::selection,
+.adminDashboard::selection,
+.adminDashboard *::selection {
+  background: #000;
+  color: #fff;
+}
+
+.adminLogin {
+  display: flex;
+  width: min(100%, 360px);
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid #111;
+  border-radius: 16px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0 16px 40px rgb(0 0 0 / 8%);
+}
+
+.adminEyebrow {
+  margin: 0 0 8px;
+  color: #000;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.adminLogin h1 {
+  margin: 0 0 20px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.adminLogin label {
+  font-size: 14px;
+}
+
+.adminLogin input {
+  width: 100%;
+  border: 1px solid #000;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  padding: 11px 12px;
+}
+
+.adminLogin input:focus {
+  border-color: #111;
+  outline: 1px solid #111;
+}
+
+.adminLogin button,
+.adminLogout {
+  border: 1px solid #111;
+  border-radius: 9px;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+  padding: 12px 16px;
+}
+
+.adminLogin button {
+  margin-top: 8px;
+}
+
+.adminLogin button:hover,
+.adminLogout:hover {
+  background: #fff;
+  color: #111;
+}
+
+.adminError {
+  margin: 0;
+  color: #111;
+  font-size: 14px;
+}
+
+.adminDashboardTitle {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 500;
+}
+
+.adminLogout {
+  flex: 0 0 auto;
+}
+
+.adminDashboard {
+  --adminFilterPanelWidth: 249px;
+  display: flex;
+  height: calc(100vh - 16px);
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 8px;
+  border: 1px solid #111;
+  border-radius: 16px;
+  background: #fff;
+  color: #111;
+  letter-spacing: normal;
+  box-shadow: 0 16px 40px rgb(0 0 0 / 7%);
+}
+
+.adminDashboard[data-theme="dark"] {
+  filter: invert(1);
+}
+
+.adminDashboard[data-theme="dark"] .adminStatusNew,
+.adminDashboard[data-theme="dark"] .adminStatusPending,
+.adminDashboard[data-theme="dark"] .adminStatusCompleted,
+.adminDashboard[data-theme="dark"] .adminStatusFailed {
+  filter: invert(1);
+}
+
+.adminDashboardHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(220px, min(34vw, 420px)) auto;
+  flex: 0 0 auto;
+  align-items: start;
+  gap: 8px;
+  border-radius: 15px 15px 0 0;
+  background: #fff;
+  padding: 16px;
+}
+
+.adminDashboardHeader .adminEyebrow {
+  margin-bottom: 4px;
+}
+
+.adminDashboardHeader h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.adminDashboardHeader > .adminSearch {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: start;
+  justify-self: end;
+  width: 100%;
+  min-width: 0;
+}
+
+.adminDashboardHeader > .adminLogout {
+  grid-column: 4;
+  grid-row: 1;
+  align-self: start;
+  justify-self: end;
+}
+
+.adminDashboardHeader > .adminThemeToggle {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.adminDashboardHeader:has(.adminFilterSelectMenu) {
+  position: relative;
+  z-index: 10;
+}
+
+.adminDashboardFilterRow {
+  display: flex;
+  align-self: start;
+  align-items: center;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.adminFilterEnter {
+  animation: adminFilterEnter 180ms ease-out both;
+}
+
+@keyframes adminFilterEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.adminFilterForm {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.adminFilterField {
+  position: relative;
+  display: inline-flex;
+  width: var(--adminFilterPanelWidth);
+  flex: 0 0 auto;
+}
+
+.adminFilterField:has(.adminFilterSelectMenu) {
+  z-index: 20;
+}
+
+.adminFilterSelectTrigger {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 0 10px;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.adminFilterSelectTrigger:hover,
+.adminFilterSelectTrigger[aria-expanded="true"] {
+  background: #000;
+  color: #fff;
+}
+
+.adminFilterSelectChevron {
+  flex: 0 0 auto;
+  transition: transform 150ms ease;
+}
+
+.adminFilterSelectTrigger[aria-expanded="true"] .adminFilterSelectChevron {
+  transform: rotate(180deg);
+}
+
+.adminFilterSelectMenu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  display: flex;
+  max-height: min(320px, 50vh);
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background: #fff;
+  padding: 6px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 18%);
+}
+
+.adminFilterSelectMenu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.adminFilterSelectMenu::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+.adminFilterSelectMenu::-webkit-scrollbar-thumb {
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #000;
+}
+
+.adminFilterSelectOption {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  padding: 0 10px;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.adminFilterSelectOption:hover,
+.adminFilterSelectOption[aria-selected="true"] {
+  background: #000;
+  color: #fff;
+}
+
+.adminFilterSelectTrigger:focus-visible,
+.adminFilterSelectOption:focus-visible,
+.adminThemeToggle:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+.adminThemeToggle {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.adminThemeToggle:hover {
+  background: #000;
+  color: #fff;
+}
+
+
+
+.adminDateFilter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.adminDateEntry {
+  position: relative;
+  display: inline-flex;
+  width: 192px;
+  height: 40px;
+  align-items: center;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.adminDateEntry:focus-within {
+  outline: 1px solid #111;
+  outline-offset: 1px;
+}
+
+.adminDateEntry > input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  border-radius: inherit;
+  outline: 0;
+  background: transparent;
+  color: #111;
+  font: inherit;
+  padding: 0 40px 0 12px;
+}
+
+.adminDateEntry > input[type="text"]::placeholder {
+  color: #000;
+  opacity: 1;
+}
+
+.adminCalendarButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  width: 40px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-left: 1px solid #000;
+  border-radius: 0 7px 7px 0;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+}
+
+.adminCalendarButton:hover {
+  background: #000;
+  color: #fff;
+}
+
+.adminDateEnd > input[type="text"] {
+  padding-right: 92px;
+}
+
+.adminDateEnd .adminCalendarButton {
+  right: 0;
+}
+
+.adminDateTodayButton {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  height: 38px;
+  border: 0;
+  border-right: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  padding: 0 8px;
+}
+
+.adminDateTodayButton:hover {
+  background: #000;
+  color: #fff;
+}
+
+.adminDateRangeToggle {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.adminDateRangeToggle:hover:not(:disabled),
+.adminDateRangeToggle[aria-expanded="true"] {
+  background: #111;
+  color: #fff;
+}
+
+.adminDateRangeToggle:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.adminDatePickerNative {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.adminAmountFilter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.adminAmountEntry {
+  display: inline-flex;
+  width: 192px;
+  height: 40px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0 12px;
+}
+
+.adminAmountEntry:focus-within {
+  outline: 1px solid #111;
+  outline-offset: 1px;
+}
+
+.adminAmountEntry > span[aria-hidden="true"] {
+  color: #000;
+}
+
+.adminAmountEntry input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111;
+  font: inherit;
+}
+
+.adminAmountEntry input::placeholder {
+  color: #000;
+  opacity: 1;
+}
+
+.adminAmountEntry input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.adminAmountEntry input[type="number"]::-webkit-inner-spin-button,
+.adminAmountEntry input[type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.adminAmountRangeArrow {
+  flex: 0 0 auto;
+  color: #111;
+}
+
+.adminFilterInputWrap {
+  animation: adminFilterEnter 180ms ease-out both;
+}
+
+.adminFilterInputWrap {
+  position: relative;
+  width: min(300px, 28vw);
+  transition: width 180ms ease, opacity 180ms ease, transform 180ms ease;
+}
+
+.adminFilterValue {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  padding: 4px 6px;
+}
+
+.adminFilterValue input {
+  width: auto;
+  min-width: 90px;
+  min-height: 26px;
+  flex: 1 1 100px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111;
+  font: inherit;
+  padding: 3px 4px;
+}
+
+.adminFilterValue input::placeholder {
+  color: #000;
+}
+
+.adminFilterSuggestions {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  display: flex;
+  max-height: 180px;
+  flex-wrap: wrap;
+  gap: 8px;
+  overflow-y: auto;
+  border: 1px solid #111;
+  border-radius: 10px;
+  background: #fff;
+  padding: 8px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 12%);
+}
+
+.adminValueChip {
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  min-height: 26px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #111;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px 9px;
+}
+
+button.adminValueChip {
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+
+button.adminValueChip:hover {
+  background: #111;
+  color: #fff;
+}
+
+.adminValueChip button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  margin-right: -4px;
+  padding: 1px;
+}
+
+.adminValueChip strong {
+  font-weight: 600;
+}
+
+.adminSearch {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0 8px;
+}
+
+.adminSearch svg {
+  flex: 0 0 auto;
+  color: #111;
+}
+
+.adminSearch input {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  align-items: stretch;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111;
+  font: inherit;
+}
+
+.adminAddFilter {
+  display: inline-flex;
+  min-width: 0;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.adminAddFilter:hover {
+  background: #fff;
+  color: #111;
+}
+
+.adminAddFilter:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.adminAddFilter:disabled {
+  cursor: not-allowed;
+  background: #fff;
+  color: #000;
+}
+
+.adminFilterTags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  transition: gap 180ms ease;
+}
+
+.adminFilterTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  animation: adminFilterEnter 180ms ease-out both;
+}
+
+.adminFilterLabel {
+  color: #000;
+  font-size: 12px;
+}
+
+.adminDashboard .adminLogout {
+  min-height: 40px;
+  padding: 8px 16px;
+}
+
+.adminOrdersPanel {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  align-items: stretch;
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+
+.adminAppliedFilters {
+  display: flex;
+  box-sizing: border-box;
+  width: var(--adminFilterPanelWidth);
+  min-width: var(--adminFilterPanelWidth);
+  max-height: 100%;
+  flex: 0 0 var(--adminFilterPanelWidth);
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid #111;
+  border-radius: 11px;
+  background: #fff;
+  padding: 0 12px 12px;
+}
+
+.adminAppliedFiltersHeading,
+.adminFilterGroupHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.adminAppliedFiltersHeading {
+  box-sizing: border-box;
+  height: 48px;
+  min-height: 48px;
+  margin: 0 -12px;
+  border-bottom: 1px solid #000;
+  border-radius: 10px 10px 0 0;
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+}
+
+.adminAppliedFiltersHeading h2,
+.adminFilterGroupHeading h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.adminFilterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.adminFilterGroupHeading h3 {
+  font-size: 12px;
+}
+
+.adminClearFilters,
+.adminClearFilterGroup {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  opacity: 0;
+  outline: 0;
+  pointer-events: none;
+  transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+
+.adminAppliedFiltersHeading:hover .adminClearFilters,
+.adminAppliedFiltersHeading:focus-within .adminClearFilters {
+  background: #000;
+  color: #fff;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.adminFilterGroup:hover .adminClearFilterGroup,
+.adminFilterGroup:focus-within .adminClearFilterGroup {
+  background: #fff;
+  color: #000;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.adminAppliedFiltersHeading .adminClearFilters:hover {
+  background: #fff;
+  color: #000;
+}
+
+.adminFilterGroup .adminClearFilterGroup:hover {
+  background: #000;
+  color: #fff;
+}
+
+.adminClearFilterGroup {
+  width: 24px;
+  height: 24px;
+  flex-basis: 24px;
+}
+
+.adminFilterGroupTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.adminAppliedFilterChip {
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.adminAppliedFilterChip > span {
+  min-width: 0;
+}
+
+.adminAppliedFilterChip > button {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  border-radius: 50%;
+  outline: 0;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.adminAppliedFilterChip > button:hover {
+  background: #000;
+  color: #fff;
+}
+
+.adminTableHeaderScroll {
+  flex: 0 0 auto;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.adminTableFrame {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #000;
+  border-radius: 11px;
+  background: #000;
+}
+
+.adminOrderReceipt {
+  display: flex;
+  box-sizing: border-box;
+  width: clamp(260px, 24vw, 320px);
+  min-width: 0;
+  max-height: 100%;
+  flex: 0 0 clamp(260px, 24vw, 320px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #000;
+  border-radius: 11px;
+  background: #fff;
+  color: #000;
+}
+
+.adminOrderReceiptHeader {
+  display: flex;
+  box-sizing: border-box;
+  height: 48px;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+}
+
+.adminOrderReceiptHeader h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.adminOrderReceiptClose {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.adminOrderReceiptClose:hover {
+  background: #fff;
+  color: #000;
+}
+
+.adminOrderReceiptContent {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.adminOrderReceiptEyebrow {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.adminOrderReceiptId {
+  margin: 0;
+  font-size: clamp(24px, 2.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.adminOrderReceiptDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.adminOrderReceiptDetail {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px 0;
+}
+
+.adminOrderReceiptSeparator {
+  height: 1px;
+  flex: 0 0 1px;
+  background: #000;
+  margin: 16px 0 4px;
+}
+
+.adminOrderReceiptPrimary .adminOrderReceiptDetail:first-child {
+  padding-top: 16px;
+}
+
+.adminOrderReceiptSecondary .adminOrderReceiptDetail:last-child {
+  padding-bottom: 0;
+}
+
+.adminOrderReceiptDetail > span:first-child {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.adminOrderReceiptDetail > strong {
+  max-width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.adminOrderReceiptAmount > strong {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.adminOrderReceiptDetail > .adminStatus {
+  min-height: 28px;
+  padding: 0 10px;
+}
+
+.adminOrderReceiptDetail > .adminStatusControl {
+  z-index: 1;
+}
+
+.adminOrderReceiptCustomer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.adminTableHeaderFrame {
+  flex: 0 0 auto;
+  overflow: hidden;
+  background: #000;
+}
+
+.adminTableBodyFrame {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  border-top: 1px solid #000;
+}
+
+.adminTableScroll {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: scroll;
+  background: #fff;
+}
+
+.adminTableScroll,
+.adminOrderReceiptContent {
+  scrollbar-color: #000 #fff;
+  scrollbar-width: thin;
+}
+
+.adminTableScroll::-webkit-scrollbar,
+.adminOrderReceiptContent::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.adminTableScroll::-webkit-scrollbar-track,
+.adminOrderReceiptContent::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+.adminTableScroll::-webkit-scrollbar-thumb,
+.adminOrderReceiptContent::-webkit-scrollbar-thumb {
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #000;
+}
+
+.adminTableScroll::-webkit-scrollbar-corner,
+.adminOrderReceiptContent::-webkit-scrollbar-corner {
+  background: #fff;
+}
+
+.adminTableScroll::-webkit-scrollbar-button,
+.adminOrderReceiptContent::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+.adminOrdersTable {
+  width: 100%;
+  min-width: 1462px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 13px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.adminTableScroll .adminOrdersTable {
+  margin-bottom: 0;
+}
+
+.adminTableHeaderScroll .adminOrdersTable {
+  color: #fff;
+}
+
+.adminOrdersTable th,
+.adminOrdersTable td {
+  border-bottom: 1px solid #000;
+  box-sizing: border-box;
+  height: 48px;
+  overflow: hidden;
+  padding: 8px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.adminTableHeaderScroll .adminOrdersTable thead {
+  background: #000;
+  color: #fff;
+}
+
+.adminOrdersTable thead th {
+  border-bottom: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.adminOrdersTable tbody tr {
+  background: #fff;
+}
+
+.adminOrdersTable tbody tr:hover {
+  background: #fff;
+}
+
+.adminOrdersTable .adminAvatarColumn {
+  background: #000;
+}
+
+.adminSortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.adminSortButton:hover {
+  color: #fff;
+}
+
+.adminCustomerAvatar {
+  display: inline-flex;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #111;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+}
+
+.adminOrderId {
+  border: 1px solid #111;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  padding: 5px 8px;
+}
+
+.adminItemsCell {
+  white-space: normal;
+}
+
+.adminStatus {
+  display: inline-flex;
+  min-height: 32px;
+  width: max-content;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  padding: 0 10px;
+}
+
+.adminStatusLabel {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.adminStatusChevron {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
+
+.adminStatusControl {
+  position: relative;
+  display: inline-flex;
+}
+
+.adminStatusCell {
+  position: relative;
+  overflow: visible !important;
+}
+
+.adminStatusCell:has(.adminStatus[aria-expanded="true"]) {
+  z-index: 5;
+}
+
+.adminStatusMenu {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  min-width: 128px;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background: #fff;
+  padding: 8px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 18%);
+}
+
+.adminStatusOption {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.adminStatusOption[aria-selected="true"] {
+  border-color: currentColor;
+}
+
+.adminStatusOption:hover {
+  filter: brightness(0.96);
+}
+
+.adminDashboard[data-theme="dark"] .adminStatusOption:hover {
+  filter: invert(1) brightness(0.96);
+}
+
+.adminStatus:focus-visible,
+.adminStatusOption:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+}
+
+.adminStatusNew {
+  background: #e8f1ff;
+  color: #2159a5;
+}
+
+.adminStatusPending {
+  background: #fff4d6;
+  color: #8a5a00;
+}
+
+.adminStatusCompleted {
+  background: #e4f5ea;
+  color: #247340;
+}
+
+.adminStatusFailed {
+  background: #fde8e7;
+  color: #a5322d;
+}
+
+.adminEmptyState {
+  height: 180px !important;
+  color: #000;
+  text-align: center;
+}
+
+.adminVisuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 640px) {
+  .adminDashboard {
+    height: calc(100vh - 16px);
+    margin: 8px;
+    border-radius: 14px;
+  }
+
+  .adminDashboardHeader {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    border-radius: 13px 13px 0 0;
+    padding: 16px;
+  }
+
+  .adminDashboardHeader > .adminSearch {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: stretch;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .adminDashboardHeader > .adminThemeToggle {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .adminDashboardHeader > .adminLogout {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .adminDashboardFilterRow {
+    width: 100%;
+    min-width: 0;
+    grid-row: 3;
+    align-items: flex-start;
+  }
+
+  .adminFilterForm {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+  }
+
+  .adminFilterField {
+    flex: 1 1 100%;
+    width: auto;
+  }
+
+  .adminFilterSelectTrigger {
+    width: 100%;
+  }
+
+  .adminFilterInputWrap {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+
+  .adminFilterValue {
+    width: 100%;
+    min-height: 40px;
+  }
+
+  .adminDateFilter {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .adminDateEntry {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 120px;
+  }
+
+  .adminDateEnd {
+    flex-basis: 160px;
+  }
+
+  .adminCalendarButton {
+    width: 32px;
+  }
+
+  .adminDateEntry > input[type="text"] {
+    padding-right: 32px;
+    padding-left: 8px;
+    font-size: 12px;
+  }
+
+  .adminDateEnd > input[type="text"] {
+    padding-right: 78px;
+  }
+
+  .adminDateEnd .adminCalendarButton {
+    width: 32px;
+  }
+
+  .adminDateTodayButton {
+    right: 32px;
+    padding: 0 6px;
+  }
+
+  .adminAmountFilter {
+    width: 100%;
+  }
+
+  .adminAmountEntry {
+    width: min(100%, 192px);
+    flex: 1 1 140px;
+  }
+
+  .adminAddFilter {
+    height: 40px;
+  }
+
+  .adminOrdersPanel {
+    flex-direction: column;
+    padding: 0 16px 16px;
+  }
+
+  .adminOrderReceipt {
+    width: 100%;
+    max-height: min(50vh, 420px);
+    flex: 0 0 auto;
+  }
+
+  .adminAppliedFilters {
+    width: 100%;
+    min-width: 0;
+    max-height: min(30vh, 240px);
+    flex: 0 0 auto;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adminFilterEnter,
+  .adminFilterTag {
+    animation: none;
+  }
+
+  .adminFilterInputWrap,
+  .adminFilterTags,
+  .adminAddFilter {
+    transition: none;
+  }
+}
