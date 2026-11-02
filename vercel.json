@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "public",
   "functions": {
-    "app.js": {
+    "api/**/*.js": {
       "includeFiles": "Data/imgs/**"
     }
   },

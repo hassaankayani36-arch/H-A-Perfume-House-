@@ -36,7 +36,7 @@ The dev server proxies `/api` requests to the Express API on port 3001. `npm sta
 
 ## Deploy the monorepo to Vercel
 
-The repository root contains both the Vite storefront and Express/MongoDB API. Import the Git repository into Vercel as one project and keep the **Root Directory** set to the repository root. The included `vercel.json` builds the storefront into `public/`, serves it as static files, and routes API requests to the Express app in the same deployment.
+The repository root contains both the Vite storefront and Express/MongoDB API. Import the Git repository into Vercel as one project and keep the **Root Directory** set to the repository root. The included `vercel.json` builds the storefront into `public/`, serves it as static files, and routes `/api` requests through Vercel Node functions to the Express app in the same deployment.
 
 Add these server-side environment variables in the Vercel project settings for each environment you deploy:
 
