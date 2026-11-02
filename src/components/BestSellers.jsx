@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingBag } from 'lucide-react';
-import { useCart } from '../context/CartContext.jsx';
+import { ArrowRight } from 'lucide-react';
+import ProductCard from './ProductCard.jsx';
 import { useProducts } from '../context/ProductContext.jsx';
 export const BestSellers = () => {
-    const { addToCart } = useCart();
     const { products } = useProducts();
     const mostWanted = products.filter((p) => p.bestSeller);
     return (<section className="py-24 sm:py-32 bg-[#0E0E0E] border-t border-[#1F1F1F] relative">
@@ -32,63 +31,8 @@ export const BestSellers = () => {
         </div>
 
         {/* Best sellers grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {mostWanted.slice(0, 4).map((product) => (<div key={product.id} className="group bg-[#121212] border border-[#222222] hover:border-[#C6A15B]/40 transition-all duration-500 flex flex-col justify-between">
-              {/* Product Visual */}
-              <div className="relative aspect-[3/4] bg-[#171717] overflow-hidden">
-                <Link to={`/product/${product.id}`} className="block w-full h-full">
-                  <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="w-full h-full object-contain object-center transition-transform duration-700 ease-out group-hover:scale-105"/>
-                </Link>
-
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-80 pointer-events-none"/>
-
-                  {product.discounted && (<div className="absolute right-4 top-4 z-10 bg-[#9F3434] px-2.5 py-1.5">
-                      <span className="text-[9px] font-semibold tracking-[0.12em] text-white">
-                        -{product.discountPercent}%
-                      </span>
-                    </div>)}
-
-                {/* Family */}
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="text-[9.5px] uppercase tracking-[0.25em] text-[#C6A15B] font-light bg-[#0B0B0B]/85 px-2 py-1 border border-[#C6A15B]/20">
-                    {product.family}
-                  </span>
-                </div>
-              </div>
-
-              {/* Product Info */}
-              <div className="p-6 flex flex-col flex-1 justify-between space-y-4">
-                <div>
-                  <h3 className="font-serif text-2xl font-light text-[#F5F2EC] tracking-wide group-hover:text-[#C6A15B] transition-colors">
-                    <Link to={`/product/${product.id}`}>{product.name}</Link>
-                  </h3>
-                  <p className="mt-1 text-xs text-[#F5F2EC]/60 font-light line-clamp-1">
-                    {product.notes.top[0]} · {product.notes.heart[0]} · {product.notes.base[0]}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-[#1C1C1C] space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
-                      {product.discounted && product.sizes.find((size) => size.size === '50ML')?.compareAtPrice && (<del className="text-[11px] text-[#F5F2EC]/45">
-                          {product.sizes.find((size) => size.size === '50ML')?.compareAtPrice}
-                        </del>)}
-                      <span className="text-base font-normal tracking-wide text-[#F5F2EC]">
-                        {product.price}
-                      </span>
-                    </div>
-                    <span className="text-[10px] text-[#F5F2EC]/50 uppercase tracking-widest">
-                      {product.volume}
-                    </span>
-                  </div>
-
-                  <button type="button" onClick={() => addToCart(product, '50ML', 1)} disabled={!product.sizes.find((size) => size.size === '50ML')?.stock} className="w-full py-3 bg-[#1A1A1A] hover:bg-[#C6A15B] text-[#F5F2EC] hover:text-[#0B0B0B] border border-[#2E2E2E] hover:border-[#C6A15B] text-xs uppercase tracking-[0.22em] font-medium transition-all duration-300 flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50">
-                    <ShoppingBag className="w-3.5 h-3.5"/>
-                    <span>{product.sizes.find((size) => size.size === '50ML')?.stock ? 'ADD TO BAG' : 'OUT OF STOCK'}</span>
-                  </button>
-                </div>
-              </div>
-            </div>))}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          {mostWanted.slice(0, 4).map((product) => <ProductCard key={product.id} product={product}/>)}
         </div>
       </div>
     </section>);

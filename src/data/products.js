@@ -1,13 +1,25 @@
+import { products as catalogProducts } from "../../Data/data.js";
+
 const productImageAssets = import.meta.glob("../../Data/imgs/*", {
   eager: true,
   query: "?url",
   import: "default",
 });
+const normalizedProductImageAssets = import.meta.glob("../assets/product-images/*.{svg,webp}", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
+const originalProductImages = new Map(catalogProducts.map((product) => [product.id, product.images?.[0]]));
 const fallbackProductImage = productImageAssets["../../Data/imgs/arabian-nights-1.jpg"];
 
 const formatPrice = (price) => `PKR ${price.toLocaleString("en-PK")}`;
 
-function resolveProductImage(imagePath, productName) {
+function resolveProductImage(imagePath, productName, productId) {
+  const normalizedImage = normalizedProductImageAssets[`../assets/product-images/${productId}.webp`] ??
+    normalizedProductImageAssets[`../assets/product-images/${productId}.svg`];
+  if (normalizedImage && imagePath === originalProductImages.get(productId)) return normalizedImage;
+
   if (!imagePath.startsWith("imgs/")) return imagePath;
   const assetPath = `../../Data/${imagePath}`;
   const image = productImageAssets[assetPath];
@@ -46,7 +58,7 @@ export function normalizeProducts(sourceProducts) {
     const tags = (sourceProduct.tags ?? []).map((tag) => String(tag).toUpperCase());
     const family = sourceProduct.family || getFamily(tags, name);
     const descriptionArticle = family === "Oriental" || family === "Intense" ? "An" : "A";
-    const gallery = (sourceProduct.images ?? []).map((imagePath) => resolveProductImage(String(imagePath), name));
+    const gallery = (sourceProduct.images ?? []).map((imagePath) => resolveProductImage(String(imagePath), name, String(sourceProduct.id)));
     const notes = {
       top: (sourceProduct.topNotes ?? []).map(String),
       heart: (sourceProduct.heartNotes ?? []).map(String),
