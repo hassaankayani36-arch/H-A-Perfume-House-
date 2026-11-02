@@ -34,7 +34,7 @@ export const SignatureCollection = () => {
 
         {/* 4 Large Signature Cards */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          {signatureProducts.map((product) => <ProductCard key={product.id} product={product}/>)}
+          {signatureProducts.map((product, index) => <ProductCard key={product.id} product={product} index={index}/>)}
         </div>
       </div>
     </section>);

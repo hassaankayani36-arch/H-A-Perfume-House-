@@ -1,11 +1,35 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext.jsx';
-export const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, index = 0 }) => {
     const { addToCart, toggleWishlist, isInWishlist } = useCart();
+    const cardRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
     const wishlisted = isInWishlist(product.id);
     const fullSize = product.sizes.find((size) => size.size === '50ML') ?? product.sizes[0];
-    return (<article className="group relative flex flex-col overflow-hidden border border-[#292929] bg-[#151515] transition-colors duration-300 hover:border-[#A9884C]/70">
+    useEffect(() => {
+      const card = cardRef.current;
+      if (!card) return undefined;
+      if (!('IntersectionObserver' in window)) {
+        setIsVisible(true);
+        return undefined;
+      }
+
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      }, { threshold: 0.12 });
+      observer.observe(card);
+      return () => observer.disconnect();
+    }, []);
+    return (<article
+      ref={cardRef}
+      style={{ transitionDelay: `${Math.min(index % 4, 3) * 100}ms` }}
+      className={`group relative flex flex-col overflow-hidden border border-[#292929] bg-[#151515] transition-[opacity,transform,border-color] duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#A9884C]/70 motion-reduce:!transition-none motion-reduce:translate-y-0 motion-reduce:scale-100 motion-reduce:opacity-100 ${isVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-8 scale-[0.975] opacity-0'}`}
+    >
       <div className="relative aspect-[4/5] overflow-hidden bg-[#E8E3DA]">
         <Link to={`/product/${product.id}`} aria-label={`View ${product.name} details`} className="block h-full">
           <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="h-full w-full object-contain object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"/>

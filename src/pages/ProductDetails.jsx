@@ -174,7 +174,7 @@ export const ProductDetails = () => {
             <Link to="/shop" className="text-[10px] uppercase tracking-[0.12em] text-[#8E3E3A] underline underline-offset-4">Shop all perfumes</Link>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((item) => <ProductCard key={item.id} product={item}/>)}
+            {related.map((item, index) => <ProductCard key={item.id} product={item} index={index}/>)}
           </div>
         </section>
       </div>

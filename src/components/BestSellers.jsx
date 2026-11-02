@@ -32,7 +32,7 @@ export const BestSellers = () => {
 
         {/* Best sellers grid */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          {mostWanted.slice(0, 4).map((product) => <ProductCard key={product.id} product={product}/>)}
+          {mostWanted.slice(0, 4).map((product, index) => <ProductCard key={product.id} product={product} index={index}/>)}
         </div>
       </div>
     </section>);
