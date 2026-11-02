@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { collections } from '../data/collections.js';
-import { products } from '../data/products.js';
 import ProductCard from '../components/ProductCard.jsx';
+import { useProducts } from '../context/ProductContext.jsx';
 export const Collections = () => {
+    const { products } = useProducts();
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);

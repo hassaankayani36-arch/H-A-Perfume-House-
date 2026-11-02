@@ -1,11 +1,12 @@
 import { useState, useId } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, ArrowRight } from 'lucide-react';
-import { products } from '../data/products.js';
 import { useCart } from '../context/CartContext.jsx';
 import { handleProductImageError } from '../utils/productImage.js';
+import { useProducts } from '../context/ProductContext.jsx';
 export const SearchModal = () => {
     const { isSearchOpen, closeSearch } = useCart();
+    const { products } = useProducts();
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
     const searchInputId = useId();

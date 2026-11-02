@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Heart, Mountain, ShoppingBag, Wind } from 'lucide-react';
-import { products } from '../data/products.js';
 import { useCart } from '../context/CartContext.jsx';
 import ProductCard from '../components/ProductCard.jsx';
+import { useProducts } from '../context/ProductContext.jsx';
 export const ProductDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { addToCart } = useCart();
+    const { products } = useProducts();
     const product = products.find((item) => item.id === id);
     const [selectedSize, setSelectedSize] = useState('50ML');
     const [quantity, setQuantity] = useState(1);
@@ -76,9 +77,9 @@ export const ProductDetails = () => {
                   </p>)}
                 <p className="font-serif text-[1.45rem] font-bold leading-tight sm:text-2xl">{currentSize.price}</p>
               </div>
-              <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-sm bg-[#E9E7E4] px-2.5 py-1.5 text-[9px] tracking-[0.12em] text-[#514D48] dark:bg-[#292724] dark:text-[#E8E3DC] ${product.stock ? '' : 'opacity-75'}`}>
-                <span className={`h-1.5 w-1.5 rounded-full ${product.stock ? 'bg-[#C83434]' : 'bg-[#8A8580]'}`}/>
-                {product.stock ? 'IN STOCK' : 'OUT OF STOCK'}
+              <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-sm bg-[#E9E7E4] px-2.5 py-1.5 text-[9px] tracking-[0.12em] text-[#514D48] dark:bg-[#292724] dark:text-[#E8E3DC] ${currentSize.stock ? '' : 'opacity-75'}`}>
+              <span className={`h-1.5 w-1.5 rounded-full ${currentSize.stock ? 'bg-[#C83434]' : 'bg-[#8A8580]'}`}/>
+              {currentSize.stock ? 'IN STOCK' : 'OUT OF STOCK'}
               </span>
             </div>
             {product.discounted && (<p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#A33C3C]">
@@ -145,19 +146,19 @@ export const ProductDetails = () => {
                 <div className="flex h-[38px] items-center border border-[#D5B6B1] dark:border-[#72524E]">
                   <button type="button" onClick={() => setQuantity((amount) => Math.max(1, amount - 1))} aria-label="Decrease quantity" className="px-2 text-sm">−</button>
                   <output id="perfume-quantity" className="min-w-7 text-center text-[11px]" aria-live="polite">{quantity}</output>
-                  <button type="button" onClick={() => setQuantity((amount) => amount + 1)} aria-label="Increase quantity" className="px-2 text-sm">+</button>
+                  <button type="button" onClick={() => setQuantity((amount) => Math.min(20, amount + 1))} aria-label="Increase quantity" disabled={quantity >= 20} className="px-2 text-sm disabled:opacity-40">+</button>
                 </div>
               </div>
             </div>
 
             <div className="mt-3 grid gap-2">
-              <button type="button" onClick={addProductToCart} disabled={!product.stock} className="flex min-h-[42px] w-full items-center justify-center gap-3 bg-[#191919] px-4 text-[10px] font-semibold uppercase tracking-[0.13em] text-white transition-colors hover:bg-[#34302B] disabled:cursor-not-allowed disabled:opacity-50 dark:bg-[#F5F2EC] dark:text-[#171717] dark:hover:bg-[#DED8CC]">
+              <button type="button" onClick={addProductToCart} disabled={!currentSize.stock} className="flex min-h-[42px] w-full items-center justify-center gap-3 bg-[#191919] px-4 text-[10px] font-semibold uppercase tracking-[0.13em] text-white transition-colors hover:bg-[#34302B] disabled:cursor-not-allowed disabled:opacity-50 dark:bg-[#F5F2EC] dark:text-[#171717] dark:hover:bg-[#DED8CC]">
                 Add to Cart <ShoppingBag className="h-4 w-4"/>
               </button>
               <button type="button" onClick={() => {
             addProductToCart();
             navigate('/checkout');
-        }} disabled={!product.stock} className="min-h-[40px] w-full border border-[#25221F] px-4 text-[9px] font-semibold uppercase tracking-[0.15em] transition-colors hover:bg-[#E9E4DC] disabled:cursor-not-allowed disabled:opacity-50 dark:border-[#A29B91] dark:hover:bg-[#24211E]">
+        }} disabled={!currentSize.stock} className="min-h-[40px] w-full border border-[#25221F] px-4 text-[9px] font-semibold uppercase tracking-[0.15em] transition-colors hover:bg-[#E9E4DC] disabled:cursor-not-allowed disabled:opacity-50 dark:border-[#A29B91] dark:hover:bg-[#24211E]">
                 Buy Now
               </button>
             </div>

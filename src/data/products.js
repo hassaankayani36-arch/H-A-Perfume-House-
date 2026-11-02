@@ -1,98 +1,115 @@
-import { products as sourceProducts } from '../../Data/data.js';
-const productImageAssets = import.meta.glob('../../Data/imgs/*', {
-    eager: true,
-    query: '?url',
-    import: 'default',
+const productImageAssets = import.meta.glob("../../Data/imgs/*", {
+  eager: true,
+  query: "?url",
+  import: "default",
 });
-const formatPrice = (price) => `PKR ${price.toLocaleString('en-PK')}`;
+const fallbackProductImage = productImageAssets["../../Data/imgs/arabian-nights-1.jpg"];
+
+const formatPrice = (price) => `PKR ${price.toLocaleString("en-PK")}`;
+
 function resolveProductImage(imagePath, productName) {
-    if (!imagePath.startsWith('imgs/'))
-        return imagePath;
-    const assetPath = `../../Data/${imagePath}`;
-    const image = productImageAssets[assetPath];
-    if (!image) {
-        throw new Error(`Missing product image "${imagePath}" for ${productName}.`);
-    }
-    return image;
+  if (!imagePath.startsWith("imgs/")) return imagePath;
+  const assetPath = `../../Data/${imagePath}`;
+  const image = productImageAssets[assetPath];
+  if (!image) {
+    console.error(`Missing product image "${imagePath}" for ${productName}; showing a fallback image.`);
+    return fallbackProductImage;
+  }
+  return image;
 }
+
 function getFamily(tags, name) {
-    const labels = `${tags.join(' ')} ${name}`.toLowerCase();
-    if (/fresh|citrus|aquatic|sport|blue/.test(labels))
-        return 'Fresh';
-    if (/oud|woody|wood|leather/.test(labels))
-        return 'Woody';
-    if (/oriental|amber|spicy|floral|gourmand/.test(labels))
-        return 'Oriental';
-    return 'Intense';
+  const labels = `${tags.join(" ")} ${name}`.toLowerCase();
+  if (/fresh|citrus|aquatic|sport|blue/.test(labels)) return "Fresh";
+  if (/oud|woody|wood|leather/.test(labels)) return "Woody";
+  if (/oriental|amber|spicy|floral|gourmand/.test(labels)) return "Oriental";
+  return "Intense";
 }
+
 function getLongevityPercent(longevity) {
-    const hours = Number(longevity.match(/\d+/)?.[0]);
-    return Number.isFinite(hours) ? Math.min(100, Math.max(30, hours * 8)) : 70;
+  const hours = Number(longevity.match(/\d+/)?.[0]);
+  return Number.isFinite(hours) ? Math.min(100, Math.max(30, hours * 8)) : 70;
 }
+
 function getProjectionPercent(projection) {
-    const level = projection.toLowerCase();
-    if (level.includes('strong') || level.includes('beast'))
-        return 85;
-    if (level.includes('moderate') || level.includes('medium'))
-        return 60;
-    if (level.includes('soft') || level.includes('light'))
-        return 35;
-    return 65;
+  const level = projection.toLowerCase();
+  if (level.includes("strong") || level.includes("beast")) return 85;
+  if (level.includes("moderate") || level.includes("medium")) return 60;
+  if (level.includes("soft") || level.includes("light")) return 35;
+  return 65;
 }
-export const products = sourceProducts.map((sourceProduct, index) => {
+
+export function normalizeProducts(sourceProducts) {
+  return sourceProducts.map((sourceProduct, index) => {
     const name = sourceProduct.name.trim();
-    const price = Number(sourceProduct.price);
-    const tags = sourceProduct.tags.map((tag) => String(tag).toUpperCase());
-    const family = getFamily(tags, name);
-    const descriptionArticle = family === 'Oriental' || family === 'Intense' ? 'An' : 'A';
-    const gallery = sourceProduct.images.map((imagePath) => resolveProductImage(String(imagePath), name));
+    const basePrice = Number(sourceProduct.price);
+    const tags = (sourceProduct.tags ?? []).map((tag) => String(tag).toUpperCase());
+    const family = sourceProduct.family || getFamily(tags, name);
+    const descriptionArticle = family === "Oriental" || family === "Intense" ? "An" : "A";
+    const gallery = (sourceProduct.images ?? []).map((imagePath) => resolveProductImage(String(imagePath), name));
     const notes = {
-        top: sourceProduct.topNotes.map(String),
-        heart: sourceProduct.heartNotes.map(String),
-        base: sourceProduct.baseNotes.map(String),
+      top: (sourceProduct.topNotes ?? []).map(String),
+      heart: (sourceProduct.heartNotes ?? []).map(String),
+      base: (sourceProduct.baseNotes ?? []).map(String),
     };
-    const discountedPrice = Math.max(0, price - 100);
-    const image = gallery[0];
-    const sizes = sourceProduct.sizes.map((size) => ({
-        size: String(size).toUpperCase(),
-        price: formatPrice(discountedPrice),
-        rawPrice: price,
-        discountedPrice,
-        compareAtPrice: formatPrice(price),
-        compareAtRawPrice: price,
-    }));
-    const firstNote = notes.top[0] ?? 'aromatic notes';
-    const heartNote = notes.heart[0] ?? 'a balanced heart';
-    const baseNote = notes.base[0] ?? 'a warm base';
+    const sizes = (sourceProduct.variants?.length
+      ? sourceProduct.variants
+      : (sourceProduct.sizes ?? []).map((size) => ({
+          size,
+          price: Math.max(0, basePrice - 100),
+          compareAtPrice: basePrice,
+          inStock: String(sourceProduct.stock).toLowerCase() === "in stock",
+        })))
+      .map((variant) => {
+        const price = Number(variant.price);
+        const compareAtPrice = Number(variant.compareAtPrice ?? basePrice);
+        return {
+          size: String(variant.size).toUpperCase(),
+          price: formatPrice(price),
+          rawPrice: compareAtPrice,
+          discountedPrice: price,
+          compareAtPrice: formatPrice(compareAtPrice),
+          compareAtRawPrice: compareAtPrice,
+          stock: variant.inStock === true,
+        };
+      });
+    const discountedPrice = sizes[0]?.discountedPrice ?? Math.max(0, basePrice - 100);
+    const rawPrice = sizes[0]?.rawPrice ?? basePrice;
+    const firstNote = notes.top[0] ?? "aromatic notes";
+    const heartNote = notes.heart[0] ?? "a balanced heart";
+    const baseNote = notes.base[0] ?? "a warm base";
+    const longevity = String(sourceProduct.longevity ?? "");
+    const projection = String(sourceProduct.projection ?? "");
+
     return {
-        id: String(sourceProduct.id),
-        name,
-        tagline: `${family} notes, thoughtfully composed.`,
-        family,
-        concentration: 'Perfume',
-        price: formatPrice(discountedPrice),
-        rawPrice: price,
-        discountedPrice,
-        sizes,
-        notes,
-        description: `${descriptionArticle} ${family.toLowerCase()} perfume with a distinctive opening of ${notes.top.join(', ')}, a heart of ${notes.heart.join(', ')}, and a base of ${notes.base.join(', ')}. Its ${String(sourceProduct.longevity)} longevity and ${String(sourceProduct.projection).toLowerCase()} projection create a memorable presence. Available in ${sourceProduct.sizes.join(' and ')}.`,
-        story: `A ${family.toLowerCase()} perfume presented by H&A, with a composition shaped by ${firstNote}, ${heartNote}, and ${baseNote}.`,
-        sillage: sourceProduct.projection,
-        longevity: sourceProduct.longevity,
-        occasion: tags.join(', '),
-        howToWear: 'Apply to pulse points and allow the perfume to settle naturally on skin.',
-        image,
-        gallery,
-        bestSeller: index < 8,
-        isSignature: index < 4,
-        discounted: true,
-        discountPercent: Math.round(((price - discountedPrice) / price) * 100),
-        volume: sourceProduct.sizes.join(' / '),
-        tags,
-        stock: String(sourceProduct.stock).toLowerCase() === 'in stock',
-        longevityPercent: getLongevityPercent(String(sourceProduct.longevity)),
-        projection: String(sourceProduct.projection),
-        projectionPercent: getProjectionPercent(String(sourceProduct.projection)),
+      id: String(sourceProduct.id),
+      name,
+      tagline: `${family} notes, thoughtfully composed.`,
+      family,
+      concentration: "Perfume",
+      price: formatPrice(discountedPrice),
+      rawPrice,
+      discountedPrice,
+      sizes,
+      notes,
+      description: sourceProduct.description?.trim() || `${descriptionArticle} ${family.toLowerCase()} perfume with a distinctive opening of ${notes.top.join(", ")}, a heart of ${notes.heart.join(", ")}, and a base of ${notes.base.join(", ")}. Its ${longevity} longevity and ${projection.toLowerCase()} projection create a memorable presence. Available in ${sizes.map((size) => size.size).join(" and ")}.`,
+      story: `A ${family.toLowerCase()} perfume presented by H&A, with a composition shaped by ${firstNote}, ${heartNote}, and ${baseNote}.`,
+      sillage: projection,
+      longevity,
+      occasion: tags.join(", "),
+      howToWear: "Apply to pulse points and allow the perfume to settle naturally on skin.",
+      image: gallery[0] ?? "",
+      gallery,
+      bestSeller: sourceProduct.bestSeller ?? index < 8,
+      isSignature: sourceProduct.isSignature ?? index < 4,
+      discounted: sizes.some((size) => size.discountedPrice < size.rawPrice),
+      discountPercent: rawPrice ? Math.round(((rawPrice - discountedPrice) / rawPrice) * 100) : 0,
+      volume: sizes.map((size) => size.size).join(" / "),
+      tags,
+      stock: sizes.some((size) => size.stock),
+      longevityPercent: getLongevityPercent(longevity),
+      projection,
+      projectionPercent: getProjectionPercent(projection),
     };
-});
-export default products;
+  });
+}

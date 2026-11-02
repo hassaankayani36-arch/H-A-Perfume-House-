@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
-import { products } from '../data/products.js';
 import { useCart } from '../context/CartContext.jsx';
+import { useProducts } from '../context/ProductContext.jsx';
 export const SignatureCollection = () => {
     const { addToCart } = useCart();
+    const { products } = useProducts();
     // The 4 foundational signature fragrances
     const signatureProducts = products.filter((p) => p.isSignature).slice(0, 4);
     return (<section className="py-24 sm:py-32 bg-[#0B0B0B] relative">
@@ -89,9 +90,9 @@ export const SignatureCollection = () => {
                       DISCOVER
                     </Link>
 
-                    <button type="button" onClick={() => addToCart(product, '50ML', 1)} className="py-2.5 px-3 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-center text-[10px] uppercase tracking-[0.2em] font-medium transition-colors flex items-center justify-center gap-1.5">
+                    <button type="button" onClick={() => addToCart(product, '50ML', 1)} disabled={!product.sizes.find((size) => size.size === '50ML')?.stock} className="py-2.5 px-3 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-center text-[10px] uppercase tracking-[0.2em] font-medium transition-colors flex items-center justify-center gap-1.5 disabled:cursor-not-allowed disabled:opacity-50">
                       <ShoppingBag className="w-3 h-3"/>
-                      <span>ADD TO BAG</span>
+                      <span>{product.sizes.find((size) => size.size === '50ML')?.stock ? 'ADD TO BAG' : 'OUT OF STOCK'}</span>
                     </button>
                   </div>
                 </div>

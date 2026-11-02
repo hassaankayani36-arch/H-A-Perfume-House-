@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import Logo from '../assets/logo/Logo.jsx';
 import { ArrowUp, Phone, Mail, MapPin } from 'lucide-react';
-import { products } from '../data/products.js';
+import { useProducts } from '../context/ProductContext.jsx';
 export const Footer = () => {
+    const { products } = useProducts();
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };

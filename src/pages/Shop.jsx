@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { products } from '../data/products.js';
 import ProductCard from '../components/ProductCard.jsx';
 import { Heart, Search } from 'lucide-react';
 import { useCart } from '../context/CartContext.jsx';
+import { useProducts } from '../context/ProductContext.jsx';
 export const Shop = () => {
+    const { products } = useProducts();
     const [searchParams, setSearchParams] = useSearchParams();
     const { wishlist } = useCart();
     const familyParam = searchParams.get('family');

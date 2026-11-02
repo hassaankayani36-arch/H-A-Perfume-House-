@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
-import { products } from '../data/products.js';
 import { useCart } from '../context/CartContext.jsx';
+import { useProducts } from '../context/ProductContext.jsx';
 export const BestSellers = () => {
     const { addToCart } = useCart();
+    const { products } = useProducts();
     const mostWanted = products.filter((p) => p.bestSeller);
     return (<section className="py-24 sm:py-32 bg-[#0E0E0E] border-t border-[#1F1F1F] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,9 +82,9 @@ export const BestSellers = () => {
                     </span>
                   </div>
 
-                  <button type="button" onClick={() => addToCart(product, '50ML', 1)} className="w-full py-3 bg-[#1A1A1A] hover:bg-[#C6A15B] text-[#F5F2EC] hover:text-[#0B0B0B] border border-[#2E2E2E] hover:border-[#C6A15B] text-xs uppercase tracking-[0.22em] font-medium transition-all duration-300 flex items-center justify-center gap-2">
+                  <button type="button" onClick={() => addToCart(product, '50ML', 1)} disabled={!product.sizes.find((size) => size.size === '50ML')?.stock} className="w-full py-3 bg-[#1A1A1A] hover:bg-[#C6A15B] text-[#F5F2EC] hover:text-[#0B0B0B] border border-[#2E2E2E] hover:border-[#C6A15B] text-xs uppercase tracking-[0.22em] font-medium transition-all duration-300 flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50">
                     <ShoppingBag className="w-3.5 h-3.5"/>
-                    <span>ADD TO BAG</span>
+                    <span>{product.sizes.find((size) => size.size === '50ML')?.stock ? 'ADD TO BAG' : 'OUT OF STOCK'}</span>
                   </button>
                 </div>
               </div>

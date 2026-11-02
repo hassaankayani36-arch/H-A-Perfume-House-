@@ -4,13 +4,12 @@ import { Trash2, Plus, Minus, ArrowRight, ShieldCheck, Gift, ShoppingBag } from 
 import { useCart } from '../context/CartContext.jsx';
 import { handleProductImageError } from '../utils/productImage.js';
 export const Cart = () => {
-    const { items, itemCount, subtotal, deliveryFee, total, amountNeededForFreeDelivery, progressToFreeDelivery, updateQuantity, removeFromCart, clearCart, } = useCart();
+    const { items, itemCount, subtotal, deliveryFee, total, discountPercent, discountAmount, checkoutOptions, setCheckoutOptions, amountNeededForFreeDelivery, progressToFreeDelivery, updateQuantity, removeFromCart, clearCart, } = useCart();
     const navigate = useNavigate();
-    const [promoCode, setPromoCode] = useState('');
-    const [discountPercent, setDiscountPercent] = useState(0);
+    const [promoCode, setPromoCode] = useState(checkoutOptions.promoCode);
     const [promoMessage, setPromoMessage] = useState('');
-    const [giftNote, setGiftNote] = useState(false);
-    const [giftNoteText, setGiftNoteText] = useState('');
+    const giftNote = checkoutOptions.giftNoteEnabled;
+    const giftNoteText = checkoutOptions.giftNoteText;
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -18,20 +17,19 @@ export const Cart = () => {
         e.preventDefault();
         const clean = promoCode.trim().toUpperCase();
         if (clean === 'HA10' || clean === 'PRESENCE') {
-            setDiscountPercent(10);
+            setCheckoutOptions((current) => ({ ...current, promoCode: clean }));
             setPromoMessage('10% Patron Privilege Applied');
         }
         else if (clean === 'HA15' || clean === 'ROYAL') {
-            setDiscountPercent(15);
+            setCheckoutOptions((current) => ({ ...current, promoCode: clean }));
             setPromoMessage('15% VIP Maison Privilege Applied');
         }
         else {
             setPromoMessage('Invalid invitation code');
-            setDiscountPercent(0);
+            setCheckoutOptions((current) => ({ ...current, promoCode: '' }));
         }
     };
-    const discountAmount = Math.round((subtotal * discountPercent) / 100);
-    const finalTotal = subtotal - discountAmount + deliveryFee;
+    const finalTotal = total;
     if (items.length === 0) {
         return (<div className="min-h-[70vh] bg-[#0B0B0B] flex items-center justify-center py-20 px-4">
         <div className="text-center max-w-md mx-auto space-y-6">
@@ -139,7 +137,7 @@ export const Cart = () => {
             {/* Gift Note Option */}
             <div className="p-6 bg-[#121212] border border-[#222222] space-y-4">
               <label className="flex items-center gap-3 cursor-pointer select-none">
-                <input type="checkbox" checked={giftNote} onChange={(e) => setGiftNote(e.target.checked)} className="accent-[#C6A15B] w-4 h-4"/>
+                <input type="checkbox" checked={giftNote} onChange={(e) => setCheckoutOptions((current) => ({ ...current, giftNoteEnabled: e.target.checked, giftNoteText: e.target.checked ? current.giftNoteText : '' }))} className="accent-[#C6A15B] w-4 h-4"/>
                 <span className="text-xs uppercase tracking-widest text-[#F5F2EC] flex items-center gap-2">
                   <Gift className="w-4 h-4 text-[#C6A15B]"/>
                   Include a handwritten gift card (Complimentary)
@@ -147,7 +145,7 @@ export const Cart = () => {
               </label>
 
               {giftNote && (<div className="pt-2">
-                  <textarea rows={3} value={giftNoteText} onChange={(e) => setGiftNoteText(e.target.value)} placeholder="Enter your personalized gift message for the recipient..." className="w-full bg-[#0B0B0B] border border-[#2A2A2A] focus:border-[#C6A15B] p-3 text-xs text-[#F5F2EC] outline-none"/>
+                  <textarea rows={3} maxLength={1000} value={giftNoteText} onChange={(e) => setCheckoutOptions((current) => ({ ...current, giftNoteText: e.target.value }))} placeholder="Enter your personalized gift message for the recipient..." className="w-full bg-[#0B0B0B] border border-[#2A2A2A] focus:border-[#C6A15B] p-3 text-xs text-[#F5F2EC] outline-none"/>
                 </div>)}
             </div>
           </div>

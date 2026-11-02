@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { ArrowUpRight, Check, MapPin, MessageCircle, Star } from 'lucide-react';
 import { emptyReviewState, sampleReviews } from '../data/reviews.js';
-import { products } from '../data/products.js';
+import { useProducts } from '../context/ProductContext.jsx';
 export const Reviews = () => {
+    const { products } = useProducts();
     const [modalOpen, setModalOpen] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [whatsappUrl, setWhatsappUrl] = useState('');

@@ -14,6 +14,16 @@ export default defineConfig(() => ({
     },
   },
   server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3001",
+        configure: (proxy) => {
+          proxy.on("proxyReq", (proxyRequest, request) => {
+            proxyRequest.setHeader("X-Forwarded-Host", request.headers.host ?? "");
+          });
+        },
+      },
+    },
     // HMR is disabled in AI Studio via DISABLE_HMR env var.
     // Do not modify—file watching is disabled to prevent flickering during agent edits.
     hmr: process.env.DISABLE_HMR !== "true",

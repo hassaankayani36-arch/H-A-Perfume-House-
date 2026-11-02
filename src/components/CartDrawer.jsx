@@ -3,7 +3,7 @@ import { X, Trash2, Plus, Minus, ArrowRight, ShoppingBag, ShieldCheck } from 'lu
 import { useCart } from '../context/CartContext.jsx';
 import { handleProductImageError } from '../utils/productImage.js';
 export const CartDrawer = () => {
-    const { items, itemCount, subtotal, deliveryFee, total, amountNeededForFreeDelivery, progressToFreeDelivery, isCartOpen, closeCart, updateQuantity, removeFromCart, } = useCart();
+    const { items, itemCount, subtotal, deliveryFee, total, discountPercent, discountAmount, amountNeededForFreeDelivery, progressToFreeDelivery, isCartOpen, closeCart, updateQuantity, removeFromCart, } = useCart();
     const navigate = useNavigate();
     if (!isCartOpen)
         return null;
@@ -126,6 +126,10 @@ export const CartDrawer = () => {
                   <span>Subtotal</span>
                   <span className="text-[#F5F2EC]">PKR {subtotal.toLocaleString()}</span>
                 </div>
+                {discountAmount > 0 && <div className="flex justify-between text-[#C6A15B] font-light">
+                  <span>Patron Privilege ({discountPercent}%)</span>
+                  <span>- PKR {discountAmount.toLocaleString()}</span>
+                </div>}
                 <div className="flex justify-between text-[#F5F2EC]/70 font-light">
                   <span>Estimated Shipping</span>
                   <span className={deliveryFee === 0 ? 'text-[#C6A15B]' : 'text-[#F5F2EC]'}>

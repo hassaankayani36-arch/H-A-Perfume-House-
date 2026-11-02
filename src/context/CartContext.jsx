@@ -2,6 +2,24 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const CartContext = createContext(undefined);
 const FREE_DELIVERY_THRESHOLD = 2500;
 const STANDARD_SHIPPING_FEE = 350;
+
+function loadCheckoutOptions() {
+    try {
+        const saved = localStorage.getItem('ha_checkout_options');
+        if (!saved) return { promoCode: '', giftNoteEnabled: false, giftNoteText: '' };
+        const parsed = JSON.parse(saved);
+        const promoCode = typeof parsed.promoCode === 'string' && ['HA10', 'PRESENCE', 'HA15', 'ROYAL'].includes(parsed.promoCode) ? parsed.promoCode : '';
+        return {
+            promoCode,
+            giftNoteEnabled: parsed.giftNoteEnabled === true,
+            giftNoteText: typeof parsed.giftNoteText === 'string' ? parsed.giftNoteText.slice(0, 1000) : '',
+        };
+    }
+    catch {
+        return { promoCode: '', giftNoteEnabled: false, giftNoteText: '' };
+    }
+}
+
 function loadCartItems() {
     try {
         const saved = localStorage.getItem('ha_cart_items');
@@ -19,7 +37,9 @@ function loadCartItems() {
                 typeof item.id !== 'string' ||
                 typeof item.name !== 'string' ||
                 typeof item.size !== 'string' ||
-                typeof item.quantity !== 'number' ||
+                !Number.isSafeInteger(item.quantity) ||
+                item.quantity < 1 ||
+                item.quantity > 20 ||
                 typeof item.image !== 'string') {
                 return [];
             }
@@ -53,6 +73,7 @@ export const CartProvider = ({ children }) => {
             return [];
         }
     });
+    const [checkoutOptions, setCheckoutOptions] = useState(loadCheckoutOptions);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     useEffect(() => {
@@ -71,6 +92,14 @@ export const CartProvider = ({ children }) => {
             console.warn('LocalStorage error', e);
         }
     }, [wishlist]);
+    useEffect(() => {
+        try {
+            localStorage.setItem('ha_checkout_options', JSON.stringify(checkoutOptions));
+        }
+        catch (e) {
+            console.warn('LocalStorage error', e);
+        }
+    }, [checkoutOptions]);
     const addToCart = (product, selectedSize = '50ML', quantity = 1) => {
         const sizeObj = product.sizes?.find((s) => s.size === selectedSize) || {
             size: selectedSize || '50ML',
@@ -91,7 +120,7 @@ export const CartProvider = ({ children }) => {
                         discountedPrice: sizeObj.discountedPrice,
                         image: product.image,
                         family: product.family,
-                        quantity: item.quantity + quantity,
+                        quantity: Math.min(20, item.quantity + quantity),
                     }
                     : item);
             }
@@ -121,7 +150,7 @@ export const CartProvider = ({ children }) => {
             .map((item) => {
             if (item.key === key) {
                 const nextQty = item.quantity + delta;
-                return nextQty > 0 ? { ...item, quantity: nextQty } : null;
+                return nextQty > 20 ? item : nextQty > 0 ? { ...item, quantity: nextQty } : null;
             }
             return item;
         })
@@ -132,10 +161,13 @@ export const CartProvider = ({ children }) => {
             removeFromCart(key);
             return;
         }
-        setItems((prev) => prev.map((item) => (item.key === key ? { ...item, quantity } : item)));
+        setItems((prev) => prev.map((item) => (item.key === key ? { ...item, quantity: Math.min(20, quantity) } : item)));
     };
     const clearCart = () => {
         setItems([]);
+    };
+    const clearCheckoutOptions = () => {
+        setCheckoutOptions({ promoCode: '', giftNoteEnabled: false, giftNoteText: '' });
     };
     const toggleWishlist = (productId) => {
         setWishlist((prev) => prev.includes(productId)
@@ -146,7 +178,11 @@ export const CartProvider = ({ children }) => {
     const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
     const subtotal = items.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0);
     const deliveryFee = subtotal === 0 || subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : STANDARD_SHIPPING_FEE;
-    const total = subtotal + deliveryFee;
+    const discountPercent = ['HA10', 'PRESENCE'].includes(checkoutOptions.promoCode)
+        ? 10
+        : ['HA15', 'ROYAL'].includes(checkoutOptions.promoCode) ? 15 : 0;
+    const discountAmount = Math.round(subtotal * discountPercent / 100);
+    const total = subtotal - discountAmount + deliveryFee;
     const amountNeededForFreeDelivery = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal);
     const progressToFreeDelivery = Math.min(100, Math.round((subtotal / FREE_DELIVERY_THRESHOLD) * 100));
     return (<CartContext.Provider value={{
@@ -161,6 +197,11 @@ export const CartProvider = ({ children }) => {
             isCartOpen,
             isSearchOpen,
             wishlist,
+            checkoutOptions,
+            setCheckoutOptions,
+            clearCheckoutOptions,
+            discountPercent,
+            discountAmount,
             addToCart,
             removeFromCart,
             updateQuantity,

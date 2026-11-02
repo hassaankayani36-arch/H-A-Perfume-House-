@@ -1,7 +1,8 @@
 import Founders from '../components/Founders.jsx';
 import { Link } from 'react-router-dom';
-import { products } from '../data/products.js';
+import { useProducts } from '../context/ProductContext.jsx';
 export const About = () => {
+    const { products } = useProducts();
     return (<div className="min-h-screen bg-[#0B0B0B] text-[#F5F2EC]">
       {/* Editorial Header */}
       <div className="relative py-24 sm:py-32 bg-[#0E0E0E] border-b border-[#1C1C1C] overflow-hidden">

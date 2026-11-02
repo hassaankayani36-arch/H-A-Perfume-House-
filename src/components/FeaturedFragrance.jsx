@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, Check } from 'lucide-react';
-import { products } from '../data/products.js';
 import { useCart } from '../context/CartContext.jsx';
+import { useProducts } from '../context/ProductContext.jsx';
 export const FeaturedFragrance = () => {
     const { addToCart } = useCart();
+    const { products } = useProducts();
     const [selectedSize, setSelectedSize] = useState('50ML');
     const [isAdded, setIsAdded] = useState(false);
     const featuredProduct = products[0];
@@ -120,13 +121,13 @@ export const FeaturedFragrance = () => {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <button type="button" onClick={handleAdd} className="flex-1 py-4 px-6 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-xs uppercase tracking-[0.25em] font-medium transition-all duration-300 flex items-center justify-center gap-2">
+              <button type="button" onClick={handleAdd} disabled={!currentSizeObj.stock} className="flex-1 py-4 px-6 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-xs uppercase tracking-[0.25em] font-medium transition-all duration-300 flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50">
                 {isAdded ? (<>
                     <Check className="w-4 h-4 text-[#0B0B0B]"/>
                     <span>ADDED TO BAG</span>
                   </>) : (<>
                     <ShoppingBag className="w-4 h-4"/>
-                    <span>ADD TO BAG · {currentSizeObj.size}</span>
+                    <span>{currentSizeObj.stock ? `ADD TO BAG · ${currentSizeObj.size}` : 'OUT OF STOCK'}</span>
                   </>)}
               </button>
 

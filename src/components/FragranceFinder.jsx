@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { products } from '../data/products.js';
 import ProductCard from './ProductCard.jsx';
+import { useProducts } from '../context/ProductContext.jsx';
 const familyProfiles = {
     Fresh: {
         subtitle: 'Bright & Aromatic',
@@ -30,6 +30,7 @@ const familyProfiles = {
     },
 };
 export const FragranceFinder = () => {
+    const { products } = useProducts();
     const [selectedFamily, setSelectedFamily] = useState('Intense');
     const filteredProducts = products.filter((p) => p.family === selectedFamily);
     const profile = familyProfiles[selectedFamily];

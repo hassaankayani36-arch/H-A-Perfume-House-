@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
+import { apiRequest } from '../api/client.js';
 import { handleProductImageError } from '../utils/productImage.js';
 import { ShieldCheck, Check, Truck, Lock, ArrowLeft } from 'lucide-react';
 import Logo from '../assets/logo/Logo.jsx';
 export const Checkout = () => {
-    const { items, itemCount, subtotal, deliveryFee, total, clearCart } = useCart();
+    const { items, itemCount, subtotal, deliveryFee, total, discountPercent, discountAmount, checkoutOptions, clearCart, clearCheckoutOptions } = useCart();
     const navigate = useNavigate();
     const [paymentMethod, setPaymentMethod] = useState('cod');
     const [formData, setFormData] = useState({
@@ -20,20 +21,43 @@ export const Checkout = () => {
         orderNotes: '',
     });
     const [orderComplete, setOrderComplete] = useState(false);
-    const [orderNumber, setOrderNumber] = useState('');
+    const [confirmedOrder, setConfirmedOrder] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState('');
+    const [idempotencyKey] = useState(() => crypto.randomUUID());
     useEffect(() => {
         window.scrollTo(0, 0);
         if (items.length === 0 && !orderComplete) {
             navigate('/shop');
         }
     }, [items.length, orderComplete, navigate]);
-    const handlePlaceOrder = (e) => {
+    const handlePlaceOrder = async (e) => {
         e.preventDefault();
-        const generatedId = `HA-${Math.floor(100000 + Math.random() * 900000)}`;
-        setOrderNumber(generatedId);
-        setOrderComplete(true);
-        clearCart();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+        setSubmitError('');
+        try {
+            const order = await apiRequest('/api/orders', {
+                method: 'POST',
+                body: JSON.stringify({
+                    customer: formData,
+                    items: items.map(({ id, size, quantity }) => ({ productId: id, size, quantity })),
+                    paymentMethod,
+                    promoCode: checkoutOptions.promoCode,
+                    giftNote: checkoutOptions.giftNoteEnabled ? checkoutOptions.giftNoteText : '',
+                    idempotencyKey,
+                }),
+            });
+            setConfirmedOrder(order);
+            setOrderComplete(true);
+            clearCart();
+            clearCheckoutOptions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (error) {
+            setSubmitError(error instanceof Error ? error.message : 'Your order could not be submitted. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
     const pakistaniCities = [
         'Lahore',
@@ -67,14 +91,12 @@ export const Checkout = () => {
               Your Presence Is Defined.
             </h1>
             <p className="text-xs uppercase tracking-widest text-[#F5F2EC]/50 font-mono">
-              ORDER REFERENCE: <strong className="text-[#C6A15B]">{orderNumber}</strong>
+              ORDER REFERENCE: <strong className="text-[#C6A15B]">{confirmedOrder?.orderNumber}</strong>
             </p>
           </div>
 
           <p className="text-xs sm:text-sm text-[#F5F2EC]/75 font-light leading-relaxed max-w-md mx-auto">
-            Thank you, {formData.firstName || 'Patron'}. Your order is being prepared for dispatch.
-            Updates will be sent to{' '}
-            <span className="text-[#C6A15B]">{formData.email || 'your email'}</span>.
+            Thank you, {formData.firstName || 'Patron'}. Your order has been recorded. Our team will use the details provided to confirm dispatch and payment.
           </p>
 
           <div className="p-4 bg-[#171717] border border-[#262626] text-xs text-left space-y-2 font-light">
@@ -97,7 +119,7 @@ export const Checkout = () => {
             <div className="flex justify-between border-t border-[#222222] pt-2">
               <span className="text-[#F5F2EC]/60">Total Amount:</span>
               <span className="text-[#F5F2EC] font-serif text-base font-normal">
-                PKR {total.toLocaleString()}
+                PKR {(confirmedOrder?.total ?? total).toLocaleString()}
               </span>
             </div>
           </div>
@@ -266,7 +288,7 @@ export const Checkout = () => {
                           Credit / Debit Card (Visa, Mastercard, PayPak)
                         </span>
                         <p className="text-[11px] text-[#F5F2EC]/60 font-light mt-1">
-                          Encrypted 256-bit secure gateway transaction.
+                          Online card processing is not connected yet. Our team will contact you to confirm payment.
                         </p>
                       </div>
                     </div>
@@ -276,9 +298,10 @@ export const Checkout = () => {
 
               {/* Submit CTA */}
               <div className="pt-4">
-                <button type="submit" className="w-full py-4 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-xs uppercase tracking-[0.26em] font-medium transition-all duration-300 flex items-center justify-center gap-2 shadow-xl">
+                {submitError && <p role="alert" className="mb-3 text-sm text-red-400">{submitError}</p>}
+                <button type="submit" disabled={isSubmitting} className="w-full py-4 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-xs uppercase tracking-[0.26em] font-medium transition-all duration-300 flex items-center justify-center gap-2 shadow-xl disabled:cursor-wait disabled:opacity-60">
                   <Lock className="w-3.5 h-3.5"/>
-                  <span>AUTHORIZE &amp; PLACE ORDER · PKR {total.toLocaleString()}</span>
+                  <span>{isSubmitting ? 'SUBMITTING ORDER…' : `PLACE ORDER · PKR ${total.toLocaleString()}`}</span>
                 </button>
               </div>
             </form>
@@ -313,6 +336,11 @@ export const Checkout = () => {
                   <span>Subtotal</span>
                   <span className="font-mono">PKR {subtotal.toLocaleString()}</span>
                 </div>
+
+                {discountAmount > 0 && <div className="flex justify-between text-[#C6A15B]">
+                  <span>Patron Privilege ({discountPercent}%)</span>
+                  <span className="font-mono">- PKR {discountAmount.toLocaleString()}</span>
+                </div>}
 
                 <div className="flex justify-between text-[#F5F2EC]/80">
                   <span>Shipping</span>

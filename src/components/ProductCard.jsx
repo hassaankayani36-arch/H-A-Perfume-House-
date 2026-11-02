@@ -45,9 +45,9 @@ export const ProductCard = ({ product }) => {
               <Eye className="h-3.5 w-3.5"/> Details
             </Link>
           </div>
-          <button type="button" onClick={() => addToCart(product, '50ML', 1)} disabled={!product.stock} className="flex w-full items-center justify-center gap-2 bg-[#C6A15B] px-3 py-2.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#0B0B0B] transition-colors hover:bg-[#DFC27D] disabled:cursor-not-allowed disabled:opacity-50">
+          <button type="button" onClick={() => addToCart(product, fullSize.size, 1)} disabled={!fullSize.stock} className="flex w-full items-center justify-center gap-2 bg-[#C6A15B] px-3 py-2.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#0B0B0B] transition-colors hover:bg-[#DFC27D] disabled:cursor-not-allowed disabled:opacity-50">
             <ShoppingBag className="h-3.5 w-3.5"/>
-            {product.stock ? 'Add to Cart' : 'Out of Stock'}
+            {fullSize.stock ? 'Add to Cart' : 'Out of Stock'}
           </button>
         </div>
       </div>

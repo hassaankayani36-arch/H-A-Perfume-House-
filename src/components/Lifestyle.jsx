@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { products } from '../data/products.js';
+import { useProducts } from '../context/ProductContext.jsx';
 export const Lifestyle = () => {
+    const { products } = useProducts();
     return (<section className="py-24 sm:py-32 bg-[#0B0B0B] border-t border-[#1C1C1C] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Editorial Title */}
