@@ -34,6 +34,22 @@ Keep the connection string, admin password, and session secret server-side. Neve
 
 The dev server proxies `/api` requests to the Express API on port 3001. `npm start` serves the production build and API together after `npm run build`.
 
+## Deploy the monorepo to Vercel
+
+The repository root contains both the Vite storefront and Express/MongoDB API. Import the Git repository into Vercel as one project and keep the **Root Directory** set to the repository root. The included `vercel.json` builds the storefront into `public/`, serves it as static files, and routes API requests to the Express app in the same deployment.
+
+Add these server-side environment variables in the Vercel project settings for each environment you deploy:
+
+- `MONGODB_URI` — the production MongoDB connection string.
+- `MONGODB_DB` — optional; defaults to `ha_perfume_house`.
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+- `ADMIN_SESSION_SECRET` — generate a unique secret with the command above.
+
+Do not prefix these values with `VITE_`. Configure MongoDB Atlas network access for Vercel and use a database user restricted to this application database. Then deploy; Vercel will install the root dependencies and run `npm run build`.
+
+The Vercel filesystem is not persistent storage. Product images must use HTTPS URLs or be committed under `Data/imgs/` before deployment; files added to the running server cannot be saved there permanently.
+
 ## Data behavior
 
 - Product descriptions and pricing/availability are stored in MongoDB. Each size has its own selling price, compare-at price, and in-stock flag. The initial import preserves the storefront's existing PKR 100 markdown and marks the sizes as in stock because the source file contains no stock counts.

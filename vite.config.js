@@ -8,6 +8,11 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(() => ({
   plugins: [react(), tailwindcss()],
+  publicDir: false,
+  build: {
+    outDir: "public",
+    emptyOutDir: true,
+  },
   resolve: {
     alias: {
       "@": projectRoot,
