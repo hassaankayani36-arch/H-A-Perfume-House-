@@ -5,45 +5,54 @@
       "root": ".",
       "framework": "vite",
       "buildCommand": "npm run build:storefront",
-      "outputDirectory": "public",
-      "functions": {
-        "api/**/*.js": {
-          "includeFiles": "Data/imgs/**"
-        }
-      }
+      "outputDirectory": "public"
     },
     "dashboard": {
       "root": "dashboard-cherrycreamsoda",
       "framework": "vite",
       "buildCommand": "npm run build -- --base=/dashboard/",
-      "outputDirectory": "dist",
-      "rewrites": [
-        {
-          "source": "/(.*)",
-          "destination": "/index.html"
+      "outputDirectory": "dist"
+    },
+    "backend": {
+      "root": ".",
+      "framework": "express",
+      "entrypoint": "api/index.js",
+      "buildCommand": "npm run build:backend",
+      "devCommand": "npm run dev:server",
+      "functions": {
+        "api/**/*.js": {
+          "includeFiles": "Data/imgs/**"
         }
-      ]
+      }
     }
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/:path*",
       "destination": {
-        "service": "app"
+        "service": "backend",
+        "path": "/api/:path*"
+      }
+    },
+    {
+      "source": "/dashboard/assets/:path*",
+      "destination": {
+        "service": "dashboard",
+        "path": "/assets/:path*"
       }
     },
     {
       "source": "/dashboard",
       "destination": {
         "service": "dashboard",
-        "path": "/"
+        "path": "/index.html"
       }
     },
     {
       "source": "/dashboard/:path*",
       "destination": {
         "service": "dashboard",
-        "path": "/:path*"
+        "path": "/index.html"
       }
     },
     {

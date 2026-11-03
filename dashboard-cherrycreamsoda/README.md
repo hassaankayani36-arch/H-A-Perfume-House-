@@ -36,7 +36,7 @@ The [dashboard `.env.example`](./.env.example) documents its only environment va
 
 ## Deploy as a Vercel service
 
-The repository-root `vercel.json` deploys this app as the `dashboard` service in the same Vercel project as the storefront and API. Keep the Vercel project's **Root Directory** at the repository root; do not create a second project for this folder. The dashboard is public under `/dashboard`, with the order-management pages at `/dashboard/admin` and `/dashboard/admin/dashboard`. Its browser requests use the same-origin `/api/*` route, so no `VITE_API_BASE_URL` or cross-origin allowlist is needed. The dashboard shares the API's HTTP-only admin cookie.
+The repository-root `vercel.json` deploys this app as the `dashboard` service in the same Vercel project as the storefront and API. Keep the Vercel project's **Root Directory** at the repository root; do not create a second project for this folder. The dashboard is public under `/dashboard`, with the order-management pages at `/dashboard/admin` and `/dashboard/admin/dashboard`. Its browser requests use the same-origin `/api/*` route, so no `VITE_API_BASE_URL` or cross-origin allowlist is needed. The dashboard shares the API's HTTP-only admin cookie. The API is a separate `backend` service because Vercel Services mode does not automatically build the repository-root `api/` functions.
 
 ## API used
 
