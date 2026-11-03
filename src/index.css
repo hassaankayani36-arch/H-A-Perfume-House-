@@ -79,6 +79,30 @@ html[data-theme="light"] [class*="text-[#F5F2EC]"] {
   color: #211E19;
 }
 
+html[data-theme="light"] .site-footer [class*="text-[#F5F2EC]"] {
+  color: #F5F2EC;
+}
+
+html[data-theme="light"] .site-footer[class*="text-[#F5F2EC]"] {
+  color: #F5F2EC;
+}
+
+html[data-theme="light"] .site-footer [class*="text-[#F5F2EC]/65"] {
+  color: rgb(245 242 236 / 65%);
+}
+
+html[data-theme="light"] .site-footer [class*="text-[#F5F2EC]/70"] {
+  color: rgb(245 242 236 / 70%);
+}
+
+html[data-theme="light"] .site-footer [class*="text-[#F5F2EC]/50"] {
+  color: rgb(245 242 236 / 50%);
+}
+
+html[data-theme="light"] .site-footer a:hover {
+  color: #F5F2EC;
+}
+
 html[data-theme="light"] [class*="border-[#1A1A1A]"],
 html[data-theme="light"] [class*="border-[#1C1C1C]"],
 html[data-theme="light"] [class*="border-[#1F1F1F]"],
@@ -93,6 +117,75 @@ html[data-theme="light"] [class*="border-[#333333]"] {
 html[data-theme="light"] [class*="bg-[#0B0B0B]/"],
 html[data-theme="light"] [class*="bg-[#0E0E0E]/"] {
   background-color: rgb(245 242 236 / 88%);
+}
+
+html[data-theme="light"] .hero-image-text[class*="text-[#F5F2EC]"],
+html[data-theme="light"] .hero-image-section [class*="text-[#F5F2EC]"] {
+  color: #F5F2EC;
+}
+
+html[data-theme="light"] .hero-image-text[class*="bg-[#0B0B0B]/"] {
+  background-color: rgb(11 11 11 / 45%);
+}
+
+html[data-theme="light"] .final-cta-section {
+  background-color: #0B0B0B;
+  border-color: #1C1C1C;
+}
+
+html[data-theme="light"] .final-cta-section [class*="text-[#F5F2EC]"] {
+  color: #F5F2EC;
+}
+
+html[data-theme="light"] .final-cta-section [class*="text-[#F5F2EC]/75"] {
+  color: rgb(245 242 236 / 75%);
+}
+
+html[data-theme="light"] .reviews-section {
+  background-color: #F2EEE6;
+  border-color: #DED8CC;
+}
+
+html[data-theme="light"] .reviews-section .reviews-heading,
+html[data-theme="light"] .reviews-section .reviews-cta-heading,
+html[data-theme="light"] .reviews-section .review-name,
+html[data-theme="light"] .reviews-section .review-product {
+  color: #211E19;
+}
+
+html[data-theme="light"] .reviews-section .reviews-description,
+html[data-theme="light"] .reviews-section .review-copy,
+html[data-theme="light"] .reviews-section .review-name + p {
+  color: #625C53;
+}
+
+html[data-theme="light"] .reviews-section .review-card {
+  border-color: #DED8CC;
+  background: #FFFEFC;
+}
+
+html[data-theme="light"] .reviews-section .review-card:hover {
+  border-color: #C6A15B;
+}
+
+html[data-theme="light"] .reviews-section .review-avatar {
+  color: #F5F2EC;
+}
+
+html[data-theme="light"] .reviews-section .reviews-cta {
+  border-color: #D8C89F;
+  background-color: #FFFEFC;
+}
+
+html[data-theme="light"] .reviews-section .reviews-modal {
+  border-color: #DED8CC;
+  background-color: #FFFEFC;
+}
+
+html[data-theme="light"] .reviews-section .reviews-modal input,
+html[data-theme="light"] .reviews-section .reviews-modal select,
+html[data-theme="light"] .reviews-section .reviews-modal textarea {
+  border-color: #DED8CC;
 }
 
 html[data-theme="light"] ::-webkit-scrollbar-track {
@@ -117,4 +210,37 @@ html[data-theme="light"] .product-detail-page .text-\[\#8E3E3A\] {
 
 html[data-theme="light"] .product-detail-page .text-white {
   color: #fff;
+}
+
+html[data-theme="light"] .product-card {
+  border-color: #DED8CC;
+  background-color: #FFFEFC;
+}
+
+html[data-theme="light"] .product-card .product-card-title,
+html[data-theme="light"] .product-card .product-card-price {
+  color: #211E19;
+}
+
+html[data-theme="light"] .product-card:hover .product-card-title {
+  color: #80601D;
+}
+
+html[data-theme="light"] .product-card .product-card-original-price {
+  color: #766F67;
+}
+
+html[data-theme="light"] .product-card .product-card-wishlist {
+  color: #F5F2EC;
+}
+
+html[data-theme="light"] .product-card .product-card-action {
+  border-color: #A37F38;
+  color: #80601D;
+}
+
+html[data-theme="light"] .product-card .product-card-action:hover {
+  border-color: #A37F38;
+  background-color: #C6A15B;
+  color: #0B0B0B;
 }

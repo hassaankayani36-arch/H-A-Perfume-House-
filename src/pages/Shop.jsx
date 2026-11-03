@@ -4,7 +4,7 @@ import ProductCard from "../components/ProductCard.jsx";
 import { Heart, Search } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
 import { useProducts } from "../context/ProductContext.jsx";
-import shopHeroBackground from "../assets/hero-bg-00.png";
+import shopHeroBackground from "../assets/hero-bg-00.webp";
 export const Shop = () => {
   const { products } = useProducts();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -71,11 +71,14 @@ export const Shop = () => {
   const families = ["ALL", "Fresh", "Woody", "Oriental", "Intense"];
   return (
     <div className="min-h-screen bg-[#0B0B0B] pb-16 sm:pb-24">
-      <section className="relative isolate min-h-[20rem] overflow-hidden border-b border-[#262626]">
+      <section className="hero-image-section relative isolate min-h-[20rem] overflow-hidden border-b border-[#262626]">
         <img
           src={shopHeroBackground}
           alt=""
           aria-hidden="true"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
           className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_68%] opacity-100"
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#0B0B0B]/95 via-[#0B0B0B]/75 to-[#0B0B0B]/35" />
@@ -208,7 +211,12 @@ export const Shop = () => {
             </p>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
               {displayed.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  index={index}
+                  priority={index < 4}
+                />
               ))}
             </div>
           </>

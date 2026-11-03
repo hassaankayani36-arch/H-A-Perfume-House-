@@ -29,7 +29,7 @@ export const Reviews = () => {
         setWhatsappUrl(`https://wa.me/923190731434?text=${encodeURIComponent(message)}`);
         setSubmitted(true);
     };
-    return (<section id="customer-feedback" className="scroll-mt-24 py-24 sm:py-32 bg-[#0E0E0E] border-t border-[#1F1F1F] relative">
+    return (<section id="customer-feedback" className="reviews-section scroll-mt-24 py-24 sm:py-32 bg-[#0E0E0E] border-t border-[#1F1F1F] relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -40,23 +40,23 @@ export const Reviews = () => {
             </span>
             <span className="w-5 h-[1px] bg-[#C6A15B]"/>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
+          <h2 className="reviews-heading font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
             PATRON REFLECTIONS
           </h2>
-          <p className="mt-3 text-sm text-[#F5F2EC]/60 font-light">
+          <p className="reviews-description mt-3 text-sm text-[#F5F2EC]/60 font-light">
             Perfume notes from the H&amp;A community.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-          {sampleReviews.map((review) => (<article key={review.id} className="flex h-full flex-col border border-[#2A2823] bg-gradient-to-br from-[#171614] to-[#10100F] p-6 transition-colors hover:border-[#C6A15B]/45 sm:p-7">
+          {sampleReviews.map((review) => (<article key={review.id} className="review-card flex h-full flex-col border border-[#2A2823] bg-gradient-to-br from-[#171614] to-[#10100F] p-6 transition-colors hover:border-[#C6A15B]/45 sm:p-7">
               <div className="mb-5 flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-gradient-to-br font-serif text-sm text-[#F5F2EC] shadow-inner ${review.accent}`}>
+                  <div className={`review-avatar flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-gradient-to-br font-serif text-sm text-[#F5F2EC] shadow-inner ${review.accent}`}>
                     {review.initials}
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium tracking-wide text-[#F5F2EC]">{review.name}</h3>
+                    <h3 className="review-name text-sm font-medium tracking-wide text-[#F5F2EC]">{review.name}</h3>
                     <p className="mt-1 flex items-center gap-1 text-[10px] text-[#F5F2EC]/45">
                       <MapPin className="h-3 w-3 text-[#C6A15B]/75"/>
                       {review.location}
@@ -72,8 +72,8 @@ export const Reviews = () => {
                 {Array.from({ length: 5 }, (_, index) => (<Star key={index} className={`h-3.5 w-3.5 ${index < review.rating ? 'fill-[#C6A15B] text-[#C6A15B]' : 'text-[#3A3833]'}`}/>))}
               </div>
 
-              <p className="font-serif text-lg leading-snug text-[#F5F2EC]">{review.product}</p>
-              <p className="mt-3 flex-1 text-sm font-light leading-relaxed text-[#F5F2EC]/65">
+              <p className="review-product font-serif text-lg leading-snug text-[#F5F2EC]">{review.product}</p>
+              <p className="review-copy mt-3 flex-1 text-sm font-light leading-relaxed text-[#F5F2EC]/65">
                 &ldquo;{review.review}&rdquo;
               </p>
               <p className="mt-5 border-t border-white/10 pt-4 text-[9px] uppercase tracking-[0.16em] text-[#C6A15B]/70">
@@ -82,9 +82,9 @@ export const Reviews = () => {
             </article>))}
         </div>
 
-        <div className="mt-8 flex flex-col items-center justify-between gap-5 border border-[#C6A15B]/20 bg-[#141414] p-6 text-center sm:flex-row sm:px-8 sm:text-left">
+        <div className="reviews-cta mt-8 flex flex-col items-center justify-between gap-5 border border-[#C6A15B]/20 bg-[#141414] p-6 text-center sm:flex-row sm:px-8 sm:text-left">
           <div>
-            <h3 className="font-serif text-2xl font-light text-[#F5F2EC]">{emptyReviewState.title}</h3>
+            <h3 className="reviews-cta-heading font-serif text-2xl font-light text-[#F5F2EC]">{emptyReviewState.title}</h3>
             <p className="mt-2 text-xs leading-relaxed text-[#F5F2EC]/55">{emptyReviewState.subtitle}</p>
             <p className="mt-2 text-[10px] uppercase tracking-[0.12em] text-[#C6A15B]/65">
               {emptyReviewState.description}
@@ -103,7 +103,7 @@ export const Reviews = () => {
 
       {/* Review Submission Modal */}
       {modalOpen && (<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto bg-[#141414] border border-[#2E2E2E] p-6 shadow-2xl sm:p-8">
+          <div className="reviews-modal relative max-h-[90vh] w-full max-w-lg overflow-y-auto bg-[#141414] border border-[#2E2E2E] p-6 shadow-2xl sm:p-8">
             <div className="flex items-center justify-between pb-4 border-b border-[#242424] mb-6">
               <h3 className="font-serif text-2xl text-[#F5F2EC] font-light">
                 Leave a Reflection

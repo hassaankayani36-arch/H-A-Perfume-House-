@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import heroBottle from '../assets/images/hero-bottle.jpg';
 export const FinalCTA = () => {
-    return (<section className="relative py-28 sm:py-36 bg-[#0B0B0B] border-t border-[#1C1C1C] overflow-hidden flex items-center justify-center">
+    return (<section className="final-cta-section relative py-28 sm:py-36 bg-[#0B0B0B] border-t border-[#1C1C1C] overflow-hidden flex items-center justify-center">
       {/* Background imagery with dark vignette */}
       <div className="absolute inset-0 z-0">
         <img src={heroBottle} alt="H&A Luxury Flacon" className="w-full h-full object-cover object-center opacity-25 scale-105" style={{ filter: 'brightness(0.4) contrast(1.2)' }}/>

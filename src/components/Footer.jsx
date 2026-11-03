@@ -7,7 +7,7 @@ export const Footer = () => {
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-    return (<footer className="bg-[#080808] border-t border-[#1C1C1C] text-[#F5F2EC] pt-20 pb-12">
+    return (<footer className="site-footer bg-[#080808] border-t border-[#1C1C1C] text-[#F5F2EC] pt-20 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Brand Header */}
         <div className="flex flex-col items-center justify-center text-center pb-16 border-b border-[#1C1C1C]">

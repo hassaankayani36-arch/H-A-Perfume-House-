@@ -10,6 +10,11 @@ const normalizedProductImageAssets = import.meta.glob("../assets/product-images/
   query: "?url",
   import: "default",
 });
+const productCardImageAssets = import.meta.glob("../assets/product-images/cards/*.webp", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
 const originalProductImages = new Map(catalogProducts.map((product) => [product.id, product.images?.[0]]));
 const fallbackProductImage = productImageAssets["../../Data/imgs/arabian-nights-1.jpg"];
 
@@ -59,6 +64,11 @@ export function normalizeProducts(sourceProducts) {
     const family = sourceProduct.family || getFamily(tags, name);
     const descriptionArticle = family === "Oriental" || family === "Intense" ? "An" : "A";
     const gallery = (sourceProduct.images ?? []).map((imagePath) => resolveProductImage(String(imagePath), name, String(sourceProduct.id)));
+    const originalImage = originalProductImages.get(sourceProduct.id);
+    const usesOriginalImage = Boolean(originalImage) && sourceProduct.images?.[0] === originalImage;
+    const cardImage = usesOriginalImage
+      ? productCardImageAssets[`../assets/product-images/cards/${sourceProduct.id}.webp`]
+      : undefined;
     const notes = {
       top: (sourceProduct.topNotes ?? []).map(String),
       heart: (sourceProduct.heartNotes ?? []).map(String),
@@ -111,6 +121,7 @@ export function normalizeProducts(sourceProducts) {
       occasion: tags.join(", "),
       howToWear: "Apply to pulse points and allow the perfume to settle naturally on skin.",
       image: gallery[0] ?? "",
+      cardImage: cardImage ?? gallery[0] ?? "",
       gallery,
       bestSeller: sourceProduct.bestSeller ?? index < 8,
       isSignature: sourceProduct.isSignature ?? index < 4,

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import heroBackgroundOne from "../assets/hero-bg-00.png";
-import heroBackgroundTwo from "../assets/hero-bg-01-clean.png";
+import heroBackgroundOne from "../assets/hero-bg-00.webp";
+import heroBackgroundTwo from "../assets/hero-bg-01-clean.webp";
 
 const heroBackgrounds = [heroBackgroundOne, heroBackgroundTwo];
 
@@ -34,7 +34,7 @@ export const Hero = () => {
       </div>
       <Link
         to="/collections"
-        className="group absolute bottom-8 left-4 z-10 inline-flex items-center gap-5 border border-[#C6A15B]/80 bg-[#0B0B0B]/45 px-5 py-3.5 text-[10px] font-light uppercase tracking-[0.22em] text-[#F5F2EC] backdrop-blur-sm transition-colors hover:border-[#DFC27D] hover:bg-[#0B0B0B]/70 sm:bottom-12 sm:left-8 sm:px-7 sm:py-4 sm:text-xs lg:left-12"
+        className="hero-image-text group absolute bottom-8 left-4 z-10 inline-flex items-center gap-5 border border-[#C6A15B]/80 bg-[#0B0B0B]/45 px-5 py-3.5 text-[10px] font-light uppercase tracking-[0.22em] text-[#F5F2EC] backdrop-blur-sm transition-colors hover:border-[#DFC27D] hover:bg-[#0B0B0B]/70 sm:bottom-12 sm:left-8 sm:px-7 sm:py-4 sm:text-xs lg:left-12"
       >
         Discover Our Collection
         <ArrowRight
