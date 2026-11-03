@@ -1,46 +1,71 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, ShoppingBag } from 'lucide-react';
-import { useCart } from '../context/CartContext.jsx';
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { Heart, ShoppingBag } from "lucide-react";
+import { useCart } from "../context/CartContext.jsx";
 export const ProductCard = ({ product, index = 0 }) => {
-    const { addToCart, toggleWishlist, isInWishlist } = useCart();
-    const cardRef = useRef(null);
-    const [isVisible, setIsVisible] = useState(false);
-    const wishlisted = isInWishlist(product.id);
-    const fullSize = product.sizes.find((size) => size.size === '50ML') ?? product.sizes[0];
-    useEffect(() => {
-      const card = cardRef.current;
-      if (!card) return undefined;
-      if (!('IntersectionObserver' in window)) {
-        setIsVisible(true);
-        return undefined;
-      }
+  const { addToCart, toggleWishlist, isInWishlist } = useCart();
+  const cardRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const wishlisted = isInWishlist(product.id);
+  const fullSize =
+    product.sizes.find((size) => size.size === "50ML") ?? product.sizes[0];
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return undefined;
+    if (!("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return undefined;
+    }
 
-      const observer = new IntersectionObserver(([entry]) => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
           observer.unobserve(entry.target);
         }
-      }, { threshold: 0.12 });
-      observer.observe(card);
-      return () => observer.disconnect();
-    }, []);
-    return (<article
+      },
+      { threshold: 0.12 },
+    );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <article
       ref={cardRef}
-      style={{ transitionDelay: `${Math.min(index % 4, 3) * 100}ms` }}
-      className={`group relative flex flex-col overflow-hidden border border-[#292929] bg-[#151515] transition-[opacity,transform,border-color] duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#A9884C]/70 motion-reduce:!transition-none motion-reduce:translate-y-0 motion-reduce:scale-100 motion-reduce:opacity-100 ${isVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-8 scale-[0.975] opacity-0'}`}
+      style={{ transitionDelay: `${Math.min(index % 4, 3) * 150}ms` }}
+      className={`group relative flex flex-col overflow-hidden border border-[#292929] bg-[#151515] transition-[opacity,translate,scale,border-color] duration-[800ms] ease-[cubic-bezier(0.82,0,0.1,1)] hover:border-[#A9884C]/70 motion-reduce:!transition-none motion-reduce:translate-y-0 motion-reduce:scale-100 motion-reduce:opacity-100 ${isVisible ? "translate-y-0 scale-100 opacity-100" : "translate-y-15 scale-[0.94] opacity-0"}`}
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-[#E8E3DA]">
-        <Link to={`/product/${product.id}`} aria-label={`View ${product.name} details`} className="block h-full">
-          <img src={product.image} alt={`${product.name} perfume bottle`} loading="lazy" className="h-full w-full object-contain object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"/>
+        <Link
+          to={`/product/${product.id}`}
+          aria-label={`View ${product.name} details`}
+          className="block h-full"
+        >
+          <img
+            src={product.image}
+            alt={`${product.name} perfume bottle`}
+            loading="lazy"
+            className="h-full w-full object-contain object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+          />
         </Link>
 
-        {product.discounted && (<span className="absolute left-3 top-3 bg-[#171717]/90 px-2.5 py-1.5 text-[9px] font-medium tracking-[0.12em] text-[#DFC27D]">
+        {product.discounted && (
+          <span className="absolute left-3 top-3 bg-[#171717]/90 px-2.5 py-1.5 text-[9px] font-medium tracking-[0.12em] text-[#DFC27D]">
             -{product.discountPercent}%
-          </span>)}
+          </span>
+        )}
 
-        <button type="button" onClick={() => toggleWishlist(product.id)} className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center border border-white/15 bg-[#171717]/75 text-[#F5F2EC] backdrop-blur-sm transition-colors hover:border-[#C6A15B] hover:text-[#DFC27D] ${wishlisted ? 'text-[#DFC27D]' : ''}`} aria-label={wishlisted ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}>
-          <Heart className={`h-4 w-4 ${wishlisted ? 'fill-current' : ''}`}/>
+        <button
+          type="button"
+          onClick={() => toggleWishlist(product.id)}
+          className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center border border-white/15 bg-[#171717]/75 text-[#F5F2EC] backdrop-blur-sm transition-colors hover:border-[#C6A15B] hover:text-[#DFC27D] ${wishlisted ? "text-[#DFC27D]" : ""}`}
+          aria-label={
+            wishlisted
+              ? `Remove ${product.name} from wishlist`
+              : `Add ${product.name} to wishlist`
+          }
+        >
+          <Heart className={`h-4 w-4 ${wishlisted ? "fill-current" : ""}`} />
         </button>
       </div>
 
@@ -50,15 +75,27 @@ export const ProductCard = ({ product, index = 0 }) => {
             <Link to={`/product/${product.id}`}>{product.name}</Link>
           </h2>
           <div className="shrink-0 text-right">
-            {fullSize.compareAtPrice && <del className="block text-[10px] tracking-wide text-[#F5F2EC]/40">{fullSize.compareAtPrice}</del>}
-            <span className="text-sm font-medium tracking-wide text-[#F5F2EC]">{fullSize.price}</span>
+            {fullSize.compareAtPrice && (
+              <del className="block text-[10px] tracking-wide text-[#F5F2EC]/40">
+                {fullSize.compareAtPrice}
+              </del>
+            )}
+            <span className="text-sm font-medium tracking-wide text-[#F5F2EC]">
+              {fullSize.price}
+            </span>
           </div>
         </div>
-        <button type="button" onClick={() => addToCart(product, fullSize.size, 1)} disabled={!fullSize.stock} className="mt-auto flex w-full items-center justify-center gap-2 border border-[#756039] px-3 py-2.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#DFC27D] transition-colors hover:border-[#C6A15B] hover:bg-[#C6A15B] hover:text-[#0B0B0B] disabled:cursor-not-allowed disabled:opacity-50">
-            <ShoppingBag className="h-3.5 w-3.5"/>
-            {fullSize.stock ? 'Add to Bag' : 'Out of Stock'}
+        <button
+          type="button"
+          onClick={() => addToCart(product, fullSize.size, 1)}
+          disabled={!fullSize.stock}
+          className="mt-auto flex w-full items-center justify-center gap-2 border border-[#756039] px-3 py-2.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#DFC27D] transition-colors hover:border-[#C6A15B] hover:bg-[#C6A15B] hover:text-[#0B0B0B] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <ShoppingBag className="h-3.5 w-3.5" />
+          {fullSize.stock ? "Add to Bag" : "Out of Stock"}
         </button>
       </div>
-    </article>);
+    </article>
+  );
 };
 export default ProductCard;
