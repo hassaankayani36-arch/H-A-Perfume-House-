@@ -34,16 +34,9 @@ Prerequisites: Node.js 20+, npm, a configured root `.env`, MongoDB, and the Fire
 
 The [dashboard `.env.example`](./.env.example) documents its only environment variable, `VITE_API_BASE_URL`. The dashboard's Vite proxy forwards `/api/` requests to `http://localhost:3001`; leave the variable empty for local development. If port 5173 is occupied, Vite will print a different port; use that URL.
 
-## Deploy separately to Vercel
+## Deploy as a Vercel service
 
-1. Create a new Vercel project from the same Git repository.
-2. Set **Root Directory** to `dashboard-cherrycreamsoda`. Its Vercel configuration builds to `dist` and rewrites deep links such as `/admin` to the dashboard app.
-3. Set the build-time environment variable `VITE_API_BASE_URL` to the public HTTPS origin of the storefront/API, without a trailing slash (for example, `https://shop.example.com`).
-4. On the storefront/API Vercel project, set `ADMIN_ALLOWED_ORIGINS` to the dashboard's exact HTTPS origin (for example, `https://dashboard.example.com`). For multiple origins, separate them with commas and no trailing slashes.
-5. Prefer sibling subdomains, such as `shop.example.com` and `dashboard.example.com`. They keep the dashboard and API same-site while still allowing separate deployments. Configure the admin session, Firebase, and database secrets **only** on the storefront/API project; never add them to dashboard environment variables.
-6. Redeploy both projects after changing environment variables. Open `https://your-dashboard-domain/admin` and sign in with the server-configured admin credentials.
-
-The dashboard uses credentialed API requests and the API's HTTP-only admin cookie. The API must allow the dashboard origin exactly; unrelated origins are rejected. Avoid hosting the dashboard and API on unrelated sites because browser third-party-cookie restrictions can prevent session cookies from working.
+The repository-root `vercel.json` deploys this app as the `dashboard` service in the same Vercel project as the storefront and API. Keep the Vercel project's **Root Directory** at the repository root; do not create a second project for this folder. The dashboard is public under `/dashboard`, with the order-management pages at `/dashboard/admin` and `/dashboard/admin/dashboard`. Its browser requests use the same-origin `/api/*` route, so no `VITE_API_BASE_URL` or cross-origin allowlist is needed. The dashboard shares the API's HTTP-only admin cookie.
 
 ## API used
 
