@@ -6,6 +6,11 @@
   "engines": {
     "node": "24.x"
   },
+  "overrides": {
+    "firebase-admin": {
+      "jwks-rsa": "3.2.2"
+    }
+  },
   "workspaces": [
     "dashboard-cherrycreamsoda"
   ],

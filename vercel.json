@@ -11,7 +11,21 @@
       "root": "dashboard-cherrycreamsoda",
       "framework": "vite",
       "buildCommand": "npm run build -- --base=/dashboard/",
-      "outputDirectory": "dist"
+      "outputDirectory": "dist",
+      "rewrites": [
+        {
+          "source": "/dashboard/assets/:path*",
+          "destination": "/assets/:path*"
+        },
+        {
+          "source": "/dashboard",
+          "destination": "/index.html"
+        },
+        {
+          "source": "/dashboard/:path*",
+          "destination": "/index.html"
+        }
+      ]
     },
     "backend": {
       "root": ".",
@@ -37,22 +51,19 @@
     {
       "source": "/dashboard/assets/:path*",
       "destination": {
-        "service": "dashboard",
-        "path": "/assets/:path*"
+        "service": "dashboard"
       }
     },
     {
       "source": "/dashboard",
       "destination": {
-        "service": "dashboard",
-        "path": "/index.html"
+        "service": "dashboard"
       }
     },
     {
       "source": "/dashboard/:path*",
       "destination": {
-        "service": "dashboard",
-        "path": "/index.html"
+        "service": "dashboard"
       }
     },
     {
