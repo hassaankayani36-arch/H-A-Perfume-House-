@@ -17,7 +17,7 @@ export const Founders = ({ showAboutLink = true }) => {
             </span>
             <span className="w-5 h-[1px] bg-[#C6A15B]"/>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
+          <h2 className="font-display text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
             THE STORY OF H&A
           </h2>
           <p className="mt-3 text-sm sm:text-base text-[#C6A15B] tracking-[0.2em] uppercase font-light">

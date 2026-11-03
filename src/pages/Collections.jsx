@@ -18,7 +18,7 @@ export const Collections = () => {
             </span>
             <span className="w-5 h-[1px] bg-[#C6A15B]"/>
           </div>
-          <h1 className="font-serif text-4xl sm:text-6xl font-light text-[#F5F2EC] uppercase tracking-wide">
+          <h1 className="font-display text-4xl sm:text-6xl font-light text-[#F5F2EC] uppercase tracking-wide">
             THE COLLECTIONS
           </h1>
           <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/65 font-light leading-relaxed max-w-xl mx-auto">
@@ -37,7 +37,7 @@ export const Collections = () => {
                     <span className="text-[10px] uppercase tracking-[0.3em] text-[#C6A15B] font-light block mb-2">
                       COLLECTION {`0${index + 1}`} · {col.subtitle}
                     </span>
-                    <h2 className="font-serif text-3xl sm:text-4xl font-light text-[#F5F2EC] uppercase tracking-wide">
+                    <h2 className="font-display text-3xl sm:text-4xl font-light text-[#F5F2EC] uppercase tracking-wide">
                       {col.title}
                     </h2>
                   </div>

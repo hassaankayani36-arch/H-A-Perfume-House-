@@ -8,13 +8,15 @@ import { ObjectId } from "mongodb";
 import { connectToDatabase } from "./db.js";
 import { toProductId, validateProductUpdate } from "./catalog.js";
 import { calculateOrderTotals } from "./orders.js";
+import { requireGoogleCustomer } from "./customer-auth.js";
+import { getUsdPkrRate, toRateSnapshot } from "./exchange-rate.js";
+import { dashboardOrderStatuses, toDashboardOrder } from "./order-contract.js";
 
 const app = express();
 const sessionCookie = "ha_admin_session";
 const sessionDurationSeconds = 8 * 60 * 60;
 const loginAttempts = new Map();
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const validStatuses = ["pending", "confirmed", "preparing", "shipped", "delivered", "cancelled"];
 
 function requireConfiguration() {
   const required = ["MONGODB_URI", "ADMIN_EMAIL", "ADMIN_PASSWORD", "ADMIN_SESSION_SECRET"];
@@ -71,13 +73,31 @@ function getCookie(request, name) {
 }
 
 function setSessionCookie(response, token) {
+  const crossOrigin = isCrossOriginDashboardRequest(response.req);
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
-  response.setHeader("Set-Cookie", `${sessionCookie}=${encodeURIComponent(token)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${sessionDurationSeconds}${secure}`);
+  const sameSite = crossOrigin ? "None" : "Strict";
+  response.setHeader("Set-Cookie", `${sessionCookie}=${encodeURIComponent(token)}; HttpOnly; SameSite=${sameSite}; Path=/; Max-Age=${sessionDurationSeconds}${secure}`);
 }
 
 function clearSessionCookie(response) {
+  const crossOrigin = isCrossOriginDashboardRequest(response.req);
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
-  response.setHeader("Set-Cookie", `${sessionCookie}=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0${secure}`);
+  const sameSite = crossOrigin ? "None" : "Strict";
+  response.setHeader("Set-Cookie", `${sessionCookie}=; HttpOnly; SameSite=${sameSite}; Path=/; Max-Age=0${secure}`);
+}
+
+function allowedDashboardOrigins() {
+  return (process.env.ADMIN_ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+}
+
+function isCrossOriginDashboardRequest(request) {
+  const origin = request?.get("origin");
+  if (!origin) return false;
+  const requestHost = request.get("x-forwarded-host") || request.get("host");
+  return new URL(origin).host !== requestHost && allowedDashboardOrigins().includes(origin);
 }
 
 function requireAdmin(request, response, next) {
@@ -92,13 +112,26 @@ function sameOrigin(request, response, next) {
   if (origin) {
     try {
       const requestHost = request.get("x-forwarded-host") || request.get("host");
-      if (new URL(origin).host !== requestHost) {
+      if (new URL(origin).host !== requestHost && !allowedDashboardOrigins().includes(origin)) {
         return response.status(403).json({ error: "Cross-origin requests are not allowed." });
       }
     } catch {
       return response.status(403).json({ error: "Invalid request origin." });
     }
   }
+  next();
+}
+
+function corsForDashboard(request, response, next) {
+  const origin = request.get("origin");
+  if (origin && allowedDashboardOrigins().includes(origin)) {
+    response.setHeader("Access-Control-Allow-Origin", origin);
+    response.setHeader("Access-Control-Allow-Credentials", "true");
+    response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
+    response.vary("Origin");
+  }
+  if (request.method === "OPTIONS") return response.status(204).end();
   next();
 }
 
@@ -145,18 +178,16 @@ const publicProductFields = {
   variants: 1,
 };
 
-function validateCustomer(customer) {
-  if (!customer || typeof customer !== "object" || Array.isArray(customer)) return "Customer details are required.";
-  const fields = ["firstName", "lastName", "email", "phone", "address", "city"];
-  for (const field of fields) {
-    if (typeof customer[field] !== "string" || !customer[field].trim() || customer[field].trim().length > 200) {
+function validateCustomerProfile(body) {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return "Customer profile details are required.";
+  for (const field of ["phone", "address", "city"]) {
+    if (typeof body[field] !== "string" || !body[field].trim() || body[field].trim().length > 200) {
       return `${field} is required and must be 200 characters or fewer.`;
     }
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) return "Enter a valid email address.";
-  for (const field of ["apartment", "postalCode", "orderNotes"]) {
-    if (customer[field] !== undefined && (typeof customer[field] !== "string" || customer[field].length > 500)) {
-      return `${field} must be 500 characters or fewer.`;
+  for (const field of ["apartment", "postalCode"]) {
+    if (body[field] !== undefined && (typeof body[field] !== "string" || body[field].trim().length > 200)) {
+      return `${field} must be 200 characters or fewer.`;
     }
   }
   return null;
@@ -171,6 +202,7 @@ app.use((request, response, next) => {
   next();
 });
 app.use(express.json({ limit: "100kb", strict: true }));
+app.use("/api", corsForDashboard);
 app.use("/api", sameOrigin);
 app.use("/api/admin", (_request, response, next) => {
   response.setHeader("Cache-Control", "no-store");
@@ -193,17 +225,77 @@ app.get("/api/products", async (_request, response, next) => {
   }
 });
 
-app.post("/api/orders", async (request, response, next) => {
+app.get("/api/customer/profile", requireGoogleCustomer, async (request, response, next) => {
   try {
-    const { customer, items, paymentMethod, promoCode, giftNote, idempotencyKey } = request.body ?? {};
-    const customerError = validateCustomer(customer);
-    if (customerError) return response.status(400).json({ error: customerError });
+    const database = await connectToDatabase();
+    const now = new Date();
+    const customer = await database.collection("customers").findOneAndUpdate(
+      { _id: request.customerIdentity.uid },
+      {
+        $set: {
+          customerId: request.customerIdentity.uid,
+          name: request.customerIdentity.name,
+          email: request.customerIdentity.email,
+          updatedAt: now,
+        },
+        $setOnInsert: { createdAt: now },
+      },
+      { upsert: true, returnDocument: "after" },
+    );
+    response.set("Cache-Control", "no-store").json(customer);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.put("/api/customer/profile", requireGoogleCustomer, async (request, response, next) => {
+  try {
+    const validationError = validateCustomerProfile(request.body);
+    if (validationError) return response.status(400).json({ error: validationError });
+    const database = await connectToDatabase();
+    const now = new Date();
+    const customer = await database.collection("customers").findOneAndUpdate(
+      { _id: request.customerIdentity.uid },
+      {
+        $set: {
+          customerId: request.customerIdentity.uid,
+          name: request.customerIdentity.name,
+          email: request.customerIdentity.email,
+          phone: request.body.phone.trim(),
+          address: request.body.address.trim(),
+          apartment: request.body.apartment?.trim() || "",
+          city: request.body.city.trim(),
+          postalCode: request.body.postalCode?.trim() || "",
+          updatedAt: now,
+        },
+        $setOnInsert: { createdAt: now },
+      },
+      { upsert: true, returnDocument: "after" },
+    );
+    response.set("Cache-Control", "no-store").json(customer);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/orders", requireGoogleCustomer, async (request, response, next) => {
+  const identity = request.customerIdentity;
+  const requestId = request.body?.idempotencyKey;
+  const idempotencyKey = typeof requestId === "string" ? `${identity.uid}:${requestId}` : "";
+  try {
+    const { items, paymentMethod, promoCode, giftNote, idempotencyKey: clientRequestId, orderNotes } = request.body ?? {};
     if (!Array.isArray(items) || items.length === 0 || items.length > 30) return response.status(400).json({ error: "Your order must contain between 1 and 30 items." });
-    if (!["cod", "bank", "card"].includes(paymentMethod)) return response.status(400).json({ error: "Choose a valid payment method." });
-    if (typeof idempotencyKey !== "string" || !/^[a-f0-9-]{36}$/i.test(idempotencyKey)) return response.status(400).json({ error: "A valid order request ID is required." });
+    if (paymentMethod !== undefined && paymentMethod !== "cod") return response.status(400).json({ error: "Only Cash on Delivery is available." });
+    if (typeof clientRequestId !== "string" || !/^[a-f0-9-]{36}$/i.test(clientRequestId)) return response.status(400).json({ error: "A valid order request ID is required." });
     if (giftNote !== undefined && (typeof giftNote !== "string" || giftNote.length > 1000)) return response.status(400).json({ error: "Gift notes must be 1,000 characters or fewer." });
+    if (orderNotes !== undefined && (typeof orderNotes !== "string" || orderNotes.length > 500)) return response.status(400).json({ error: "Delivery instructions must be 500 characters or fewer." });
 
     const database = await connectToDatabase();
+    const customerProfile = await database.collection("customers").findOne({ _id: identity.uid });
+    if (!customerProfile || !customerProfile.phone || !customerProfile.address || !customerProfile.city) {
+      return response.status(400).json({ error: "Complete your phone number and delivery address before placing the order." });
+    }
+
     const orders = database.collection("orders");
     const previousOrder = await orders.findOne({ idempotencyKey });
     if (previousOrder) {
@@ -211,6 +303,7 @@ app.post("/api/orders", async (request, response, next) => {
         orderNumber: previousOrder.orderNumber,
         status: previousOrder.status,
         total: previousOrder.total,
+        currency: previousOrder.currency,
       });
     }
 
@@ -243,37 +336,40 @@ app.post("/api/orders", async (request, response, next) => {
     } catch (error) {
       return response.status(400).json({ error: error.message });
     }
+    const exchangeRate = toRateSnapshot(await getUsdPkrRate(database));
     const now = new Date();
     const orderNumber = `HA-${now.toISOString().slice(0, 10).replaceAll("-", "")}-${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
     const order = {
       orderNumber,
       idempotencyKey,
-      customer: Object.fromEntries(
-        ["firstName", "lastName", "email", "phone", "address", "apartment", "city", "postalCode", "orderNotes"]
-          .filter((key) => typeof customer[key] === "string")
-          .map((key) => [key, customer[key].trim()]),
-      ),
+      customerId: identity.uid,
+      customer: {
+        name: identity.name,
+        email: identity.email,
+        phone: customerProfile.phone,
+        address: customerProfile.address,
+        apartment: customerProfile.apartment || "",
+        city: customerProfile.city,
+        postalCode: customerProfile.postalCode || "",
+        orderNotes: orderNotes?.trim() || "",
+      },
       items: normalizedItems,
       ...totals,
       giftNote: giftNote?.trim() || "",
-      paymentMethod,
-      paymentStatus: paymentMethod === "cod" ? "due_on_delivery" : "awaiting_manual_confirmation",
-      status: "pending",
+      currency: "PKR",
+      exchangeRate,
+      status: "New",
       createdAt: now,
       updatedAt: now,
     };
 
     await orders.insertOne(order);
-    response.status(201).json({ orderNumber, status: order.status, ...totals });
+    response.status(201).json({ orderNumber, status: order.status, currency: order.currency, ...totals });
   } catch (error) {
-    if (error?.code === 11000 && request.body?.idempotencyKey) {
-      try {
-        const database = await connectToDatabase();
-        const existing = await database.collection("orders").findOne({ idempotencyKey: request.body.idempotencyKey });
-        if (existing) return response.status(200).json({ orderNumber: existing.orderNumber, status: existing.status, total: existing.total });
-      } catch {
-        return next(error);
-      }
+    if (error?.code === 11000 && idempotencyKey) {
+      const database = await connectToDatabase();
+      const existing = await database.collection("orders").findOne({ idempotencyKey });
+      if (existing) return response.status(200).json({ orderNumber: existing.orderNumber, status: existing.status, total: existing.total, currency: existing.currency });
     }
     next(error);
   }
@@ -408,10 +504,7 @@ app.get("/api/admin/orders", requireAdmin, async (_request, response, next) => {
   try {
     const database = await connectToDatabase();
     const orders = await database.collection("orders").find().sort({ createdAt: -1 }).limit(200).toArray();
-    response.json(orders.map((order) => {
-      const { idempotencyKey, ...adminOrder } = order;
-      return { ...adminOrder, id: adminOrder._id.toString() };
-    }));
+    response.json(orders.map(toDashboardOrder));
   } catch (error) {
     next(error);
   }
@@ -432,23 +525,18 @@ app.delete("/api/admin/orders/:id", requireAdmin, async (request, response, next
 app.patch("/api/admin/orders/:id/status", requireAdmin, async (request, response, next) => {
   try {
     const { status, paymentStatus } = request.body ?? {};
-    if (!validStatuses.includes(status)) return response.status(400).json({ error: "Choose a valid order status." });
-    if (paymentStatus !== undefined && !["due_on_delivery", "awaiting_manual_confirmation", "paid", "refunded", "failed"].includes(paymentStatus)) {
-      return response.status(400).json({ error: "Choose a valid payment status." });
-    }
+    if (!dashboardOrderStatuses.includes(status)) return response.status(400).json({ error: "Choose a valid order status." });
+    if (paymentStatus !== undefined) return response.status(400).json({ error: "Payment status is not part of the COD order model." });
     if (!ObjectId.isValid(request.params.id)) return response.status(400).json({ error: "Invalid order ID." });
 
-    const updates = { status, updatedAt: new Date() };
-    if (paymentStatus !== undefined) updates.paymentStatus = paymentStatus;
     const database = await connectToDatabase();
     const updatedOrder = await database.collection("orders").findOneAndUpdate(
       { _id: new ObjectId(request.params.id) },
-      { $set: updates },
+      { $set: { status, updatedAt: new Date() } },
       { returnDocument: "after" },
     );
     if (!updatedOrder) return response.status(404).json({ error: "Order not found." });
-    const { idempotencyKey, ...adminOrder } = updatedOrder;
-    response.json({ ...adminOrder, id: adminOrder._id.toString() });
+    response.json(toDashboardOrder(updatedOrder));
   } catch (error) {
     next(error);
   }
@@ -469,7 +557,7 @@ app.use((error, _request, response, _next) => {
   console.error("API request failed:", error.name, error.code ?? "no-code");
   if (response.headersSent) return;
   if (error instanceof SyntaxError && "body" in error) return response.status(400).json({ error: "Request body must be valid JSON." });
-  response.status(500).json({ error: "The request could not be completed. Please try again." });
+  response.status(error.status || 500).json({ error: error.status ? error.message : "The request could not be completed. Please try again." });
 });
 
 requireConfiguration();

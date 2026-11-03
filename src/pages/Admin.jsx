@@ -3,8 +3,7 @@ import { LogOut, Package, ShoppingBag, RefreshCw, Save, X, Plus, Trash2 } from "
 import { ApiError, apiRequest } from "../api/client.js";
 import { useProducts } from "../context/ProductContext.jsx";
 
-const orderStatuses = ["pending", "confirmed", "preparing", "shipped", "delivered", "cancelled"];
-const paymentStatuses = ["due_on_delivery", "awaiting_manual_confirmation", "paid", "refunded", "failed"];
+const orderStatuses = ["New", "Pending", "Completed", "Failed"];
 const families = ["Fresh", "Woody", "Oriental", "Intense"];
 const fieldClass = "w-full border border-[#34312D] bg-[#101010] px-3 py-2.5 text-sm text-[#F5F2EC] outline-none focus:border-[#C6A15B]";
 const labelClass = "mb-1.5 block text-[10px] uppercase tracking-[0.16em] text-[#F5F2EC]/55";
@@ -50,6 +49,24 @@ function formatDate(value) {
   return new Date(value).toLocaleString("en-PK", { dateStyle: "medium", timeStyle: "short" });
 }
 
+function formatOrderAmount(order, currency) {
+  const amount = currency === "USD" ? order.amountUsd : order.amountPkr;
+  if (amount === null || amount === undefined) return "USD unavailable for this legacy order";
+  return new Intl.NumberFormat(currency === "PKR" ? "en-PK" : "en-US", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: currency === "PKR" ? 0 : 2,
+  }).format(amount);
+}
+
+function formatCurrencyAmount(amount, currency) {
+  return new Intl.NumberFormat(currency === "PKR" ? "en-PK" : "en-US", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: currency === "PKR" ? 0 : 2,
+  }).format(amount);
+}
+
 export default function Admin() {
   const { reloadProducts } = useProducts();
   const [admin, setAdmin] = useState(null);
@@ -60,6 +77,7 @@ export default function Admin() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [tab, setTab] = useState("orders");
+  const [currency, setCurrency] = useState("PKR");
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -182,11 +200,11 @@ export default function Admin() {
     setError("");
     setNotice("");
     try {
-      const updated = await apiRequest(`/api/admin/orders/${order.id}/status`, {
+      const updated = await apiRequest(`/api/admin/orders/${encodeURIComponent(order.recordId)}/status`, {
         method: "PATCH",
         body: JSON.stringify(changes),
       });
-      setOrders((current) => current.map((entry) => entry.id === order.id ? updated : entry));
+      setOrders((current) => current.map((entry) => entry.recordId === order.recordId ? updated : entry));
       setNotice(`Order ${order.orderNumber} was updated.`);
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Order could not be updated.");
@@ -201,8 +219,8 @@ export default function Admin() {
     setError("");
     setNotice("");
     try {
-      await apiRequest(`/api/admin/orders/${encodeURIComponent(order.id)}`, { method: "DELETE" });
-      setOrders((current) => current.filter((entry) => entry.id !== order.id));
+      await apiRequest(`/api/admin/orders/${encodeURIComponent(order.recordId)}`, { method: "DELETE" });
+      setOrders((current) => current.filter((entry) => entry.recordId !== order.recordId));
       setNotice(`Order ${order.orderNumber} was deleted.`);
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Order could not be deleted.");
@@ -237,7 +255,7 @@ export default function Admin() {
     </div>);
   }
 
-  const pendingOrders = orders.filter((order) => ["pending", "confirmed", "preparing"].includes(order.status)).length;
+  const pendingOrders = orders.filter((order) => ["New", "Pending"].includes(order.status)).length;
   const activeProducts = products.filter((product) => product.isActive).length;
 
   return (<div className="min-h-screen bg-[#0B0B0B] px-4 py-8 text-[#F5F2EC] sm:px-6 lg:px-10">
@@ -275,8 +293,16 @@ export default function Admin() {
         ))}
       </nav>
 
+      {tab === "orders" && <div className="mt-5 flex items-center gap-3 text-xs">
+        <label htmlFor="order-currency" className="uppercase tracking-widest text-[#F5F2EC]/55">Display currency</label>
+        <select id="order-currency" value={currency} onChange={(event) => setCurrency(event.target.value)} className="border border-[#34312D] bg-[#0B0B0B] px-3 py-2 text-[#F5F2EC]">
+          <option value="PKR">PKR</option>
+          <option value="USD">USD</option>
+        </select>
+      </div>}
+
       {busy && <p className="py-4 text-xs text-[#F5F2EC]/50">Saving or loading dashboard data…</p>}
-      {tab === "orders" ? <OrdersPanel orders={orders} busy={busy} onUpdate={updateOrder} onDelete={deleteOrder}/> :
+      {tab === "orders" ? <OrdersPanel orders={orders} currency={currency} busy={busy} onUpdate={updateOrder} onDelete={deleteOrder}/> :
         <ProductsPanel
           products={products}
           onCreate={() => setEditingProduct(newProductForm())}
@@ -301,26 +327,33 @@ function StatCard({ label, value, Icon }) {
   </div>;
 }
 
-function OrdersPanel({ orders, busy, onUpdate, onDelete }) {
+function OrdersPanel({ orders, currency, busy, onUpdate, onDelete }) {
   if (orders.length === 0) return <AdminMessage message="No orders have been placed yet." />;
   return <section className="space-y-4 py-6">
-    {orders.map((order) => <article key={order.id} className="border border-[#292621] bg-[#121212] p-5 sm:p-6">
+    {orders.map((order) => <article key={order.recordId} className="border border-[#292621] bg-[#121212] p-5 sm:p-6">
       <div className="flex flex-col justify-between gap-4 border-b border-[#292621] pb-4 sm:flex-row sm:items-start">
         <div>
           <p className="font-mono text-sm text-[#DFC27D]">{order.orderNumber}</p>
           <p className="mt-1 text-[11px] text-[#F5F2EC]/45">{formatDate(order.createdAt)}</p>
-          <p className="mt-3 text-sm">{order.customer.firstName} {order.customer.lastName} · {order.customer.phone}</p>
-          <p className="mt-1 text-xs text-[#F5F2EC]/55">{order.customer.email} · {order.customer.city}</p>
-          <p className="mt-1 text-xs text-[#F5F2EC]/55">{order.customer.address}{order.customer.apartment ? `, ${order.customer.apartment}` : ""}{order.customer.postalCode ? `, ${order.customer.postalCode}` : ""}</p>
+          <p className="mt-3 text-sm">{order.name} · {order.phone}</p>
+          <p className="mt-1 text-xs text-[#F5F2EC]/55">{order.email} · {order.city}</p>
+          <p className="mt-1 text-xs text-[#F5F2EC]/55">{order.address}</p>
         </div>
         <div className="text-left sm:text-right">
-          <p className="font-serif text-2xl text-[#DFC27D]">PKR {order.total.toLocaleString("en-PK")}</p>
-          <p className="mt-1 text-[10px] uppercase tracking-widest text-[#F5F2EC]/45">Payment: {order.paymentMethod} · {order.paymentStatus.replaceAll("_", " ")}</p>
+          <p className="font-serif text-2xl text-[#DFC27D]">{formatOrderAmount(order, currency)}</p>
+          {order.exchangeRate && <p className="mt-1 text-[10px] text-[#F5F2EC]/45">USD rate: {order.exchangeRate.pkrPerUsd} PKR · {order.exchangeRate.rateDate}</p>}
         </div>
       </div>
       <div className="grid gap-3 py-4 sm:grid-cols-2">
-        {order.items.map((item, index) => <div key={`${item.productId}-${item.size}-${index}`} className="flex justify-between gap-4 text-xs">
-          <span>{item.name} · {item.size} × {item.quantity}</span><span className="shrink-0 text-[#F5F2EC]/60">PKR {(item.unitPrice * item.quantity).toLocaleString("en-PK")}</span>
+        {order.lineItems.map((item, index) => <div key={`${item.productId}-${item.size}-${index}`} className="flex justify-between gap-4 text-xs">
+          <span>{item.name} · {item.size} × {item.quantity}</span>
+          <span className="shrink-0 text-[#F5F2EC]/60">
+            {currency === "USD"
+              ? order.exchangeRate
+                ? formatCurrencyAmount(item.unitPrice * item.quantity / order.exchangeRate.pkrPerUsd, currency)
+                : "USD unavailable"
+              : formatCurrencyAmount(item.unitPrice * item.quantity, currency)}
+          </span>
         </div>)}
       </div>
       <div className="flex flex-col justify-between gap-3 border-t border-[#292621] pt-4 sm:flex-row sm:items-center">
@@ -329,11 +362,6 @@ function OrdersPanel({ orders, busy, onUpdate, onDelete }) {
           <label className="text-[9px] uppercase tracking-widest text-[#F5F2EC]/40">Order
             <select disabled={busy} value={order.status} onChange={(event) => void onUpdate(order, { status: event.target.value })} className="ml-2 border border-[#34312D] bg-[#0B0B0B] px-2 py-2 text-xs text-[#F5F2EC]">
               {orderStatuses.map((status) => <option key={status} value={status}>{status}</option>)}
-            </select>
-          </label>
-          <label className="text-[9px] uppercase tracking-widest text-[#F5F2EC]/40">Payment
-            <select disabled={busy} value={order.paymentStatus} onChange={(event) => void onUpdate(order, { status: order.status, paymentStatus: event.target.value })} className="ml-2 border border-[#34312D] bg-[#0B0B0B] px-2 py-2 text-xs text-[#F5F2EC]">
-              {paymentStatuses.map((status) => <option key={status} value={status}>{status.replaceAll("_", " ")}</option>)}
             </select>
           </label>
           <button type="button" disabled={busy} onClick={() => void onDelete(order)} className="inline-flex items-center gap-2 border border-red-900/70 px-3 py-2 text-[10px] uppercase tracking-widest text-red-300 hover:bg-red-950/40 disabled:opacity-50">

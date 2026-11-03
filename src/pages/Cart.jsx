@@ -36,7 +36,7 @@ export const Cart = () => {
           <div className="w-16 h-16 mx-auto border border-[#2E2E2E] flex items-center justify-center text-[#F5F2EC]/30">
             <ShoppingBag className="w-8 h-8 stroke-[1.2]"/>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl text-[#F5F2EC] font-light">
+          <h1 className="font-display text-3xl sm:text-4xl text-[#F5F2EC] font-light">
             Your Bag is Empty
           </h1>
           <p className="text-xs sm:text-sm text-[#F5F2EC]/60 font-light leading-relaxed">
@@ -57,7 +57,7 @@ export const Cart = () => {
             <span className="text-[10px] tracking-[0.3em] uppercase text-[#C6A15B] font-light block mb-2">
               SELECTIONS
             </span>
-            <h1 className="font-serif text-3xl sm:text-5xl font-light uppercase tracking-wide">
+            <h1 className="font-display text-3xl sm:text-5xl font-light uppercase tracking-wide">
               YOUR SHOPPING BAG
             </h1>
           </div>

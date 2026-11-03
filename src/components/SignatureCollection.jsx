@@ -17,7 +17,7 @@ export const SignatureCollection = () => {
                 THE FOUNDATION
               </span>
             </div>
-            <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
+            <h2 className="font-display text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
               THE PERFUME EDIT
             </h2>
             <p className="mt-3 text-sm text-[#F5F2EC]/60 max-w-xl font-light leading-relaxed">

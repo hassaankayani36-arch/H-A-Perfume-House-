@@ -1,8 +1,10 @@
 import Founders from '../components/Founders.jsx';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../context/ProductContext.jsx';
+import { getFeaturedProduct } from '../data/featuredProduct.js';
 export const About = () => {
     const { products } = useProducts();
+    const featuredProduct = getFeaturedProduct(products);
     return (<div className="min-h-screen bg-[#0B0B0B] text-[#F5F2EC]">
       {/* Editorial Header */}
       <div className="relative py-24 sm:py-32 bg-[#0E0E0E] border-b border-[#1C1C1C] overflow-hidden">
@@ -10,7 +12,7 @@ export const About = () => {
           <span className="text-[10px] tracking-[0.4em] uppercase text-[#C6A15B] font-light block mb-4">
             OUR STORY
           </span>
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-light uppercase tracking-wide leading-tight">
+          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-light uppercase tracking-wide leading-tight">
             THE ARCHITECTURE <br />
             <span className="italic text-[#C6A15B] font-normal">OF PRESENCE.</span>
           </h1>
@@ -32,7 +34,7 @@ export const About = () => {
               <span className="text-[10px] uppercase tracking-[0.3em] text-[#C6A15B] font-medium">
                 THE GENESIS
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-light uppercase">
+              <h2 className="font-display text-3xl sm:text-4xl font-light uppercase">
                 A Refusal to Conform
               </h2>
               <p className="text-sm text-[#F5F2EC]/75 font-light leading-relaxed">
@@ -47,7 +49,7 @@ export const About = () => {
 
             <div className="md:col-span-6">
               <div className="relative aspect-[4/5] bg-[#141414] border border-[#262626] overflow-hidden">
-                <img src={products[0].image} alt={`${products[0].name} perfume from the H&A selection`} loading="lazy" className="w-full h-full object-contain"/>
+                <img src={featuredProduct.image} alt={`${featuredProduct.name} perfume from the H&A selection`} loading="lazy" className="w-full h-full object-contain"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-transparent to-transparent opacity-80"/>
               </div>
             </div>
@@ -69,14 +71,14 @@ export const About = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="border border-[#262626] bg-[#121212] p-7 sm:p-9">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#C6A15B]">Our mission</span>
-              <h3 className="mt-3 font-serif text-2xl">Make choosing a perfume personal.</h3>
+              <h3 className="mt-3 font-display text-2xl font-light">Make choosing a perfume personal.</h3>
               <p className="mt-3 text-sm leading-relaxed text-[#F5F2EC]/65">
                 Help customers discover perfumes that suit their notes, style, and occasion.
               </p>
             </div>
             <div className="border border-[#262626] bg-[#121212] p-7 sm:p-9">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#C6A15B]">Our vision</span>
-              <h3 className="mt-3 font-serif text-2xl">A trusted H&amp;A destination.</h3>
+              <h3 className="mt-3 font-display text-2xl font-light">A trusted H&amp;A destination.</h3>
               <p className="mt-3 text-sm leading-relaxed text-[#F5F2EC]/65">
                 Offer a carefully presented selection from our affiliate supply partners, with clear
                 product details and straightforward pricing.

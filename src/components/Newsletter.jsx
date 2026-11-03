@@ -22,7 +22,7 @@ export const Newsletter = () => {
           <span className="w-5 h-[1px] bg-[#C6A15B]"/>
         </div>
 
-        <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
+        <h2 className="font-display text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
           ENTER THE WORLD OF H&A.
         </h2>
 

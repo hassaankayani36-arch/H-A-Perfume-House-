@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { ArrowUpRight, Check, MapPin, MessageCircle, Star } from 'lucide-react';
 import { emptyReviewState, sampleReviews } from '../data/reviews.js';
 import { useProducts } from '../context/ProductContext.jsx';
+import { getFeaturedProduct } from '../data/featuredProduct.js';
 export const Reviews = () => {
     const { products } = useProducts();
+    const featuredProduct = getFeaturedProduct(products);
     const [modalOpen, setModalOpen] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [whatsappUrl, setWhatsappUrl] = useState('');
@@ -13,7 +15,7 @@ export const Reviews = () => {
         rating: 5,
         headline: '',
         comment: '',
-        fragrance: products[0].name,
+        fragrance: featuredProduct.name,
     });
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -40,7 +42,7 @@ export const Reviews = () => {
             </span>
             <span className="w-5 h-[1px] bg-[#C6A15B]"/>
           </div>
-          <h2 className="reviews-heading font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
+          <h2 className="reviews-heading font-display text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
             PATRON REFLECTIONS
           </h2>
           <p className="reviews-description mt-3 text-sm text-[#F5F2EC]/60 font-light">

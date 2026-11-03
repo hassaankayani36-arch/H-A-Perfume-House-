@@ -12,7 +12,7 @@ export const Packaging = () => {
                   UNBOXING RITUAL
                 </span>
               </div>
-              <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-wide leading-tight">
+              <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-wide leading-tight">
                 THE ART OF <br />
                 <span className="italic text-[#C6A15B] font-normal">GIVING.</span>
               </h2>

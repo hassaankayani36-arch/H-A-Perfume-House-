@@ -90,7 +90,7 @@ export const Shop = () => {
                 H&A LUXURY · MADE TO BE REMEMBERED
               </span>
             </div>
-            <h1 className="font-serif text-5xl font-light tracking-wide text-[#F5F2EC] sm:text-7xl">
+            <h1 className="font-display text-5xl font-light tracking-wide text-[#F5F2EC] sm:text-7xl">
               The Perfume
               <br />
               <span className="italic text-[#DFC27D]">Collection</span>

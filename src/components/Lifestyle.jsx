@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useProducts } from '../context/ProductContext.jsx';
+import { getFeaturedProduct } from '../data/featuredProduct.js';
 export const Lifestyle = () => {
     const { products } = useProducts();
+    const featuredProduct = getFeaturedProduct(products);
     return (<section className="py-24 sm:py-32 bg-[#0B0B0B] border-t border-[#1C1C1C] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Editorial Title */}
@@ -13,7 +15,7 @@ export const Lifestyle = () => {
             </span>
             <span className="w-5 h-[1px] bg-[#C6A15B]"/>
           </div>
-          <h2 className="font-serif text-4xl sm:text-6xl font-light text-[#F5F2EC] uppercase tracking-wide">
+          <h2 className="font-display text-4xl sm:text-6xl font-light text-[#F5F2EC] uppercase tracking-wide">
             WEAR THE MOMENT.
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/60 font-light leading-relaxed">
@@ -86,8 +88,8 @@ export const Lifestyle = () => {
                 Royal Oud & Dark Saffron
               </h3>
               <p className="text-xs text-[#F5F2EC]/65 font-light leading-relaxed">
-                {products[0].name} brings together {products[0].notes.heart.join(', ')} and
-                {` ${products[0].notes.base.join(', ')}`} for a distinctive evening perfume.
+                {featuredProduct.name} brings together {featuredProduct.notes.heart.join(', ')} and
+                {` ${featuredProduct.notes.base.join(', ')}`} for a distinctive evening perfume.
               </p>
             </div>
 
@@ -95,8 +97,8 @@ export const Lifestyle = () => {
               <span className="text-[10px] uppercase tracking-widest text-[#F5F2EC]/40">
                 RECOMMENDED
               </span>
-              <Link to={`/product/${products[0].id}`} className="text-xs text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-4 decoration-[#C6A15B]/30 font-light">
-                {products[0].name} →
+              <Link to={`/product/${featuredProduct.id}`} className="text-xs text-[#C6A15B] hover:text-[#DFC27D] underline underline-offset-4 decoration-[#C6A15B]/30 font-light">
+                {featuredProduct.name} →
               </Link>
             </div>
           </div>

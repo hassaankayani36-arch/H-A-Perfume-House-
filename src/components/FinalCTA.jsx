@@ -15,7 +15,7 @@ export const FinalCTA = () => {
           THE ULTIMATE TESTAMENT
         </span>
 
-        <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-[0.08em] leading-tight">
+        <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-[0.08em] leading-tight">
           WHAT WILL THEY <br />
           <span className="italic text-[#C6A15B] font-normal">REMEMBER YOU BY?</span>
         </h2>

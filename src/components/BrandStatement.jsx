@@ -8,7 +8,7 @@ export const BrandStatement = () => {
           THE HOUSE PHILOSOPHY
         </span>
 
-        <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-[0.1em] leading-tight">
+        <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-[0.1em] leading-tight">
           MORE THAN A PERFUME. <br className="hidden sm:inline"/>
           <span className="italic text-[#C6A15B] font-normal">IT&apos;S YOUR SIGNATURE.</span>
         </h2>

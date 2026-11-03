@@ -37,7 +37,7 @@ export const Contact = () => {
             </span>
             <span className="w-5 h-[1px] bg-[#C6A15B]"/>
           </div>
-          <h1 className="font-serif text-4xl sm:text-6xl font-light uppercase tracking-wide">
+          <h1 className="font-display text-4xl sm:text-6xl font-light uppercase tracking-wide">
             CONNECT WITH H&amp;A
           </h1>
           <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/65 font-light leading-relaxed max-w-xl mx-auto">
@@ -50,7 +50,7 @@ export const Contact = () => {
           {/* Contact Information & Salons */}
           <div className="lg:col-span-5 space-y-10">
             <div className="p-8 bg-[#121212] border border-[#222222] space-y-6">
-              <h3 className="font-serif text-2xl font-light text-[#F5F2EC]">
+              <h3 className="font-display text-2xl font-light text-[#F5F2EC]">
                 VIP Concierge Desk
               </h3>
               <p className="text-xs text-[#F5F2EC]/70 font-light leading-relaxed">
@@ -97,7 +97,7 @@ export const Contact = () => {
 
             {/* Office Location */}
             <div className="p-8 bg-[#121212] border border-[#222222] space-y-4">
-              <h3 className="font-serif text-2xl font-light text-[#F5F2EC]">H&amp;A Office</h3>
+              <h3 className="font-display text-2xl font-light text-[#F5F2EC]">H&amp;A Office</h3>
               <div className="flex items-start gap-3 text-xs font-light text-[#F5F2EC]/75">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#C6A15B]"/>
                 <div>
@@ -115,7 +115,7 @@ export const Contact = () => {
 
           {/* Form */}
           <div className="lg:col-span-7 bg-[#141414] border border-[#262626] p-8 sm:p-12">
-            <h3 className="font-serif text-2xl sm:text-3xl font-light mb-2">
+            <h3 className="font-display text-2xl sm:text-3xl font-light mb-2">
               Send a Correspondence
             </h3>
             <p className="text-xs text-[#F5F2EC]/60 font-light mb-8">

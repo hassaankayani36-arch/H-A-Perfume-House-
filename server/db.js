@@ -21,6 +21,9 @@ export async function connectToDatabase() {
           nextDatabase.collection("orders").createIndex({ orderNumber: 1 }, { unique: true }),
           nextDatabase.collection("orders").createIndex({ idempotencyKey: 1 }, { unique: true, sparse: true }),
           nextDatabase.collection("orders").createIndex({ createdAt: -1 }),
+          nextDatabase.collection("orders").createIndex({ customerId: 1, createdAt: -1 }),
+          nextDatabase.collection("customers").createIndex({ email: 1 }),
+          nextDatabase.collection("exchangeRates").createIndex({ provider: 1, providerUpdatedAt: -1 }),
         ]);
         client = nextClient;
         database = nextDatabase;

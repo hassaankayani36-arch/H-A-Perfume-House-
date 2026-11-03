@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext.jsx';
 import { useProducts } from '../context/ProductContext.jsx';
+import { getFeaturedProduct } from '../data/featuredProduct.js';
 export const FeaturedFragrance = () => {
     const { addToCart } = useCart();
     const { products } = useProducts();
     const [selectedSize, setSelectedSize] = useState('50ML');
     const [isAdded, setIsAdded] = useState(false);
-    const featuredProduct = products[0];
+    const featuredProduct = getFeaturedProduct(products);
     const handleAdd = () => {
         addToCart(featuredProduct, selectedSize, 1);
         setIsAdded(true);
@@ -50,7 +51,7 @@ export const FeaturedFragrance = () => {
                   FEATURED PERFUME
                 </span>
               </div>
-              <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-wide">
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#F5F2EC] font-light uppercase tracking-wide">
                 {featuredProduct.name}
               </h2>
               <p className="mt-2 text-sm text-[#C6A15B] tracking-[0.2em] uppercase font-light">

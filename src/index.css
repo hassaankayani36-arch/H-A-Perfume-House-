@@ -4,6 +4,7 @@
 @theme {
   --font-serif: "Inter", system-ui, -apple-system, sans-serif;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Cinzel", Georgia, serif;
   --color-black: #0B0B0B;
   --color-charcoal: #171717;
   --color-ivory: #F5F2EC;
@@ -27,6 +28,10 @@ body {
 
 h1, h2, h3, h4, h5, .font-serif {
   font-family: var(--font-serif);
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 /* Custom scrollbar */

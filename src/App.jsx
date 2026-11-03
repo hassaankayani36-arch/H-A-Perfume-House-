@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
+import { CustomerProvider } from './context/CustomerContext.jsx';
 import { ProductProvider, useProducts } from './context/ProductContext.jsx';
 // Components
 import AnnouncementBar from './components/AnnouncementBar.jsx';
@@ -31,12 +32,14 @@ function ScrollToTop() {
 export default function App() {
     return (<ThemeProvider>
       <CartProvider>
-        <BrowserRouter>
-          <ProductProvider>
-            <ScrollToTop />
-            <AppFrame />
-          </ProductProvider>
-        </BrowserRouter>
+        <CustomerProvider>
+          <BrowserRouter>
+            <ProductProvider>
+              <ScrollToTop />
+              <AppFrame />
+            </ProductProvider>
+          </BrowserRouter>
+        </CustomerProvider>
       </CartProvider>
     </ThemeProvider>);
 }

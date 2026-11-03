@@ -32,7 +32,7 @@ export const Journal = () => {
                 <span aria-hidden="true">·</span>
                 <span>{selectedArticle.readTime}</span>
               </div>
-              <h1 className="font-serif text-3xl sm:text-5xl font-light leading-tight">
+              <h1 className="font-display text-3xl sm:text-5xl font-light leading-tight">
                 {selectedArticle.title}
               </h1>
               <div className="pt-2 flex items-center gap-4 text-xs text-[#F5F2EC]/50 font-light border-b border-[#222222] pb-6">
@@ -76,7 +76,7 @@ export const Journal = () => {
                 </span>
                 <span className="w-5 h-[1px] bg-[#C6A15B]"/>
               </div>
-              <h1 className="font-serif text-4xl sm:text-6xl font-light uppercase tracking-wide">
+              <h1 className="font-display text-4xl sm:text-6xl font-light uppercase tracking-wide">
                 THE H&amp;A JOURNAL
               </h1>
               <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/65 font-light leading-relaxed max-w-xl mx-auto">

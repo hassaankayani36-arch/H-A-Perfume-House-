@@ -66,7 +66,7 @@ export const ProductDetails = () => {
             <p className="mb-1 text-[10px] uppercase tracking-[0.22em] text-[#77716A] dark:text-[#F5F2EC]/55">
               H&amp;A · {product.family} · {product.concentration.split(' — ')[0]}
             </p>
-            <h1 className="font-serif text-4xl font-bold leading-[1.06] tracking-tight sm:text-5xl lg:text-[3.35rem]">
+            <h1 className="font-display text-4xl font-normal leading-[1.06] tracking-tight sm:text-5xl lg:text-[3.35rem]">
               {product.name}
             </h1>
 

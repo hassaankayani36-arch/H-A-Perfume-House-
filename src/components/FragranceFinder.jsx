@@ -45,7 +45,7 @@ export const FragranceFinder = () => {
             </span>
             <span className="w-5 h-[1px] bg-[#C6A15B]"/>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
+          <h2 className="font-display text-3xl sm:text-5xl font-light text-[#F5F2EC] uppercase tracking-wide">
             FIND YOUR SIGNATURE
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#F5F2EC]/60 font-light leading-relaxed">

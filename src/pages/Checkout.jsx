@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
+import { useCustomer } from '../context/CustomerContext.jsx';
 import { apiRequest } from '../api/client.js';
 import { handleProductImageError } from '../utils/productImage.js';
 import { ShieldCheck, Check, Truck, Lock, ArrowLeft } from 'lucide-react';
 import Logo from '../assets/logo/Logo.jsx';
 export const Checkout = () => {
     const { items, itemCount, subtotal, deliveryFee, total, discountPercent, discountAmount, checkoutOptions, clearCart, clearCheckoutOptions } = useCart();
+    const { user, loading: customerLoading, isConfigured, signInWithGoogle, signOutCustomer } = useCustomer();
     const navigate = useNavigate();
-    const [paymentMethod, setPaymentMethod] = useState('cod');
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
         phone: '',
         address: '',
         apartment: '',
@@ -20,11 +18,48 @@ export const Checkout = () => {
         postalCode: '',
         orderNotes: '',
     });
+    const [profileLoading, setProfileLoading] = useState(false);
+    const [authError, setAuthError] = useState('');
     const [orderComplete, setOrderComplete] = useState(false);
     const [confirmedOrder, setConfirmedOrder] = useState(null);
+    const [confirmedCustomer, setConfirmedCustomer] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState('');
     const [idempotencyKey] = useState(() => crypto.randomUUID());
+    useEffect(() => {
+        if (!user) {
+            setProfileLoading(false);
+            setFormData({ phone: '', address: '', apartment: '', city: 'Lahore', postalCode: '', orderNotes: '' });
+            return;
+        }
+        let active = true;
+        setProfileLoading(true);
+        setAuthError('');
+        user.getIdToken()
+            .then((token) => apiRequest('/api/customer/profile', {
+                headers: { Authorization: `Bearer ${token}` },
+            }))
+            .then((profile) => {
+                if (!active) return;
+                setFormData((current) => ({
+                    ...current,
+                    phone: profile.phone || '',
+                    address: profile.address || '',
+                    apartment: profile.apartment || '',
+                    city: profile.city || 'Lahore',
+                    postalCode: profile.postalCode || '',
+                }));
+            })
+            .catch((error) => {
+                if (active) setAuthError(error instanceof Error ? error.message : 'Your customer profile could not be loaded.');
+            })
+            .finally(() => {
+                if (active) setProfileLoading(false);
+            });
+        return () => {
+            active = false;
+        };
+    }, [user]);
     useEffect(() => {
         window.scrollTo(0, 0);
         if (items.length === 0 && !orderComplete) {
@@ -33,22 +68,40 @@ export const Checkout = () => {
     }, [items.length, orderComplete, navigate]);
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
-        if (isSubmitting) return;
+        if (isSubmitting || !user) return;
         setIsSubmitting(true);
         setSubmitError('');
+        setAuthError('');
         try {
+            const token = await user.getIdToken();
+            await apiRequest('/api/customer/profile', {
+                method: 'PUT',
+                headers: { Authorization: `Bearer ${token}` },
+                body: JSON.stringify({
+                    phone: formData.phone,
+                    address: formData.address,
+                    apartment: formData.apartment,
+                    city: formData.city,
+                    postalCode: formData.postalCode,
+                }),
+            });
             const order = await apiRequest('/api/orders', {
                 method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
                 body: JSON.stringify({
-                    customer: formData,
                     items: items.map(({ id, size, quantity }) => ({ productId: id, size, quantity })),
-                    paymentMethod,
                     promoCode: checkoutOptions.promoCode,
                     giftNote: checkoutOptions.giftNoteEnabled ? checkoutOptions.giftNoteText : '',
+                    orderNotes: formData.orderNotes,
                     idempotencyKey,
                 }),
             });
             setConfirmedOrder(order);
+            setConfirmedCustomer({
+                name: user.displayName,
+                address: formData.address,
+                city: formData.city,
+            });
             setOrderComplete(true);
             clearCart();
             clearCheckoutOptions();
@@ -87,7 +140,7 @@ export const Checkout = () => {
             <span className="text-[10px] uppercase tracking-[0.3em] text-[#C6A15B]">
               ORDER CONFIRMATION
             </span>
-            <h1 className="font-serif text-3xl sm:text-4xl text-[#F5F2EC] font-light">
+            <h1 className="font-display text-3xl sm:text-4xl text-[#F5F2EC] font-light">
               Your Presence Is Defined.
             </h1>
             <p className="text-xs uppercase tracking-widest text-[#F5F2EC]/50 font-mono">
@@ -96,24 +149,14 @@ export const Checkout = () => {
           </div>
 
           <p className="text-xs sm:text-sm text-[#F5F2EC]/75 font-light leading-relaxed max-w-md mx-auto">
-            Thank you, {formData.firstName || 'Patron'}. Your order has been recorded. Our team will use the details provided to confirm dispatch and payment.
+            Thank you, {confirmedCustomer?.name || 'Patron'}. Your order has been recorded for Cash on Delivery.
           </p>
 
           <div className="p-4 bg-[#171717] border border-[#262626] text-xs text-left space-y-2 font-light">
             <div className="flex justify-between">
               <span className="text-[#F5F2EC]/60">Delivery Address:</span>
               <span className="text-[#F5F2EC] text-right font-normal">
-                {formData.address}, {formData.city}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-[#F5F2EC]/60">Payment Method:</span>
-              <span className="text-[#C6A15B] uppercase font-normal">
-                {paymentMethod === 'cod'
-                ? 'Cash on Delivery'
-                : paymentMethod === 'bank'
-                    ? 'Direct Bank Transfer'
-                    : 'Credit / Debit Card'}
+                {confirmedCustomer?.address}, {confirmedCustomer?.city}
               </span>
             </div>
             <div className="flex justify-between border-t border-[#222222] pt-2">
@@ -152,56 +195,63 @@ export const Checkout = () => {
               <span className="text-[10px] tracking-[0.3em] uppercase text-[#C6A15B] font-light block mb-2">
                 DISPATCH SPECIFICATION
               </span>
-              <h1 className="font-serif text-3xl sm:text-4xl font-light uppercase tracking-wide">
+              <h1 className="font-display text-3xl sm:text-4xl font-light uppercase tracking-wide">
                 CHECKOUT DETAILS
               </h1>
             </div>
 
             <form onSubmit={handlePlaceOrder} id="checkout-form" className="space-y-8">
+              {!user ? (
+                <section className="space-y-4 border border-[#302C25] bg-[#121212] p-5">
+                  <h3 className="text-xs uppercase tracking-[0.2em] text-[#C6A15B]">Sign in to continue</h3>
+                  <p className="text-sm text-[#F5F2EC]/65">Use your Google account to create a customer profile and keep your delivery details with your orders.</p>
+                  {authError && <p role="alert" className="text-sm text-red-400">{authError}</p>}
+                  <button
+                    type="button"
+                    disabled={customerLoading || !isConfigured}
+                    onClick={() => signInWithGoogle().catch((error) => setAuthError(error.message))}
+                    className="w-full border border-[#C6A15B] px-4 py-3 text-xs uppercase tracking-[0.18em] text-[#DFC27D] disabled:opacity-50"
+                  >
+                    {customerLoading ? 'CHECKING ACCOUNT…' : 'CONTINUE WITH GOOGLE'}
+                  </button>
+                  {!isConfigured && <p className="text-xs text-[#F5F2EC]/50">Google sign-in is unavailable until Firebase web app settings are configured.</p>}
+                </section>
+              ) : (
+                <section className="space-y-4 border border-[#302C25] bg-[#121212] p-5">
+                  <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                    <div>
+                      <h3 className="text-xs uppercase tracking-[0.2em] text-[#C6A15B]">Signed in customer</h3>
+                      <p className="mt-2 text-sm text-[#F5F2EC]">{user.displayName}</p>
+                      <p className="mt-1 text-xs text-[#F5F2EC]/55">{user.email}</p>
+                    </div>
+                    <button type="button" onClick={() => signOutCustomer().catch((error) => setAuthError(error.message))} className="text-left text-[10px] uppercase tracking-widest text-[#F5F2EC]/55 hover:text-[#C6A15B]">
+                      Sign out
+                    </button>
+                  </div>
+                  {profileLoading && <p className="text-xs text-[#F5F2EC]/50">Loading your saved delivery details…</p>}
+                  {authError && <p role="alert" className="text-sm text-red-400">{authError}</p>}
+                </section>
+              )}
+
               {/* Contact Information */}
-              <div className="space-y-4">
+              {user && <div className="space-y-4">
                 <h3 className="text-xs uppercase tracking-[0.2em] text-[#C6A15B] font-medium pb-2 border-b border-[#222222]">
                   1. PATRON CONTACT
                 </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] uppercase tracking-widest text-[#F5F2EC]/60 mb-1">
-                      Email Address (for dispatch updates) *
-                    </label>
-                    <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="client@luxury.com" className="w-full bg-[#121212] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] uppercase tracking-widest text-[#F5F2EC]/60 mb-1">
-                      Contact Phone (for Courier SMS) *
-                    </label>
-                    <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="+92 300 1234567" className="w-full bg-[#121212] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
-                  </div>
+                <div>
+                  <label className="block text-[10px] uppercase tracking-widest text-[#F5F2EC]/60 mb-1">
+                    Contact Phone (for courier updates) *
+                  </label>
+                  <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="+92 300 1234567" className="w-full bg-[#121212] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
                 </div>
-              </div>
+              </div>}
 
               {/* Delivery Address */}
-              <div className="space-y-4">
+              {user && <div className="space-y-4">
                 <h3 className="text-xs uppercase tracking-[0.2em] text-[#C6A15B] font-medium pb-2 border-b border-[#222222]">
                   2. DELIVERY DESTINATION
                 </h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] uppercase tracking-widest text-[#F5F2EC]/60 mb-1">
-                      First Name *
-                    </label>
-                    <input type="text" required value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} placeholder="First name" className="w-full bg-[#121212] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] uppercase tracking-widest text-[#F5F2EC]/60 mb-1">
-                      Last Name *
-                    </label>
-                    <input type="text" required value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} placeholder="Last name" className="w-full bg-[#121212] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
-                  </div>
-                </div>
 
                 <div>
                   <label className="block text-[10px] uppercase tracking-widest text-[#F5F2EC]/60 mb-1">
@@ -229,77 +279,22 @@ export const Checkout = () => {
                     <input type="text" value={formData.orderNotes} onChange={(e) => setFormData({ ...formData, orderNotes: e.target.value })} placeholder="e.g. Leave with gate security / Ring bell" className="w-full bg-[#121212] border border-[#2E2E2E] focus:border-[#C6A15B] px-4 py-3 text-xs text-[#F5F2EC] outline-none"/>
                   </div>
                 </div>
-              </div>
+              </div>}
 
-              {/* Payment Methods */}
-              <div className="space-y-4">
+              {/* COD Settlement */}
+              {user && <div className="space-y-4">
                 <h3 className="text-xs uppercase tracking-[0.2em] text-[#C6A15B] font-medium pb-2 border-b border-[#222222]">
                   3. PAYMENT SETTLEMENT
                 </h3>
-
-                <div className="space-y-3">
-                  {/* COD */}
-                  <label className={`block p-4 border transition-all cursor-pointer ${paymentMethod === 'cod'
-            ? 'border-[#C6A15B] bg-[#171717]'
-            : 'border-[#262626] bg-[#121212]'}`}>
-                    <div className="flex items-center gap-3">
-                      <input type="radio" name="paymentMethod" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} className="accent-[#C6A15B]"/>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs uppercase tracking-wider text-[#F5F2EC] font-medium">
-                            Cash On Delivery (COD)
-                          </span>
-                          <span className="text-[10px] text-[#C6A15B] uppercase tracking-widest">
-                            MOST POPULAR
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-[#F5F2EC]/60 font-light mt-1">
-                          Pay in cash upon physical receipt and inspection of your sealed flacon.
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-
-                  {/* Direct Bank Transfer */}
-                  <label className={`block p-4 border transition-all cursor-pointer ${paymentMethod === 'bank'
-            ? 'border-[#C6A15B] bg-[#171717]'
-            : 'border-[#262626] bg-[#121212]'}`}>
-                    <div className="flex items-center gap-3">
-                      <input type="radio" name="paymentMethod" checked={paymentMethod === 'bank'} onChange={() => setPaymentMethod('bank')} className="accent-[#C6A15B]"/>
-                      <div className="flex-1">
-                        <span className="text-xs uppercase tracking-wider text-[#F5F2EC] font-medium">
-                          Direct Bank Transfer / IBFT
-                        </span>
-                        <p className="text-[11px] text-[#F5F2EC]/60 font-light mt-1">
-                          Meezan Bank / HBL Atelier Accounts. Transfer confirmation sent via WhatsApp.
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-
-                  {/* Card Payment */}
-                  <label className={`block p-4 border transition-all cursor-pointer ${paymentMethod === 'card'
-            ? 'border-[#C6A15B] bg-[#171717]'
-            : 'border-[#262626] bg-[#121212]'}`}>
-                    <div className="flex items-center gap-3">
-                      <input type="radio" name="paymentMethod" checked={paymentMethod === 'card'} onChange={() => setPaymentMethod('card')} className="accent-[#C6A15B]"/>
-                      <div className="flex-1">
-                        <span className="text-xs uppercase tracking-wider text-[#F5F2EC] font-medium">
-                          Credit / Debit Card (Visa, Mastercard, PayPak)
-                        </span>
-                        <p className="text-[11px] text-[#F5F2EC]/60 font-light mt-1">
-                          Online card processing is not connected yet. Our team will contact you to confirm payment.
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-              </div>
+                <p className="border border-[#6C582F] bg-[#C6A15B]/10 p-4 text-sm text-[#DFC27D]">
+                  Cash on Delivery only. Pay the PKR total when your order arrives.
+                </p>
+              </div>}
 
               {/* Submit CTA */}
               <div className="pt-4">
                 {submitError && <p role="alert" className="mb-3 text-sm text-red-400">{submitError}</p>}
-                <button type="submit" disabled={isSubmitting} className="w-full py-4 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-xs uppercase tracking-[0.26em] font-medium transition-all duration-300 flex items-center justify-center gap-2 shadow-xl disabled:cursor-wait disabled:opacity-60">
+                <button type="submit" disabled={isSubmitting || !user || profileLoading} className="w-full py-4 bg-[#C6A15B] hover:bg-[#DFC27D] text-[#0B0B0B] text-xs uppercase tracking-[0.26em] font-medium transition-all duration-300 flex items-center justify-center gap-2 shadow-xl disabled:cursor-wait disabled:opacity-60">
                   <Lock className="w-3.5 h-3.5"/>
                   <span>{isSubmitting ? 'SUBMITTING ORDER…' : `PLACE ORDER · PKR ${total.toLocaleString()}`}</span>
                 </button>
