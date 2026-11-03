@@ -3,13 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "workspaces": [
+    "dashboard-cherrycreamsoda"
+  ],
   "scripts": {
     "dev": "node ./node_modules/vite/bin/vite.js --port=3000 --host=0.0.0.0",
     "dev:server": "node --watch server/index.js",
     "start": "node server/index.js",
     "seed": "node server/seed-products.js",
     "test": "node --test",
-    "build": "node ./node_modules/vite/bin/vite.js build",
+    "build": "npm run build:storefront && npm run build:dashboard",
+    "build:storefront": "node ./node_modules/vite/bin/vite.js build",
+    "build:dashboard": "npm run build --workspace=project-dashboard -- --base=/dashboard/ --outDir=../public/dashboard --emptyOutDir",
     "preview": "node ./node_modules/vite/bin/vite.js preview",
     "clean": "node -e \"for(const path of ['dist','public'])require('node:fs').rmSync(path,{recursive:true,force:true})\""
   },

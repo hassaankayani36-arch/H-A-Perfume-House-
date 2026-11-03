@@ -36,7 +36,7 @@ The `VITE_FIREBASE_*` values are Firebase web-app configuration, not service-acc
 3. Configure Firebase Google sign-in as described above.
 4. In one terminal, start the API with `npm run dev:server`.
 5. In another terminal, start the storefront with `npm run dev`, then open `http://localhost:3000`.
-6. To start the separate order dashboard, install its dependencies with `npm install` in `dashboard-cherrycreamsoda/`, then run `npm run dev` in that folder. Open the Vite URL it prints (normally `http://localhost:5173/admin`). See [dashboard-cherrycreamsoda/README.md](./dashboard-cherrycreamsoda/README.md) for dashboard setup and hosting.
+6. To start the separate order dashboard, run `npm run dev` in `dashboard-cherrycreamsoda/`. The root `npm install` installs its workspace dependencies too. Open the Vite URL it prints (normally `http://localhost:5173/admin`). See [dashboard-cherrycreamsoda/README.md](./dashboard-cherrycreamsoda/README.md) for dashboard setup.
 7. The storefront admin at `/admin` manages products and orders. Admins can add products, edit their images using HTTPS URLs or existing local image files under `Data/imgs/`, and permanently delete orders after confirmation. The standalone dashboard focuses on order management.
 8. Checkout requires Google sign-in. Customer names and emails come from the verified Firebase account; phone and delivery details are saved to the customer profile and an order snapshot.
 
@@ -44,9 +44,9 @@ The dev server proxies `/api` requests to the Express API on port 3001. `npm sta
 
 ## Deploy the monorepo to Vercel
 
-The repository root contains both the Vite storefront and Express/MongoDB API. Import the Git repository into Vercel as one project and keep the **Root Directory** set to the repository root. The included `vercel.json` builds the storefront into `public/`, serves it as static files, and routes `/api` requests through Vercel Node functions to the Express app in the same deployment.
+The repository root contains the storefront, the orders dashboard, and the Express/MongoDB API. Import the Git repository into Vercel as **one project** and keep **Root Directory** set to the repository root. The root npm workspace installs both frontends, and `npm run build` builds the storefront plus the orders dashboard into the same `public/` output. Vercel serves `/` as the storefront, `/dashboard/admin` as the standalone orders dashboard, and `/api/*` through Node functions running the Express API. The storefront's product and order administration remains available at `/admin`.
 
-Add these environment variables in the Vercel project settings for each environment you deploy:
+Before the first deployment, add these environment variables in the Vercel project settings for each environment you deploy:
 
 - `MONGODB_URI` — the production MongoDB connection string.
 - `MONGODB_DB` — optional; defaults to `ha_perfume_house`.
@@ -56,11 +56,11 @@ Add these environment variables in the Vercel project settings for each environm
 - `FIREBASE_PROJECT_ID`
 - `FIREBASE_SERVICE_ACCOUNT_JSON` — the private Firebase service-account JSON.
 - `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, and `VITE_FIREBASE_APP_ID` — public Firebase web-app config used at build time.
-- `ADMIN_ALLOWED_ORIGINS` — only when the separate dashboard is deployed on a different origin; comma-separated exact origins, with no trailing slash.
+- `ADMIN_ALLOWED_ORIGINS` — leave empty for this single-origin deployment. It is only needed if you intentionally host the dashboard on a different origin.
 
-Do not prefix server-only values with `VITE_`. Configure MongoDB Atlas network access for Vercel and use a database user restricted to this application database. Then deploy; Vercel will install the root dependencies and run `npm run build`.
+Do not prefix server-only values with `VITE_`. Configure MongoDB Atlas network access for Vercel and use a database user restricted to this application database. Keep secrets in Vercel's Environment Variables settings; do not commit `.env` files or service-account keys. Once the Git repository is connected and these settings are saved, Vercel automatically builds and deploys each push to the configured production branch. Pushes do not need to start a long-running server: Vercel serves the static frontends and invokes the API as serverless functions.
 
-For separate dashboard hosting, create a second Vercel project from this repository and set its Root Directory to `dashboard-cherrycreamsoda`. Configure `VITE_API_BASE_URL` as the deployed storefront/API HTTPS origin and set `ADMIN_ALLOWED_ORIGINS` on the API project to the dashboard's exact HTTPS origin. Prefer sibling subdomains of one domain (for example, `shop.example.com` and `dashboard.example.com`) so browser cookie restrictions do not block the shared admin session. The standalone deployment steps are in [dashboard-cherrycreamsoda/README.md](./dashboard-cherrycreamsoda/README.md).
+If the production database has not been seeded, run `npm run seed` once with valid MongoDB credentials before expecting products to appear.
 
 The Vercel filesystem is not persistent storage. Product images must use HTTPS URLs or be committed under `Data/imgs/` before deployment; files added to the running server cannot be saved there permanently.
 
@@ -70,7 +70,7 @@ The Vercel filesystem is not persistent storage. Product images must use HTTPS U
 - Orders are created server-side from current database prices; browser-supplied prices and totals are not trusted. New orders require a verified Google customer and include that Firebase UID as the stable customer ID. Phone and delivery details are saved to a customer profile and snapshotted on each order.
 - New orders are Cash on Delivery only and start with the dashboard status `New`; admins can change them to `Pending`, `Completed`, or `Failed`. New records store PKR totals and a USD/PKR rate/date snapshot from open.er-api.com. Currency changes in either dashboard are presentation-only. Legacy records are left unchanged and display no USD value when no historical rate exists.
 - The admin session is an HTTP-only, same-site signed cookie with an eight-hour expiry. The admin password is read from `.env`, never returned to the browser.
-- The standalone orders dashboard in `dashboard-cherrycreamsoda/` uses the same server-side admin session and order API. For local development, start the storefront API and run `npm run dev` from that folder; its Vite proxy forwards `/api` to port 3001. Deploy that folder as a separate Vercel project with its Root Directory set to `dashboard-cherrycreamsoda`, then set `VITE_API_BASE_URL` to the API's HTTPS origin at build time. Add the exact dashboard origin to the API's `ADMIN_ALLOWED_ORIGINS` list. Keep both deployments on the same site (for example, sibling subdomains) or behind a same-origin reverse proxy so browsers allow the HTTP-only session cookie. The dashboard project includes a rewrite for direct loads of `/admin` and `/admin/dashboard`.
+- The standalone orders dashboard in `dashboard-cherrycreamsoda/` uses the same server-side admin session and order API. It is included in the root Vercel build at `/dashboard/admin`, so it shares the API origin and HTTP-only session cookie. For local development, it can still be started separately; its Vite proxy forwards `/api` to port 3001.
 - The standalone dashboard consumes `GET /api/admin/session` for authentication, `POST` and `DELETE /api/admin/session` for sign-in/out, `GET /api/admin/orders` for the latest 200 orders, and `PATCH /api/admin/orders/:recordId/status` for status changes. These routes require the server-managed admin session; no admin credentials or service-account keys belong in the dashboard build.
 - There is no payment gateway, email notification, or inventory quantity reservation; stock is managed as an in-stock/out-of-stock flag.
 - Contact/newsletter confirmations and review submissions are not persisted by this integration; the review form still opens WhatsApp.

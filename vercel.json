@@ -9,7 +9,15 @@
   },
   "rewrites": [
     {
-      "source": "/:path((?!api/).*)",
+      "source": "/dashboard",
+      "destination": "/dashboard/index.html"
+    },
+    {
+      "source": "/dashboard/:path*",
+      "destination": "/dashboard/index.html"
+    },
+    {
+      "source": "/:path((?!api/|dashboard/).*)",
       "destination": "/index.html"
     }
   ]
